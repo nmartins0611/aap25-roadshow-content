@@ -1,6 +1,6 @@
 ---
 - name: Generate OpenSCAP compliance report
-  hosts: '{{ _hosts | default(omit) }}'
+  hosts: 'node01'
   become: true
 
   vars:
