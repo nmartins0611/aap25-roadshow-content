@@ -1,0 +1,21 @@
+---
+- name: Connecting to Leaf
+  hosts: ceos2
+  connection: local
+  gather_facts: false
+
+  tasks:
+
+    - name: Download Network Config from Source of Truth
+      ansible.builtin.git:
+       repo: https://github.com/nmartins0611/Summit-Connect-2023.git
+       dest: /tmp/srv
+       clone: yes
+
+    - name: Restoring Configuration of Interfaces
+      include_vars: /tmp/srv/new_port.yml
+
+    - name: Merge Configurations
+      arista.eos.eos_l2_interfaces:
+       config: "{{ my_sot }}"
+       state: merged
