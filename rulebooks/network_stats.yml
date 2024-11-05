@@ -4,7 +4,7 @@
   hosts: all
   sources:
    - ansible.eda.kafka:
-       host: broker:9092
+       host: broker
        port: 9092
        topic: network
 
