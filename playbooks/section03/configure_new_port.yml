@@ -8,12 +8,12 @@
 
     - name: Download Network Config from Source of Truth
       ansible.builtin.git:
-       repo: https://github.com/nmartins0611/Summit-Connect-2023.git
+       repo: https://github.com/nmartins0611/aap25-roadshow-content.git
        dest: /tmp/srv
        clone: yes
 
     - name: Restoring Configuration of Interfaces
-      include_vars: /tmp/srv/new_port.yml
+      include_vars: /tmp/srv/playbooks/section03/new_port.yml
 
     - name: Merge Configurations
       arista.eos.eos_l2_interfaces:
