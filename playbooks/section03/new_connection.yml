@@ -1,0 +1,13 @@
+---
+- name: Connecting new system
+  hosts: ceos02
+  connection: local
+  gather_facts: false
+
+  tasks:
+
+    - name: Plugin system
+      arista.eos.eos_interfaces:
+        config:
+         - name: Ethernet1
+           enabled: true
