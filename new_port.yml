@@ -1,5 +1,0 @@
-my_sot:
-    - name: Ethernet1
-      mode: access
-      access:
-        vlan: 30
