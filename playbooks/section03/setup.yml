@@ -1,0 +1,334 @@
+- name: Setup Controller 
+  hosts: localhost
+  connection: local
+  collections:
+    - ansible.controller
+  vars:
+    SANDBOX_ID: "{{ lookup('env', '_SANDBOX_ID') | default('SANDBOX_ID_NOT_FOUND', true) }}"
+  tasks:
+
+###############CREDENTIALS###############
+
+  - name: add App machine credential
+    ansible.controller.credential:
+      name: 'Application Nodes'
+      organization: Default
+      credential_type: Machine
+      controller_host: "https://{{ ansible_host }}"
+      controller_username: admin
+      controller_password: ansible123!
+      validate_certs: false
+      inputs:
+        username: rhel
+        password: ansible123!
+
+  - name: add Windows machine credential
+    ansible.controller.credential:
+      name: 'Windows DB Nodes'
+      organization: Default
+      credential_type: Machine
+      controller_host: "https://localhost"
+      controller_username: admin
+      controller_password: ansible123!
+      validate_certs: false
+      inputs:
+        username: instruqt
+        password: passw0rd!
+
+  - name: add Arista credential
+    ansible.controller.credential:
+      name: 'Arista Network'
+      organization: Default
+      credential_type: Machine
+      controller_host: "https://localhost"
+      controller_username: admin
+      controller_password: ansible123!
+      validate_certs: false
+      inputs:
+        username: ansible
+        password: ansible
+
+###############EE###############
+
+  - name: Add Network EE
+    ansible.controller.execution_environment:
+      name: "Edge_Network_ee"
+      image: quay.io/acme_corp/network-ee
+      controller_host: "https://localhost"
+      controller_username: admin
+      controller_password: ansible123!
+      validate_certs: false
+
+  - name: Add Windows EE
+    ansible.controller.execution_environment:
+      name: "Windows_ee"
+      image: quay.io/acme_corp/windows-ee
+      controller_host: "https://localhost"
+      controller_username: admin
+      controller_password: ansible123!
+      validate_certs: false
+
+
+###############INVENTORY###############
+
+  - name: Add Video platform inventory
+    ansible.controller.inventory:
+      name: "Video Platform Inventory"
+      description: "Nodes used for streaming"
+      organization: "Default"
+      state: present
+      controller_host: "https://localhost"
+      controller_username: admin
+      controller_password: ansible123!
+      validate_certs: false
+
+  - name: Add Streaming Server hosts
+    ansible.controller.host:
+      name: "{{ item }}"
+      description: "Application Nodes"
+      inventory: "Video Platform Inventory"
+      state: present
+      enabled: true
+      controller_host: "https://localhost"
+      controller_username: admin
+      controller_password: ansible123!
+      validate_certs: false
+    loop:
+      - node01
+
+  - name: Add Streaming server group
+    ansible.controller.group:
+      name: "Streaming_Infrastucture"
+      description: "Streaming Nodes"
+      inventory: "Video Platform Inventory"
+      hosts:
+        - node01
+      variables:
+        ansible_user: rhel
+      controller_host: "https://localhost"
+      controller_username: admin
+      controller_password: ansible123!
+      validate_certs: false
+
+  #   # Network
+ 
+  - name: Add Edge Network Devices
+    ansible.controller.inventory:
+      name: "Edge Network"
+      description: "Network for delivery"
+      organization: "Default"
+      state: present
+      controller_host: "https://localhost"
+      controller_username: admin
+      controller_password: ansible123!
+      validate_certs: false
+
+  - name: Add CEOS1
+    ansible.controller.host:
+      name: "ceos01"
+      description: "Edge Leaf"
+      inventory: "Edge Network"
+      state: present
+      enabled: true
+      controller_host: "https://localhost"
+      controller_username: admin
+      controller_password: ansible123!
+      validate_certs: false
+      variables:
+        ansible_host: podman-host
+        ansible_port: 2001
+
+  - name: Add CEOS2
+    ansible.controller.host:
+      name: "ceos02"
+      description: "Edge Leaf"
+      inventory: "Edge Network"
+      state: present
+      enabled: true
+      controller_host: "https://localhost"
+      controller_username: admin
+      controller_password: ansible123!
+      validate_certs: false
+      variables:
+        ansible_host: podman-host
+        ansible_port: 2002
+
+  - name: Add CEOS3
+    ansible.controller.host:
+      name: "ceos03"
+      description: "Edge Leaf"
+      inventory: "Edge Network"
+      state: present
+      enabled: true
+      controller_host: "https://localhost"
+      controller_username: admin
+      controller_password: ansible123!
+      validate_certs: false
+      variables:
+        ansible_host: podman-host
+        ansible_port: 2003
+
+  - name: Add EOS Network Group
+    ansible.controller.group:
+      name: "Delivery_Network"
+      description: "EOS Network"
+      inventory: "Edge Network"
+      hosts:
+        - ceos01
+        - ceos02
+        - ceos03
+      variables:
+        ansible_user: ansible
+        ansible_connection: ansible.netcommon.network_cli 
+        ansible_network_os: arista.eos.eos 
+        ansible_password: ansible 
+        ansible_become: yes 
+        ansible_become_method: enable
+      controller_host: "https://localhost"
+      controller_username: admin
+      controller_password: ansible123!
+      validate_certs: false
+      
+  #   ## Extra Inventories 
+
+  - name: Add Storage Infrastructure
+    ansible.controller.inventory:
+     name: "Cache Storage"
+     description: "Edge NAS Storage"
+     organization: "Default"
+     state: present
+     controller_host: "https://localhost"
+     controller_username: admin
+     controller_password: ansible123!
+     validate_certs: false
+
+  - name: Add Storage Node
+    ansible.controller.host:
+     name: "Storage01"
+     description: "Edge NAS Storage"
+     inventory: "Cache Storage"
+     state: present
+     enabled: true
+     controller_host: "https://localhost"
+     controller_username: admin
+     controller_password: ansible123!
+     validate_certs: false
+
+  - name:  Add Windows Inventory
+    ansible.controller.inventory:
+     name: "Windows Directory Servers"
+     description: "AD Infrastructure"
+     organization: "Default"
+     state: present
+     controller_host: "https://localhost"
+     controller_username: admin
+     controller_password: ansible123!
+     validate_certs: false
+
+  - name: Add Windows Inventory Host
+    ansible.controller.host:
+     name: "WindowsAD01"
+     description: "Directory Servers"
+     inventory: "Windows Directory Servers"
+     state: present
+     enabled: true
+     controller_host: "https://localhost"
+     controller_username: admin
+     controller_password: ansible123!
+     validate_certs: false
+     variables:
+       ansible_host: windows
+        
+###############TEMPLATES###############
+
+  - name: Add project roadshow
+    ansible.controller.project:
+      name: "Roadshow"
+      description: "Roadshow Content"
+      organization: "Default"
+      scm_type: git
+      scm_url: https://github.com/nmartins0611/aap25-roadshow-content.git
+      state: present
+      controller_host: "https://localhost"
+      controller_username: admin
+      controller_password: ansible123!
+      validate_certs: false
+
+  - name: Add Desired Port Template
+    ansible.controller.job_template:
+      name: "Desired port state"
+      job_type: "run"
+      organization: "Default"
+      inventory: "Edge Network"
+      project: "Roadshow"
+      playbook: "playbooks/section03/desired_port_state.yml"
+      execution_environment: "Edge_Network_ee"
+      ask_variables_on_launch: true
+      ask_limit_on_launch: true
+      credentials:
+        - "Arista Network"
+      state: "present"
+      controller_host: "https://localhost"
+      controller_username: admin
+      controller_password: ansible123!
+      validate_certs: false
+
+# ###############EDA###############     
+
+  - name: Create an AAP Credential
+    ansible.eda.credential:
+      name: "AAP"
+      description: "To execute jobs from EDA"
+      inputs:
+        host: "https://control/api/controller/"
+        username: "admin"
+        password: "ansible123!"
+      credential_type_name: "Red Hat Ansible Automation Platform"
+      organization_name: Default
+      controller_host: https://localhost
+      controller_username: admin
+      controller_password: ansible123!
+      validate_certs: false
+
+  - name: Create EDA Decision Environment
+    ansible.eda.decision_environment:
+      name: "Network Telemetry"
+      description: "Network/Kafka"
+      image_url: "quay.io/nmartins/network_de"
+   #   credential: "Example Credential"
+      organization_name: Default
+      state: present
+      controller_host: https://localhost
+      controller_username: admin
+      controller_password: ansible123!
+      validate_certs: false
+
+  - name: Create EDA Projects
+    ansible.eda.project:
+      name: "Roadshow"
+      description: "Roadshow Rulebooks"
+      url: "https://github.com/nmartins0611/aap25-roadshow-content.git"
+      organization_name: Default
+      state: present
+      controller_host: https://localhost
+      controller_username: admin
+      controller_password: ansible123!
+      validate_certs: false
+
+  # - name: Create a rulebook activation
+  #   ansible.eda.rulebook_activation:
+  #     name: "Network Telemetry"
+  #     description: "Listening to Network"
+  #     organization_name: Default
+  #     project_name: "Roadshow"
+  #     rulebook_name: "rulebooks/network_stats.yml"
+  #     decision_environment_name: "Network Telemetry"
+  #     enabled: false
+  #     eda_credentials: "AAP"
+  #     state: present
+  #     restart_policy: always
+  #     controller_host: https://localhost
+  #     controller_username: admin
+  #     controller_password: ansible123!
+  #     validate_certs: false
+
