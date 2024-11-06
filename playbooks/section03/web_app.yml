@@ -1,0 +1,33 @@
+---
+- name: Add bad directive under in Apache configuration
+  hosts: podman-host
+  become: true      
+  tasks:
+    - name: Add InvalidDirectiveHere
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        insertafter: '^ServerRoot'  
+        line: 'InvalidDirectiveHere'
+        state: present
+      tags:
+        - never
+        - break
+      notify:
+        - restart apache
+
+    - name: Maintain httpd.conf
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '^InvalidDirectiveHere$'  # Matches the line exactly
+        state: absent
+      tags:
+        - never
+        - restore
+      notify:
+        - restart apache
+
+  handlers:
+    - name: restart apache
+      service:
+        name: httpd
+        state: restarted
