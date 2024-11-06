@@ -18,7 +18,7 @@
     - name: Maintain httpd.conf
       lineinfile:
         path: /etc/httpd/conf/httpd.conf
-        regexp: '^InvalidDirectiveHere$'  # Matches the line exactly
+        regexp: '^InvalidDirectiveHere$'
         state: absent
       tags:
         - never
