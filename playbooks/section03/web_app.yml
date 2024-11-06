@@ -1,6 +1,6 @@
 ---
 - name: Add bad directive under in Apache configuration
-  hosts: podman-host
+  hosts: web-server
   become: true      
   tasks:
     - name: Add InvalidDirectiveHere
