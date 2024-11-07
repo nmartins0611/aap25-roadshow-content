@@ -1,6 +1,6 @@
 ---
 - name: Add bad directive under in Apache configuration
-  hosts: webserver
+  hosts: webservers
   become: true      
   tasks:
     - name: Add InvalidDirectiveHere
