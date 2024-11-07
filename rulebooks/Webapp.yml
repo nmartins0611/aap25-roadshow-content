@@ -3,7 +3,7 @@
   hosts: all
   sources:
    - ansible.eda.kafka:
-       host: podman-host
+       host: broker
        port: 9092
        topic: network
 
