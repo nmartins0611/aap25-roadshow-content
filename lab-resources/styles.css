@@ -61,12 +61,12 @@ main {
   border-radius: 5px;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
   width: 100%;
-  max-width: 440px; /* Restrict the container to max width */
+  max-width: 640px; /* Restrict the container to max width */
 }
 
 video {
   width: 100%;
-  max-width: 440px; /* Set maximum width of the video */
+  max-width: 640px; /* Set maximum width of the video */
   height: 500px;     /* Keep aspect ratio */
   border-radius: 5px;
 }
