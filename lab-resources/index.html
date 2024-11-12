@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Video Streaming Website</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>TMM - Where comedy lives</h1>
+    <p></p>
+  </header>
+
+  <div class="page-wrapper">
+    <!-- Left Vertical Ad Block -->
+    <aside class="ad-block left-ad">
+      <h3>Advertisement</h3>
+      <img src="ads/ad1.jpg" alt="Ad 1">
+    </aside>
+
+    <!-- Main Content Container -->
+    <div class="container">
+      <main>
+        <div class="video-player">
+          <video id="main-video" controls>
+            <source src="videos/sample1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <h2 id="video-title">Sample Video 1</h2>
+        </div>
+      </main>
+
+      <aside>
+        <h3>Top Movies</h3>
+        <ul id="playlist">
+          <li onclick="playVideo('videos/the_office01.mp4', 'The Office')">The Office</li>
+          <li onclick="playVideo('videos/andrius_fest.mp4', 'Breaking Code')">Breaking Code</li>
+          <li onclick="playVideo('videos/andrius_happy.mp4', 'Happy Birthday')">Happy Birthday</li>
+        </ul>
+      </aside>
+    </div>
+
+    <!-- Right Vertical Ad Block -->
+    <aside class="ad-block right-ad">
+      <h3>Advertisement</h3>
+      <img src="ads/ad2.jpg" alt="Ad 2">
+    </aside>
+  </div>
+
+  <!-- Footer Area -->
+  <footer>
+    <p>&copy; 2024 TMM - Where comedy lives. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
