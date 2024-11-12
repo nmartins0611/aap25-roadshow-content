@@ -82,14 +82,14 @@ video {
   justify-content: center;
 }
 
-.left-ad, .right-ad {
+.left-ad {
   background-color: #f0f0f0;
   border: 1px solid #ccc;
   margin: 0 10px;
   height: 100%; /* Make the ad block fill the available height */
 }
 
-.left-ad img, .right-ad img {
+.left-ad img {
   max-width: 100%;
   height: auto;
 }
