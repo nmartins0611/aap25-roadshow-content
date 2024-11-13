@@ -13,4 +13,4 @@
      action:
        run_job_template:
         organization: "Default"
-        name: "Restore Web Application"
+        name: "Restore Web-Application"
