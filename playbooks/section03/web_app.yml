@@ -1,7 +1,9 @@
 ---
 - name: Add bad directive under in Apache configuration
   hosts: webservers
-  become: true      
+  become: true
+  ignore_errors: true
+  
   tasks:
     - name: Add InvalidDirectiveHere
       lineinfile:
