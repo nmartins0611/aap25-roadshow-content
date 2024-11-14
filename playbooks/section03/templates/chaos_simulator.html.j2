@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simulate Sean</title>
+  <title>Sean's Chaos Simulator</title>
   <style>
     body {
       background-color: #f0f8ff;
@@ -44,25 +44,26 @@
 
   <h1>Sean's Chaos Simulator</h1>
   <div class="button-container">
-    <button class="button-1" onclick="triggerChaos('{{ api_url_1 }}', 'Chaos 1')">Break Webapp</button>
-    <button class="button-2" onclick="triggerChaos('{{ api_url_2 }}', 'Chaos 2')">Disable Network Port</button>
-    <button class="button-3" onclick="triggerChaos('{{ api_url_3 }}', 'Chaos 3')">New Device</button>
-    <button class="button-4" onclick="triggerChaos('{{ api_url_4 }}', 'Chaos 4')">Trigger Chaos 4</button>
+    <button class="button-1" onclick="triggerChaos('Chaos 1', '{{ api_url_1 }}')">Trigger Chaos 1</button>
+    <button class="button-2" onclick="triggerChaos('Chaos 2', '{{ api_url_2 }}')">Trigger Chaos 2</button>
+    <button class="button-3" onclick="triggerChaos('Chaos 3', '{{ api_url_3 }}')">Trigger Chaos 3</button>
   </div>
 
   <script>
-    const AUTH_TOKEN = '{{ auth_token }}';
+    const USERNAME = '{{ username }}';
+    const PASSWORD = '{{ password }}';
 
-    async function triggerChaos(apiUrl, chaosType) {
-      console.log(`${chaosType} triggered!`);
+    async function triggerChaos(chaosType, apiUrl) {
+      console.log(`${chaosType} triggered at ${apiUrl}!`);
       try {
         const response = await fetch(apiUrl, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${AUTH_TOKEN}`
+            'Authorization': 'Basic ' + btoa(USERNAME + ':' + PASSWORD)
           },
-          body: JSON.stringify({ chaosType: chaosType })
+          body: JSON.stringify({ chaosType: chaosType }),
+          mode: 'no-cors' // disables CORS errors in browsers for demonstration
         });
 
         if (response.ok) {
