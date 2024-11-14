@@ -7,6 +7,6 @@
   tasks:
     - name: Deploy the Chaos Simulator web page
       template:
-        src: /playbooks/section03/files/chaos_simulator.html.j2
+        src: templates/chaos_simulator.html.j2
         dest: /var/www/html/chaos/index.html
       delegate: localhost
