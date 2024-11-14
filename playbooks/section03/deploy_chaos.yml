@@ -7,5 +7,5 @@
   tasks:
     - name: Deploy the Chaos Simulator web page
       template:
-        src: files/chaos_simulator.html.j2
+        src: /playbooks/section03/files/chaos_simulator.html.j2
         dest: /var/www/html/chaos/index.html
