@@ -8,4 +8,4 @@
     - name: Deploy the Chaos Simulator web page
       template:
         src: templates/chaos_simulator.html.j2
-        dest: /var/www/html/chaos/index.html
+        dest: /var/www/html/chaos.html
