@@ -4,10 +4,10 @@
   vars:
     controller_url: 
     auth_token: "YOUR_AUTH_TOKEN_HERE"
-    api_url_1: "https://{{ ansible_host }}/api/controller/v2/job_templates/14/launch"
-    api_url_2: "https://{{ ansible_host }}/api/controller/v2/job_templates/10/launch"
-    api_url_3: "https://{{ ansible_host }}/api/controller/v2/job_templates/14/launch"
-    api_url_4: "https://{{ ansible_host }}/api/controller/v2/job_templates/14/launch"
+    api_url_1: "https://{{ controller_url }}/api/controller/v2/job_templates/14/launch"
+    api_url_2: "https://{{ controller_url }}/api/controller/v2/job_templates/10/launch"
+    api_url_3: "https://{{ controller_url }}/api/controller/v2/job_templates/14/launch"
+    api_url_4: "https://{{ controller_url }}/api/controller/v2/job_templates/14/launch"
 
   tasks:
   
