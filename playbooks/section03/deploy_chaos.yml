@@ -1,10 +1,15 @@
 ---
-- name: Deploy Chaos Simulator
+- name: Deploy Sean Simulator
   hosts: webservers
   vars:
     auth_token: "YOUR_AUTH_TOKEN_HERE"
-    api_url: "https:/podman-host/chaos/"
+    api_url_1: "https://control/api/controller/v2/job_templates/14/launch"
+    api_url_2: "https://control/api/controller/v2/job_templates/10/launch"
+    api_url_3: "https://control/api/controller/v2/job_templates/14/launch"
+    api_url_4: "https://control/api/controller/v2/job_templates/14/launch"
+
   tasks:
+  
     - name: Deploy the Chaos Simulator web page
       template:
         src: templates/chaos_simulator.html.j2
