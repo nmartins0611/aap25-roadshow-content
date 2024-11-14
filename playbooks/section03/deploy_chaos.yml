@@ -9,8 +9,13 @@
     api_url_4: "https://{{ ansible_host }}/api/controller/v2/job_templates/14/launch"
 
   tasks:
+   - name: Set variable from environment variable
+     ansible.builtin.set_fact:
+      controller_host: "{{ lookup('env', 'CONTROLLER_URL') }}"
   
     - name: Deploy the Chaos Simulator web page
       template:
         src: templates/chaos_simulator.html.j2
         dest: /var/www/html/chaos/index.html
+
+
