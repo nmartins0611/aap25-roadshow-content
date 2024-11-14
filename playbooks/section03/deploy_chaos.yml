@@ -1,0 +1,11 @@
+---
+- name: Deploy Chaos Simulator
+  hosts: webservers
+  vars:
+    auth_token: "YOUR_AUTH_TOKEN_HERE"
+    api_url: "https:/podman-host/chaos/"
+  tasks:
+    - name: Deploy the Chaos Simulator web page
+      template:
+        src: chaos_simulator.html.j2
+        dest: /var/www/html/chaos/index.html
