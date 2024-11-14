@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sean's Chaos Simulator</title>
+  <style>
+    body {
+      background-color: #f0f8ff;
+      text-align: center;
+      font-family: Arial, sans-serif;
+      color: #333;
+    }
+    h1 {
+      font-size: 2.5em;
+      margin: 20px;
+      color: #5a189a;
+    }
+    .button-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 1.2em;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: transform 0.2s;
+    }
+    button:hover {
+      transform: scale(1.1);
+    }
+    .button-1 { background-color: #ff595e; color: white; }
+    .button-2 { background-color: #ffca3a; color: black; }
+    .button-3 { background-color: #8ac926; color: white; }
+    .button-4 { background-color: #1982c4; color: white; }
+  </style>
+</head>
+<body>
+
+  <h1>Sean's Chaos Simulator</h1>
+  <div class="button-container">
+    <button class="button-1" onclick="triggerChaos('Chaos 1')">Trigger Chaos 1</button>
+    <button class="button-2" onclick="triggerChaos('Chaos 2')">Trigger Chaos 2</button>
+    <button class="button-3" onclick="triggerChaos('Chaos 3')">Trigger Chaos 3</button>
+    <button class="button-4" onclick="triggerChaos('Chaos 4')">Trigger Chaos 4</button>
+  </div>
+
+  <script>
+    const AUTH_TOKEN = '{{ auth_token }}';
+
+    async function triggerChaos(chaosType) {
+      console.log(`${chaosType} triggered!`);
+      try {
+        // Replace '{{ api_url }}' with your actual API endpoint
+        const response = await fetch('{{ api_url }}', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${AUTH_TOKEN}`
+          },
+          body: JSON.stringify({ chaosType: chaosType })
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          alert(`${chaosType} response: ` + JSON.stringify(data));
+        } else {
+          alert(`Failed to trigger ${chaosType}.`);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert(`An error occurred while triggering ${chaosType}.`);
+      }
+    }
+  </script>
+
+</body>
+</html>
