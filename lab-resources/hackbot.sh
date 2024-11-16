@@ -9,12 +9,12 @@ CYAN='\033[0;36m'
 RED='\033[0;31m'
 RESET='\033[0m'
 
-# Check if CONTROLLER_URL is set
-if [ -z "$CONTROLLER_URL" ]; then
-    echo -e "${RED}🤖 ERROR: The environment variable CONTROLLER_URL is not set. Please set it before running this script.${RESET}"
-    echo "Example: export CONTROLLER_URL=https://api.example.com"
-    exit 1
-fi
+# # Check if CONTROLLER_URL is set
+# if [ -z "$CONTROLLER_URL" ]; then
+#     echo -e "${RED}🤖 ERROR: The environment variable CONTROLLER_URL is not set. Please set it before running this script.${RESET}"
+#     echo "Example: export CONTROLLER_URL=https://api.example.com"
+#     exit 1
+# fi
 
 # Prompt for Auth Token
 echo -n -e "${CYAN}🤖 Please provide your Platform URL: ${RESET}"
