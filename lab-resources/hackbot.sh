@@ -16,6 +16,11 @@ if [ -z "$CONTROLLER_URL" ]; then
     exit 1
 fi
 
+# Prompt for Auth Token
+echo -n -e "${CYAN}🤖 Please provide your authorization token: ${RESET}"
+read -s AUTH_TOKEN
+echo -e "\n${CYAN}🤖 Token received. Preparing to execute commands.${RESET}"
+
 # Robot greeting
 echo -e "${CYAN}🤖 Hello, Human! I am your friendly robot assistant. Ready to execute your commands via API!${RESET}"
 
@@ -35,19 +40,19 @@ function perform_action() {
     case $1 in
         1)
             echo -e "${CYAN}🤖 Sending POST request to Weather API...${RESET}"
-            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/14/launch" -H "Content-Type: application/json"'
+            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/14/launch" -H "Content-Type: application/json" -H "Authorization: Bearer $AUTH_TOKEN"
             ;;
         2)
             echo -e "${CYAN}🤖 Sending POST request to User Data API...${RESET}"
-            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/10/launch" -H "Content-Type: application/json"'
+            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/14/launch" -H "Content-Type: application/json" -H "Authorization: Bearer $AUTH_TOKEN"
             ;;
         3)
             echo -e "${CYAN}🤖 Sending POST request to System Status API...${RESET}"
-            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/14/launch" -H "Content-Type: application/json"'
+            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/14/launch" -H "Content-Type: application/json" -H "Authorization: Bearer $AUTH_TOKEN"
             ;;
         4)
             echo -e "${CYAN}🤖 Sending POST request to Notification API...${RESET}"
-            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/14/launch" -H "Content-Type: application/json"'
+            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/14/launch" -H "Content-Type: application/json" -H "Authorization: Bearer $AUTH_TOKEN"
             ;;
         5)
             echo -e "${RED}🤖 Shutting down... Goodbye, Human!${RESET}"
