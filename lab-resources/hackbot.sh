@@ -16,6 +16,7 @@ if [ -z "$CONTROLLER_URL" ]; then
     exit 1
 fi
 
+echo -n -e "${CYAN}🤖 Welcome! - I am here to help you simulate how the new guy broke things! ${RESET}"
 # Prompt for Auth Token
 # echo -n -e "${CYAN}🤖 Please provide your Platform URL: ${RESET}"
 # read -s CONTROLLER_URL
