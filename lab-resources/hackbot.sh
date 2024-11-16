@@ -29,9 +29,9 @@ echo -e "${CYAN}🤖 Hello, Human! I am your friendly robot assistant. Ready to 
 # Display menu
 function show_menu() {
     echo -e "${GREEN}"
-    echo "1. Fetch weather information"
-    echo "2. Retrieve user data"
-    echo "3. Get system status"
+    echo "1. Simulate the faulty Web Change"
+    echo "2. Simulate a port shutdown"
+    echo "3. Simulate a new device"
     echo "4. Send a notification"
     echo "5. Exit"
     echo -e "${RESET}"
