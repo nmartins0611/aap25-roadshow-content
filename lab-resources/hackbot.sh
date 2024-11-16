@@ -1,5 +1,8 @@
 #!/bin/bash
 
+export CONTROLLER_URL="https://$HOSTNAME.$_SANDBOX_ID.instruqt.io/api/controller"
+echo $CONTROLLER_URL
+
 # Colors for robot-like appearance
 GREEN='\033[0;32m'
 CYAN='\033[0;36m'
