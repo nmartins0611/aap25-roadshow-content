@@ -1,7 +1,7 @@
 #!/bin/bash
 
-export CONTROLLER_URL="https://$HOSTNAME.$_SANDBOX_ID.instruqt.io/api/controller"
-echo $CONTROLLER_URL
+#export CONTROLLER_URL="https://$HOSTNAME.$_SANDBOX_ID.instruqt.io/api/controller"
+#echo $CONTROLLER_URL
 
 # Colors for robot-like appearance
 GREEN='\033[0;32m'
@@ -17,6 +17,8 @@ if [ -z "$CONTROLLER_URL" ]; then
 fi
 
 # Prompt for Auth Token
+echo -n -e "${CYAN}🤖 Please provide your Platform URL: ${RESET}"
+read -s CONTROLLER_URL
 echo -n -e "${CYAN}🤖 Please provide your authorization token: ${RESET}"
 read -s AUTH_TOKEN
 echo -e "\n${CYAN}🤖 Token received. Preparing to execute commands.${RESET}"
