@@ -30,9 +30,9 @@ echo -e "${CYAN}🤖 Hello, Human! I am your friendly robot assistant. Ready to 
 function show_menu() {
     echo -e "${GREEN}"
     echo "1. Simulate the faulty Web Change"
-    echo "2. Simulate a port shutdown"
-    echo "3. Simulate a new device"
-    echo "4. Send a notification"
+    echo "2. Reset Web Application Config"
+    echo "3. Shutdown the wrong port!"
+    echo "4. Patch in a new device"
     echo "5. Exit"
     echo -e "${RESET}"
 }
@@ -46,16 +46,16 @@ function perform_action() {
             ;;
         2)
             echo -e "${CYAN}🤖 Sending POST request to User Data API...${RESET}"
-            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/14/launch" -H "Content-Type: application/json" -H "Authorization: Bearer $AUTH_TOKEN" > /dev/null 2>&1
+            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/13/launch" -H "Content-Type: application/json" -H "Authorization: Bearer $AUTH_TOKEN" > /dev/null 2>&1
             ;;
 
         3)
             echo -e "${CYAN}🤖 Sending POST request to System Status API...${RESET}"
-            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/14/launch" -H "Content-Type: application/json" -H "Authorization: Bearer $AUTH_TOKEN" > /dev/null 2>&1
+            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/9/launch" -H "Content-Type: application/json" -H "Authorization: Bearer $AUTH_TOKEN" > /dev/null 2>&1
             ;;
         4)
             echo -e "${CYAN}🤖 Sending POST request to Notification API...${RESET}"
-            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/14/launch" -H "Content-Type: application/json" -H "Authorization: Bearer $AUTH_TOKEN" > /dev/null 2>&1
+            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/11/launch" -H "Content-Type: application/json" -H "Authorization: Bearer $AUTH_TOKEN" > /dev/null 2>&1
             ;;
         5)
             echo -e "${RED}🤖 Shutting down... Goodbye, Human!${RESET}"
