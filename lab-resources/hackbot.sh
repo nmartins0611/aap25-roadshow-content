@@ -32,19 +32,19 @@ function perform_action() {
     case $1 in
         1)
             echo -e "${CYAN}🤖 Sending POST request to Weather API...${RESET}"
-            curl -k -X POST "$CONTROLLER_URL/api/controller/v2/job_templates/14/launch" -H "Content-Type: application/json"'
+            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/14/launch" -H "Content-Type: application/json"'
             ;;
         2)
             echo -e "${CYAN}🤖 Sending POST request to User Data API...${RESET}"
-            curl -k -X POST "$CONTROLLER_URL/api/controller/v2/job_templates/10/launch" -H "Content-Type: application/json"'
+            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/10/launch" -H "Content-Type: application/json"'
             ;;
         3)
             echo -e "${CYAN}🤖 Sending POST request to System Status API...${RESET}"
-            curl -k -X POST "$CONTROLLER_URL/api/controller/v2/job_templates/14/launch" -H "Content-Type: application/json"'
+            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/14/launch" -H "Content-Type: application/json"'
             ;;
         4)
             echo -e "${CYAN}🤖 Sending POST request to Notification API...${RESET}"
-            curl -k -X POST "$CONTROLLER_URL/api/controller/v2/job_templates/14/launch" -H "Content-Type: application/json"'
+            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/14/launch" -H "Content-Type: application/json"'
             ;;
         5)
             echo -e "${RED}🤖 Shutting down... Goodbye, Human!${RESET}"
