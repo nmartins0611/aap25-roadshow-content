@@ -39,29 +39,29 @@ function perform_action() {
     case $1 in
         1)
             echo -e "${CYAN}🤖 Sending POST request to AAP API...${RESET}"
-            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/14/launch" -H "Content-Type: application/json" -H "Authorization: Bearer $AUTH_TOKEN" > /dev/null 2>&1
+            sleep 5
+            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/14/launch" -H "Content-Type: application/json" -H "Authorization: Bearer $AUTH_TOKEN" > /dev/null 2>&1 & clear
             ;;
-            clear
-            ${RESET}
+
         2)
             echo -e "${CYAN}🤖 Sending POST request to AAP API...${RESET}"
-            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/13/launch" -H "Content-Type: application/json" -H "Authorization: Bearer $AUTH_TOKEN" > /dev/null 2>&1
+            sleep 5
+            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/13/launch" -H "Content-Type: application/json" -H "Authorization: Bearer $AUTH_TOKEN" > /dev/null 2>&1 & clear
             ;;
-            clear
-            ${RESET}
+
 
         3)
             echo -e "${CYAN}🤖 Sending POST request to AAP API...${RESET}"
-            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/9/launch" -H "Content-Type: application/json" -H "Authorization: Bearer $AUTH_TOKEN" > /dev/null 2>&1
+            sleep 5
+            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/9/launch" -H "Content-Type: application/json" -H "Authorization: Bearer $AUTH_TOKEN" > /dev/null 2>&1 & clear
             ;;
-            clear
-            ${RESET} 
+
         4)
             echo -e "${CYAN}🤖 Sending POST request to AAP API...${RESET}"
-            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/11/launch" -H "Content-Type: application/json" -H "Authorization: Bearer $AUTH_TOKEN" > /dev/null 2>&1
+            sleep 5
+            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/11/launch" -H "Content-Type: application/json" -H "Authorization: Bearer $AUTH_TOKEN" > /dev/null 2>&1 & clear
             ;;
-            clear
-            ${RESET} 
+
         5)
             echo -e "${RED}🤖 Shutting down... Goodbye, Co-Worker!${RESET}"
             exit 0
