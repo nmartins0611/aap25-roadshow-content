@@ -16,11 +16,7 @@ if [ -z "$CONTROLLER_URL" ]; then
     exit 1
 fi
 
-echo -n -e "${CYAN}🤖 Welcome! - I am here to help you simulate how the new guy broke things! ${RESET}"
-# Prompt for Auth Token
-# echo -n -e "${CYAN}🤖 Please provide your Platform URL: ${RESET}"
-# read -s CONTROLLER_URL
-echo -n -e "${CYAN}🤖 Please provide your authorization token: ${RESET}"
+echo -n -e "${CYAN}🤖 Hello! i am your co-worker simulator S.E.A.N - Please provide your authorization token: ${RESET}"
 read -s AUTH_TOKEN
 echo -e "\n${CYAN}🤖 Token received. Preparing to execute commands.${RESET}"
 
@@ -42,24 +38,32 @@ function show_menu() {
 function perform_action() {
     case $1 in
         1)
-            echo -e "${CYAN}🤖 Sending POST request to Weather API...${RESET}"
+            echo -e "${CYAN}🤖 Sending POST request to AAP API...${RESET}"
             curl -k -X POST "$CONTROLLER_URL/v2/job_templates/14/launch" -H "Content-Type: application/json" -H "Authorization: Bearer $AUTH_TOKEN" > /dev/null 2>&1
             ;;
+            clear
+            ${RESET}
         2)
-            echo -e "${CYAN}🤖 Sending POST request to User Data API...${RESET}"
+            echo -e "${CYAN}🤖 Sending POST request to AAP API...${RESET}"
             curl -k -X POST "$CONTROLLER_URL/v2/job_templates/13/launch" -H "Content-Type: application/json" -H "Authorization: Bearer $AUTH_TOKEN" > /dev/null 2>&1
             ;;
+            clear
+            ${RESET}
 
         3)
-            echo -e "${CYAN}🤖 Sending POST request to System Status API...${RESET}"
+            echo -e "${CYAN}🤖 Sending POST request to AAP API...${RESET}"
             curl -k -X POST "$CONTROLLER_URL/v2/job_templates/9/launch" -H "Content-Type: application/json" -H "Authorization: Bearer $AUTH_TOKEN" > /dev/null 2>&1
             ;;
+            clear
+            ${RESET} 
         4)
-            echo -e "${CYAN}🤖 Sending POST request to Notification API...${RESET}"
+            echo -e "${CYAN}🤖 Sending POST request to AAP API...${RESET}"
             curl -k -X POST "$CONTROLLER_URL/v2/job_templates/11/launch" -H "Content-Type: application/json" -H "Authorization: Bearer $AUTH_TOKEN" > /dev/null 2>&1
             ;;
+            clear
+            ${RESET} 
         5)
-            echo -e "${RED}🤖 Shutting down... Goodbye, Human!${RESET}"
+            echo -e "${RED}🤖 Shutting down... Goodbye, Co-Worker!${RESET}"
             exit 0
             ;;
         *)
