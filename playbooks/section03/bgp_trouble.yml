@@ -33,17 +33,17 @@
   #     bgp_state: "{{ ansible_eda.event.body.fields.session_state }}"
  #      bgp_prob_neighbor: "{{ ansible_eda.event.body.tags.neighbor_address }}"
 
-    - name: Create incident
-      servicenow.itsm.incident:
-      instance:
-       host: "{{ SN_HOST }}"
-       username: "{{ SN_USERNAME }}"
-       password: "{{ SN_PASSWORD }}"
-      state: new
-      caller: "{{ lookup('env', 'SN_USERNAME') }}"
-      short_description: "TEST"
-      description: "Network configurations have been backed up and uploaded"
-      impact: high
-      urgency: high
-      delegate_to: localhost
+    # - name: Create incident
+    #   servicenow.itsm.incident:
+    #   instance:
+    #    host: "{{ SN_HOST }}"
+    #    username: "{{ SN_USERNAME }}"
+    #    password: "{{ SN_PASSWORD }}"
+    #   state: new
+    #   caller: "{{ lookup('env', 'SN_USERNAME') }}"
+    #   short_description: "TEST"
+    #   description: "Network configurations have been backed up and uploaded"
+    #   impact: high
+    #   urgency: high
+    #   delegate_to: localhost
       
