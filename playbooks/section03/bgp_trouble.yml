@@ -1,5 +1,5 @@
 - name: Basic Troubleshooting BGP
-  hosts: ceos1
+  hosts: ceos01
   gather_facts: false
   vars:
     ansible_httpapi_port: 443
