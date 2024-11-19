@@ -1,17 +1,14 @@
 - name: Basic Troubleshooting BGP
   hosts: Delivery_Network
   gather_facts: false
+  collections:
+      - servicenow.itsm
+      
   vars:
-    ansible_httpapi_port: 443
-    ansible_httpapi_use_ssl: true
-    ansible_httpapi_validate_certs: false
-    SN_HOST: "{{ lookup('env', 'SN_HOST') }}"
-    SN_USERNAME: "{{ lookup('env', 'SN_USERNAME') }}"
-    SN_PASSWORD: "{{ lookup('env', 'SN_PASSWORD') }}"
-    api_token:
     switches:
       - ping 10.0.0.1
       - ping 10.0.0.4
+
 
   tasks:
 
@@ -41,17 +38,20 @@
       debug:
         msg: "{{ bgp_summary }}"
 
-    # - name: Create incident
-    #   servicenow.itsm.incident:
-    #   instance:
-    #    host: "{{ SN_HOST }}"
-    #    username: "{{ SN_USERNAME }}"
-    #    password: "{{ SN_PASSWORD }}"
-    #   state: new
-    #   caller: "{{ lookup('env', 'SN_USERNAME') }}"
-    #   short_description: "TEST"
-    #   description: "Network configurations have been backed up and uploaded"
-    #   impact: high
-    #   urgency: high
-    #   delegate_to: localhost
-      
+
+    - name: Create incident
+      servicenow.itsm.incident:
+        state: new
+        caller: "{{ lookup('env', 'SN_USERNAME') }}"
+        short_description: "User created a new incident using Ansible Automation Platform"
+        description: "User {{ lookup('env', 'SN_USERNAME') }} successfully created a new incident!"
+        impact: low
+        urgency: low
+      register: new_incident
+
+    - set_fact:
+        incident_number_cached: "{{ new_incident.record.number }}"
+        cacheable: true
+
+    - debug:
+        msg: "A new incident has been created: {{ new_incident.record.number }}"
