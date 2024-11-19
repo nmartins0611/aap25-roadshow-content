@@ -46,9 +46,9 @@
           username: "{{ lookup('env', 'SN_USERNAME') }}"
           password: "{{ lookup('env', 'SN_USERNAME') }}"
         state: new
-        caller: "{{ lookup('env', 'RS_SN_USERNAME') }}"
+        caller: "{{ lookup('env', 'SN_USERNAME') }}"
         short_description: "User created a new incident using Ansible Automation Platform"
-        description: "User {{ lookup('env', 'RS_SN_USERNAME') }} successfully created a new incident!"
+        description: "User {{ lookup('env', 'SN_USERNAME') }} successfully created a new incident!"
         impact: low
         urgency: low
       register: new_incident
