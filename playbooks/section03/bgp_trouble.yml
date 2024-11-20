@@ -5,9 +5,6 @@
       - servicenow.itsm
       
   vars:
-    SN_HOST: "{{ lookup('env', 'SN_HOST') }}"
-    SN_USERNAME: "{{ lookup('env', 'SN_USERNAME') }}"
-    SN_PASSWORD: "{{ lookup('env', 'SN_PASSWORD') }}"
     switches:
       - ping 10.0.0.1
       - ping 10.0.0.4
