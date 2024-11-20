@@ -1,5 +1,5 @@
 - name: Basic Troubleshooting BGP
-  hosts: Core
+  hosts: Delivery_Network
   gather_facts: false
   collections:
       - servicenow.itsm
@@ -14,19 +14,18 @@
 
 
   tasks:
-    - name: debug
-      debug:
-        msg: "{{ lookup('env', 'SN_HOST') }}"
-
+  
     - name: BGP Check
       arista.eos.eos_command:
        commands: show ip bgp summary vrf all
       register: bgp_summary
+      delegate_to: ceos1
 
     - name: Check reachability of switches
       arista.eos.eos_command:
        commands: "{{ switches }}"
       register: result
+      delegate_to: ceos1
 
    # - set_fact:
    #    cacheable: true
