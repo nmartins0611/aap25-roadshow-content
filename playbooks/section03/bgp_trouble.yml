@@ -8,6 +8,9 @@
     switches:
       - ping 10.0.0.1
       - ping 10.0.0.4
+     SN_HOST: "{{ lookup('env', 'SN_HOST') }}"
+     SN_USERNAME: "{{ lookup('env', 'SN_USERNAME') }}"
+     SN_PASSWORD: "{{ lookup('env', 'SN_PASSWORD') }}"
 
 
   tasks:
@@ -37,14 +40,13 @@
     - name: BGP Summary details
       debug:
         msg: "{{ bgp_summary }}"
-
-
+        
     - name: Create incident
       servicenow.itsm.incident:
         instance:
-          host: "{{ lookup('env', 'SN_HOST') }}"
-          username: "{{ lookup('env', 'SN_USERNAME') }}"
-          password: "{{ lookup('env', 'SN_PASSWORD') }}"
+          host: "{{ SN_HOST }}"
+          username: "{{ SN_USERNAME }}"
+          password: "{{ SN_PASSWORD }}"
         state: new
         caller: "{{ SN_USERNAME }}"
         short_description: "User created a new incident using Ansible Automation Platform"
