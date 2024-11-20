@@ -13,7 +13,7 @@
   tasks:
     - name: debug
       debug:
-        msg: "{{ lookup('env', 'SN_HOST') }}"
+        msg: "{{ lookup('env', 'SN_USERNAME') }}"
 
     - name: BGP Check
       arista.eos.eos_command:
@@ -45,9 +45,9 @@
     - name: Create incident
       servicenow.itsm.incident:
         instance:
-          host: "{{ SN_HOST }}"
-          username: "{{ SN_USERNAME }}"
-          password: "{{ SN_PASSWORD }}"
+          host: "{{ lookup('env', 'SN_HOST') }}"
+          username: "{{ lookup('env', 'SN_USERNAME') }}"
+          password: "{{ lookup('env', 'SN_PASSWORD') }}"
         state: new
         caller: "{{ SN_USERNAME }}"
         short_description: "User created a new incident using Ansible Automation Platform"
