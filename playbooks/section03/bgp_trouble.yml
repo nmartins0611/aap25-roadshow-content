@@ -42,13 +42,13 @@
     - name: Create incident
       servicenow.itsm.incident:
         instance:
-          host: "{{ lookup('env', 'SN_HOST') }}"
-          username: "{{ lookup('env', 'SN_USERNAME') }}"
-          password: "{{ lookup('env', 'SN_USERNAME') }}"
+          host: "{{ SN_HOST }}"
+          username: "{{ SN_USERNAME }}"
+          password: "{{ SN_PASSWORD }}"
         state: new
-        caller: "{{ lookup('env', 'SN_USERNAME') }}"
+        caller: "{{ SN_USERNAME }}"
         short_description: "User created a new incident using Ansible Automation Platform"
-        description: "User {{ lookup('env', 'SN_USERNAME') }} successfully created a new incident!"
+        description: "User {{ SN_USERNAME }} successfully created a new incident!"
         impact: low
         urgency: low
       register: new_incident
