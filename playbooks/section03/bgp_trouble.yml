@@ -11,6 +11,9 @@
 
 
   tasks:
+    - name: debug
+      debug:
+        msg: "{{ SN_HOST }}"
 
     - name: BGP Check
       arista.eos.eos_command:
