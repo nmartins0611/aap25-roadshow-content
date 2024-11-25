@@ -19,6 +19,7 @@
        backup: yes
        backup_options:
         filename: /tmp/"{{ inventory_hostname }}.cfg"
+      delegate_to: localhost
   
     - name: BGP Check
       arista.eos.eos_command:
