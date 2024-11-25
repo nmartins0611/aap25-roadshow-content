@@ -14,12 +14,22 @@
 
   tasks:
 
+    # - name: Backup Network
+    #   arista.eos.eos_config:
+    #    backup: yes
+    #    backup_options:
+    #     filename: /tmp/"{{ inventory_hostname }}.cfg"
+
     - name: Backup Network
       arista.eos.eos_config:
        backup: yes
-       backup_options:
-        filename: /tmp/"{{ inventory_hostname }}.cfg"
-  
+      register: backup_config
+
+    - name: Save backup to local file
+      copy:
+        content: "{{ backup_result['backup_config'] }}"
+        dest: "/tmp/{{ inventory_hostname }}_config_backup.txt"
+
     - name: BGP Check
       arista.eos.eos_command:
        commands: show ip bgp summary vrf all
@@ -58,7 +68,7 @@
         short_description: "XXXXXX"
         description: "Network configurations have been backed up and uploaded"
         attachments:
-          - path: "/tmp/{{ inventory_hostname }}.cfg"
+          - path: "/tmp/{{ inventory_hostname }}_config_backup.txt"
             type: text/plain
             name: "{{ inventory_hostname }}.cfg"
         impact: high
