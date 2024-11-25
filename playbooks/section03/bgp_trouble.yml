@@ -23,7 +23,7 @@
     - name: Backup Network
       arista.eos.eos_config:
        backup: yes
-      register: backup_config
+      register: backup_result
 
     - name: Save backup to local file
       copy:
