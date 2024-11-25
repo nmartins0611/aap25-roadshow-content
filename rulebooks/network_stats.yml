@@ -28,7 +28,7 @@
      action:
        run_job_template:
         organization: "Default"
-        name: "BGP Troubleshooting"
+        name: "Network Troubleshooting"
         post_events: true
 
    - name: Trouble shoooting finished
