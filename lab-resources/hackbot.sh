@@ -28,7 +28,7 @@ function show_menu() {
     echo -e "${GREEN}"
     echo "1. Simulate the faulty Web Change"
     echo "2. Reset Web Application Config"
-    echo "3. Shutdown the wrong port!"
+    echo "3. Break the network!"
     echo "4. Patch in a new device"
     echo "5. Exit"
     echo -e "${RESET}"
@@ -53,7 +53,7 @@ function perform_action() {
         3)
             echo -e "${CYAN}🤖 Sending POST request to AAP API...${RESET}"
             sleep 5
-            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/9/launch" -H "Content-Type: application/json" -H "Authorization: Bearer $AUTH_TOKEN" > /dev/null 2>&1 & clear
+            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/10/launch" -H "Content-Type: application/json" -H "Authorization: Bearer $AUTH_TOKEN" > /dev/null 2>&1 & clear
             ;;
 
         4)
