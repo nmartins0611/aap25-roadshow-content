@@ -15,6 +15,12 @@
 
 
   tasks:
+
+    - name: Backup Network
+      arista.eos.eos_config:
+       backup: yes
+       backup_options:
+        filename: /tmp/"{{ inventory_hostname }}.cfg"
   
     - name: BGP Check
       arista.eos.eos_command:
@@ -42,21 +48,39 @@
     - name: BGP Summary details
       debug:
         msg: "{{ bgp_summary }}"
-        
+
     - name: Create incident
       servicenow.itsm.incident:
-        instance:
-          host: "{{ SN_HOST }}"
-          username: "{{ SN_USERNAME }}"
-          password: "{{ SN_PASSWORD }}"
-        state: new
-        caller: "{{ SN_USERNAME }}"
-        short_description: "User created a new incident using Ansible Automation Platform"
-        description: "User {{ SN_USERNAME }} successfully created a new incident!"
-        impact: low
-        urgency: low
-      register: new_incident
+       instance:
+        host: "{{ SN_HOST }}"
+        username: "{{ SN_USERNAME }}"
+        password: "{{ SN_PASSWORD }}"
+       state: new
+       caller: "{{ lookup('env', 'SN_USERNAME') }}"
+       short_description: "Chat request logged from: {{ ansible_eda.event.payload.channel_name }}, Trigger: {{ ansible_eda.event.payload.team_domain }}"
+       description: "Network configurations have been backed up and uploaded"
+       attachments:
+        - path: /tmp/"{{ inventory_hostname }}.cfg"
+          type: text/plain
+          name: "{{ inventory_hostname }}".cfg
+       impact: high
+       urgency: high
       delegate_to: localhost
+        
+    # - name: Create incident
+    #   servicenow.itsm.incident:
+    #     instance:
+    #       host: "{{ SN_HOST }}"
+    #       username: "{{ SN_USERNAME }}"
+    #       password: "{{ SN_PASSWORD }}"
+    #     state: new
+    #     caller: "{{ SN_USERNAME }}"
+    #     short_description: "User created a new incident using Ansible Automation Platform"
+    #     description: "User {{ SN_USERNAME }} successfully created a new incident!"
+    #     impact: low
+    #     urgency: low
+    #   register: new_incident
+    #   delegate_to: localhost
 
     - set_fact:
         incident_number_cached: "{{ new_incident.record.number }}"
