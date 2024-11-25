@@ -19,7 +19,6 @@
        backup: yes
        backup_options:
         filename: /tmp/"{{ inventory_hostname }}.cfg"
-      delegate_to: localhost
   
     - name: BGP Check
       arista.eos.eos_command:
@@ -64,7 +63,7 @@
             name: "{{ inventory_hostname }}.cfg"
         impact: high
         urgency: high
-      delegate_to: localhost
+  #    delegate_to: localhost
 
     - set_fact:
         incident_number_cached: "{{ new_incident.record.number }}"
