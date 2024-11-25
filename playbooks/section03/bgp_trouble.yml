@@ -12,8 +12,6 @@
       - ping 10.0.0.1
       - ping 10.0.0.4
 
-
-
   tasks:
 
     - name: Backup Network
@@ -66,22 +64,6 @@
         impact: high
         urgency: high
       delegate_to: localhost
-
-        
-    # - name: Create incident
-    #   servicenow.itsm.incident:
-    #     instance:
-    #       host: "{{ SN_HOST }}"
-    #       username: "{{ SN_USERNAME }}"
-    #       password: "{{ SN_PASSWORD }}"
-    #     state: new
-    #     caller: "{{ SN_USERNAME }}"
-    #     short_description: "User created a new incident using Ansible Automation Platform"
-    #     description: "User {{ SN_USERNAME }} successfully created a new incident!"
-    #     impact: low
-    #     urgency: low
-    #   register: new_incident
-    #   delegate_to: localhost
 
     - set_fact:
         incident_number_cached: "{{ new_incident.record.number }}"
