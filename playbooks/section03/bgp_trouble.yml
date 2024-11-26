@@ -32,12 +32,12 @@
        commands: "{{ switches }}"
       register: result
 
-   - set_fact:
-      cacheable: true
-      bgp_view: "{{ bgp_summary }}"
-      bgp_ping: "{{ result }}"
-      bgp_state: "{{ ansible_eda.event.body.fields.session_state }}"
-      bgp_prob_neighbor: "{{ ansible_eda.event.body.tags.neighbor_address }}"
+    - set_fact:
+       cacheable: true
+       bgp_view: "{{ bgp_summary }}"
+       bgp_ping: "{{ result }}"
+       bgp_state: "{{ ansible_eda.event.body.fields.session_state }}"
+       bgp_prob_neighbor: "{{ ansible_eda.event.body.tags.neighbor_address }}"
 
     - name: Create incident
       servicenow.itsm.incident:
