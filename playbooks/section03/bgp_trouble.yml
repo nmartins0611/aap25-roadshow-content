@@ -49,13 +49,13 @@
   #     bgp_state: "{{ ansible_eda.event.body.fields.session_state }}"
  #      bgp_prob_neighbor: "{{ ansible_eda.event.body.tags.neighbor_address }}"
 
-    - name: Network Reachability
-      debug:
-        msg: "{{ switches }}"
+    # - name: Network Reachability
+    #   debug:
+    #     msg: "{{ switches }}"
         
-    - name: BGP Summary details
-      debug:
-        msg: "{{ bgp_summary }}"
+    # - name: BGP Summary details
+    #   debug:
+    #     msg: "{{ bgp_summary }}"
 
     - name: Create incident
       servicenow.itsm.incident:
@@ -73,7 +73,7 @@
             name: "{{ inventory_hostname }}.cfg"
         impact: high
         urgency: high
-  #    delegate_to: localhost
+      delegate_to: localhost
 
     - set_fact:
         incident_number_cached: "{{ new_incident.record.number }}"
