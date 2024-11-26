@@ -55,8 +55,8 @@
           Backups: "{{ config_output }}"
           BGP Status: "{{ bgp_summary }}"
           Switch Response: "{{ result }}"
-          # BGP State: "{{ ansible_eda.event.body.fields.session_state }}"
-          # BGP Avial. Neighbbors: "{{ ansible_eda.event.body.tags.neighbor_address }}"
+     # BGP State: "{{ ansible_eda.event.body.fields.session_state }}
+     # BGP Avial. Neighbbors: "{{ ansible_eda.event.body.tags.neighbor_address }}"
         impact: high
         urgency: high
       delegate_to: localhost
