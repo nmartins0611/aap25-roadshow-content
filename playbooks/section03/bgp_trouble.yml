@@ -61,6 +61,7 @@
         impact: high
         urgency: high
       delegate_to: localhost
+      register: new_incident
       run_once: true
 
     - set_fact:
