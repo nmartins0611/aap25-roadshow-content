@@ -32,6 +32,18 @@
        commands: "{{ switches }}"
       register: result
 
+    - name: Format BGP Summary
+      set_fact:
+        formatted_bgp_summary: |
+          BGP Summary:
+          {{ bgp_summary.stdout_lines[0] | join('\n') if bgp_summary.stdout_lines else 'No BGP summary available.' }}
+
+    - name: Format Switch Responses
+      set_fact:
+        formatted_switch_result: |
+          Switch Responses:
+          {{ result.stdout_lines[0] | join('\n') if result.stdout_lines else 'No switch responses available.' }}
+
     - set_fact:
        cacheable: true
        bgp_view: "{{ bgp_summary }}"
@@ -53,10 +65,9 @@
         description: |
           Network Issue:
           Backups: "{{ config_output }}"
-          BGP Status: "{{ bgp_summary }}"
-          Switch Response: "{{ result }}"
-     # BGP State: "{{ ansible_eda.event.body.fields.session_state }}
-     # BGP Avial. Neighbbors: "{{ ansible_eda.event.body.tags.neighbor_address }}"
+          {{ formatted_bgp_summary }}
+          {{ formatted_switch_result }}
+
         impact: high
         urgency: high
       delegate_to: localhost
