@@ -4,6 +4,9 @@
   connection: local
   gather_facts: false
 
+  vars:
+    interface_name: Ethernet1
+
   tasks:
 
     - name: Download Network Config from Source of Truth
@@ -19,3 +22,9 @@
       arista.eos.eos_l2_interfaces:
        config: "{{ my_sot }}"
        state: merged
+
+    - name: Verify interface configuration
+      arista.eos.eos_command:
+        commands:
+          - show running-config interface {{ interface_name }}
+      register: interface_output
