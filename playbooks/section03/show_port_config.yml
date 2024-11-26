@@ -5,15 +5,15 @@
   gather_facts: false
 
   vars:
-    interface_name: ethernet1
+    interface_name: Ethernet2
 
   tasks:
 
-    - name: Setting up config
-      arista.eos.eos_command:
-        commands:
-          - show running-config interface {{ interface_name }}
-      register: interface_output
+    - name: Correct Interfaces
+      arista.eos.eos_interfaces:
+        config:
+         - name: Ethernet2
+           enabled: false
 
     - name: Verify interface configuration
       arista.eos.eos_command:
