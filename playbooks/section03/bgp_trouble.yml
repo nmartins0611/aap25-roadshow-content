@@ -38,6 +38,8 @@
        bgp_ping: "{{ result }}"
        bgp_state: "{{ ansible_eda.event.body.fields.session_state }}"
        bgp_prob_neighbor: "{{ ansible_eda.event.body.tags.neighbor_address }}"
+      delegate_to: localhost
+      run_once: true
 
     - name: Create incident
       servicenow.itsm.incident:
