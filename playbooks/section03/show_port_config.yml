@@ -6,6 +6,7 @@
 
   vars:
     interface_name: Ethernet1
+    interface_description: DISABLED-NA
 
   tasks:
 
@@ -14,6 +15,12 @@
         config:
          - name: Ethernet1
            enabled: false
+
+    - name: Set interface description
+      arista.eos.eos_config:
+        lines:
+          - description "{{ interface_description }}"
+        parents: "interface {{ interface_name }}"
 
     - name: Verify interface configuration
       arista.eos.eos_command:
