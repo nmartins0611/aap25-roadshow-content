@@ -14,12 +14,6 @@
 
   tasks:
 
-    # - name: Backup Network
-    #   arista.eos.eos_config:
-    #    backup: yes
-    #    backup_options:
-    #     filename: /tmp/"{{ inventory_hostname }}.cfg"
-
     - name: Backup arista configuration
       arista.eos.eos_config:
        backup: true
@@ -27,16 +21,6 @@
         dir_path: /tmp/
         filename: "{{ inventory_hostname }}.txt"
       register: config_output
-
-    - name: Grab backups
-      ansible.netcommon.net_get:
-        src: "{{ config_output }}"
-        dest: /tmp/"{{ inventory_hostname }}.cfg"
-        protocol: scp
-        # username: "{{ ansible_user }}"
-        # password: "{{ ansible_password }}"
-        # host: "{{ inventory_hostname }}"
-      delegate_to: localhost  
 
     - name: BGP Check
       arista.eos.eos_command:
