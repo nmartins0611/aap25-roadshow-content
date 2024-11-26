@@ -5,14 +5,14 @@
   gather_facts: false
 
   vars:
-    interface_name: Ethernet2
+    interface_name: Ethernet1
 
   tasks:
 
     - name: Correct Interfaces
       arista.eos.eos_interfaces:
         config:
-         - name: Ethernet2
+         - name: Ethernet1
            enabled: false
 
     - name: Verify interface configuration
