@@ -50,6 +50,7 @@
         short_description: "Network Issue detected, Troubleshooting report"
         description: |
           Network Issue:
+          Backups: "{{ config_output }}"
           BGP Status: "{{ bgp_summary }}"
           Switch Response: "{{ result }}"
           BGP State: "{{ ansible_eda.event.body.fields.session_state }}"
