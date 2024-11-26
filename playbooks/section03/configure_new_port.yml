@@ -28,3 +28,7 @@
         commands:
           - show running-config interface {{ interface_name }}
       register: interface_output
+      
+    - name: Display interface configuration
+      debug:
+        var: interface_output.stdout_lines
