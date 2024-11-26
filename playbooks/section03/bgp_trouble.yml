@@ -61,7 +61,7 @@
         impact: high
         urgency: high
       delegate_to: localhost
-      run_once: ture
+      run_once: true
 
     - set_fact:
         incident_number_cached: "{{ new_incident.record.number }}"
