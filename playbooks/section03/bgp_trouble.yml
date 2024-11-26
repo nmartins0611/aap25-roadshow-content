@@ -44,15 +44,6 @@
           Switch Responses:
           {{ result.stdout_lines[0] | join('\n') if result.stdout_lines else 'No switch responses available.' }}
 
-    - set_fact:
-       cacheable: true
-       bgp_view: "{{ bgp_summary }}"
-       bgp_ping: "{{ result }}"
-       # bgp_state: "{{ ansible_eda.event.body.fields.session_state }}"
-       # bgp_prob_neighbor: "{{ ansible_eda.event.body.tags.neighbor_address }}"
-      delegate_to: localhost
-      run_once: true
-
     - name: Create incident
       servicenow.itsm.incident:
         instance:
@@ -61,13 +52,12 @@
           password: "{{ SN_PASSWORD }}"
         state: new
         caller: "{{ SN_USERNAME }}"
-        short_description: "Network Issue detected, Troubleshooting report"
+        short_description: "Network Issue detected, Troubleshooting report from: {{ ansible_hostname }}"
         description: |
-          Network Issue:
-          Backups: "{{ config_output }}"
+          Network Issue from Controller: {{ ansible_hostname }}
+          Backups Available on each switch @: "{{ config_output }}"
           {{ formatted_bgp_summary }}
           {{ formatted_switch_result }}
-
         impact: high
         urgency: high
       delegate_to: localhost
