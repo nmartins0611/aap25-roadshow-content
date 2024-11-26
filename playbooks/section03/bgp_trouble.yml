@@ -58,14 +58,10 @@
         state: new
         caller: "{{ SN_USERNAME }}"
         short_description: "XXXXXX"
-        description: "Network configurations have been backed up and uploaded"
-        attachments:
-          - path: "/tmp/{{ inventory_hostname }}_config_backup.txt"
-            type: text/plain
-            name: "{{ inventory_hostname }}.cfg"
         impact: high
         urgency: high
       delegate_to: localhost
+      run_once: ture
 
     - set_fact:
         incident_number_cached: "{{ new_incident.record.number }}"
