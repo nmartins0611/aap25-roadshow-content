@@ -9,6 +9,12 @@
 
   tasks:
 
+    - name: Setting up config
+      arista.eos.eos_command:
+        commands:
+          - show running-config interface {{ interface_name }}
+      register: interface_output
+
     - name: Verify interface configuration
       arista.eos.eos_command:
         commands:
