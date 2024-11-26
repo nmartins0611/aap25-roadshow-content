@@ -23,12 +23,17 @@
     - name: Backup Network
       arista.eos.eos_config:
        backup: yes
-      register: backup_result
+       backup_options:
+        filename: /tmp/"{{ inventory_hostname }}.cfg"
 
-    - name: Save backup to local file
-      copy:
-        content: "{{ backup_result['backup_config'] }}"
-        dest: "/tmp/{{ inventory_hostname }}_config_backup.txt"
+    - name: Grab backups
+      ansible.netcommon.net_get:
+        src: /tmp/"{{ inventory_hostname }}.cfg"
+        dest: /tmp/"{{ inventory_hostname }}.cfg"
+        protocol: scp
+        # username: "{{ ansible_user }}"
+        # password: "{{ ansible_password }}"
+        # host: "{{ inventory_hostname }}"
 
     - name: BGP Check
       arista.eos.eos_command:
