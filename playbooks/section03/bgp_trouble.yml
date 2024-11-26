@@ -52,9 +52,9 @@
           password: "{{ SN_PASSWORD }}"
         state: new
         caller: "{{ SN_USERNAME }}"
-        short_description: "Network Issue detected, Troubleshooting report from:" "{{ ansible_hostname }}"
+        short_description: "Network Issue detected, Troubleshooting report"
         description: |
-          Network Issue from Controller: {{ ansible_hostname }}
+          Network Issue:
           Backups Available on each switch @: "{{ config_output }}"
           {{ formatted_bgp_summary }}
           {{ formatted_switch_result }}
