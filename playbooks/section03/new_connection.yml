@@ -6,7 +6,7 @@
 
   tasks:
 
-    - name: Plugin system
+    - name: Updating Interface
       arista.eos.eos_interfaces:
         config:
          - name: Ethernet1
