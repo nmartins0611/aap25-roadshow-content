@@ -87,7 +87,7 @@ function perform_action() {
         3)
             echo -e "${CYAN}🤖 Sending POST request to AAP API...${RESET}"
             sleep 5
-            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/10/launch" -H "Content-Type: application/json" -H "Authorization: Bearer $AUTH_TOKEN" > /dev/null 2>&1 & clear
+            curl -k -X POST "$CONTROLLER_URL/v2/job_templates/11/launch" -H "Content-Type: application/json" -H "Authorization: Bearer $AUTH_TOKEN" > /dev/null 2>&1 & clear
             ;;
 
         4)
