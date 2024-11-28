@@ -12,10 +12,6 @@
 
   tasks:
 
-   - name: Check if the server is registered with subscription
-     ansible.builtin.command: subscription-manager version
-     register: subscription_status
-
    - name: Register the server with subscription
      ansible.builtin.command: subscription-manager register --username="{{ rhsm_username }}" --password="{{ rhsm_password }}"
 
