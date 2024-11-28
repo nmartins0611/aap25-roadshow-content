@@ -13,11 +13,12 @@
   tasks:
 
    - name: Register the server with subscription
-     ansible.builtin.command: subscription-manager register --username="{{ rhsm_username }}" --password="{{ rhsm_password }}"
+     ansible.builtin.command: >
+       /bin/subscription-manager register --username="{{ rhsm_username }}" --password="{{ rhsm_password }}"
 
    - name: Register insights client
      ansible.builtin.command: insights-client --register
-     when: subscription_status.rc == 0
+
 
    - name: Perform initial Insights upload
      ansible.builtin.command: >
