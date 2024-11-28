@@ -1,5 +1,5 @@
 - name: Basic Troubleshooting BGP
-  hosts: ceos01
+  hosts: ceos1
   gather_facts: false
   collections:
       - servicenow.itsm
