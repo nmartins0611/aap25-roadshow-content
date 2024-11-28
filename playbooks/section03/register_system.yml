@@ -18,7 +18,6 @@
 
    - name: Register the server with subscription
      ansible.builtin.command: subscription-manager register --username="{{ rhsm_username }}" --password="{{ rhsm_password }}"
-     when: subscription_status.rc != 0
 
    - name: Register insights client
      ansible.builtin.command: insights-client --register
