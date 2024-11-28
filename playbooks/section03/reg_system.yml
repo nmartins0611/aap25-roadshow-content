@@ -7,8 +7,8 @@
     - redhatinsights.insights
 
   vars:
-   rhsm_username: nmartins1@redhat.com
-   rhsm_password: "!@mL3g10n@2020"
+   rhsm_username:
+   rhsm_password:
 
   tasks:
    - name: Check if the server is registered with subscription
