@@ -10,16 +10,13 @@
    rhsm_password:
 
   tasks:
-
-   - name: Register the server with subscription
-     ansible.builtin.command: subscription-manager register --username="{{ rhsm_username }}" --password="{{ rhsm_password }}"
-
-   - name: Register insights client
-     ansible.builtin.command: insights-client --register
-     when: subscription_status.rc == 0
-
-   - name: Perform initial Insights upload
-     ansible.builtin.command: >
-        /bin/insights-client
-     register: __insights_scan
-     changed_when: __insights_scan.rc == 0
+  
+    - name: Register RHEL server with subscription manager
+      community.general.redhat_subscription:
+        state: present
+        username: "{{ lookup('env', 'REDHAT_USERNAME') }}"
+        password: "{{ _password_ }}"
+        auto_attach: true
+        
+    - name: Register insights client
+      ansible.builtin.command: insights-client --register
