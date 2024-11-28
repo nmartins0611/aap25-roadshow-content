@@ -1,5 +1,5 @@
 - name: Basic Troubleshooting BGP
-  hosts: Core
+  hosts: ceos01
   gather_facts: false
   collections:
       - servicenow.itsm
@@ -14,13 +14,13 @@
 
   tasks:
 
-    # - name: Backup arista configuration
-    #   arista.eos.eos_config:
-    #    backup: true
-    #    backup_options:
-    #     dir_path: /tmp/
-    #     filename: "{{ inventory_hostname }}.txt"
-    #   register: config_output
+    - name: Backup arista configuration
+      arista.eos.eos_config:
+       backup: true
+       backup_options:
+        dir_path: /tmp/
+        filename: "{{ inventory_hostname }}.txt"
+      register: config_output
 
     - name: BGP Check
       arista.eos.eos_command:
@@ -55,7 +55,7 @@
         short_description: "Network Issue detected, Troubleshooting report"
         description: |
           Network Issue:
-#          Backups Available on each switch @: "{{ config_output }}"
+          Backups Available on each switch @: "{{ config_output }}"
           {{ formatted_bgp_summary }}
           {{ formatted_switch_result }}
         impact: high
