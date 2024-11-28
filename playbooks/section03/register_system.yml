@@ -10,10 +10,6 @@
    rhsm_password:
   roles:
     - role: rhsm
-
-
-      - role: rhsm
-
    
 
   # tasks:
