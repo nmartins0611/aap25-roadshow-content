@@ -1,6 +1,6 @@
 ---
 - name: Connecting new system
-  hosts: ceos02
+  hosts: ceos2
   connection: local
   gather_facts: false
 
