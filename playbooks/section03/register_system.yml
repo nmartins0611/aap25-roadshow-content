@@ -1,0 +1,30 @@
+---
+- name: Create a directory and setup as samba share
+  hosts: node01
+  become: true
+  collections:
+    - redhat.rhel_system_roles
+    - redhatinsights.insights
+
+  vars:
+   rhsm_username:
+   rhsm_password:
+
+  tasks:
+   - name: Check if the server is registered with subscription
+     ansible.builtin.command: subscription-manager version
+     register: subscription_status
+
+   - name: Register the server with subscription
+     ansible.builtin.command: subscription-manager register --username="{{ rhsm_username }}" --password="{{ rhsm_password }}"
+     when: subscription_status.rc != 0
+
+   - name: Register insights client
+     ansible.builtin.command: insights-client --register
+     when: subscription_status.rc == 0
+
+   - name: Perform initial Insights upload
+     ansible.builtin.command: >
+        /bin/insights-client
+     register: __insights_scan
+     changed_when: __insights_scan.rc == 0
