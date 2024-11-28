@@ -10,6 +10,16 @@
    rhsm_password:
 
   tasks:
+
+    - name: Install subscription manager
+      ansible.builtin.package:
+        name: subscription-manager
+        state: present
+    
+    - name: Install insights client
+      ansible.builtin.package:
+        name: insights-client
+        state: present
   
     - name: Register RHEL server with subscription manager
       community.general.redhat_subscription:
