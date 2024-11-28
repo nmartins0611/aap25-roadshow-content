@@ -1,6 +1,6 @@
 ---
 - name: Show configuration of switch
-  hosts: ceos02
+  hosts: ceos2
   connection: local
   gather_facts: false
 
