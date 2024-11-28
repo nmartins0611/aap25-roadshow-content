@@ -8,31 +8,21 @@
   vars:
    rhsm_username:
    rhsm_password:
-  roles:
-    - role: rhsm
-   
 
-  # tasks:
-  
-  #   - name: 'Register system using Red Hat Subscription Manager'
-  #     redhat.rhel_system_roles.redhat_subscription:
-  #       state: present
-  #       username: "{{ rhsm_username | default(omit) }}"
-  #       password: "{{ rhsm_password | default(omit) }}"
-  #       pool_ids: "{{ rhsm_pool_ids | default(omit) }}"
-  #       pool: "{{ rhsm_pool | default(omit) }}"
-  #       autosubscribe: "{{ ((rhsm_pool is defined or rhsm_pool_ids is defined or rhsm_activationkey is defined) | ternary(omit, true)) }}"
-  #       server_hostname: "{{ rhsm_server_hostname | default(omit) }}"
-  #       activationkey: "{{ rhsm_activationkey | default(omit) }}"
-  #       org_id: "{{ rhsm_org_id | default(omit) }}"
-  #       force_register: "{{ rhsm_force_register | default(omit) }}"
-        
-  #   # - name: Register insights client
-  #   #   ansible.builtin.command: insights-client --register
+  tasks:
+   - name: Check if the server is registered with subscription
+     ansible.builtin.command: subscription-manager version
+     register: subscription_status
 
+   - name: Register the server with subscription
+     ansible.builtin.command: subscription-manager register --username="{{ rhsm_username }}" --password="{{ rhsm_password }}"
 
-  #  # - name: Perform initial Insights upload
-  #  #   ansible.builtin.command: >
-   #      /bin/insights-client
-   #   register: __insights_scan
-   #   changed_when: __insights_scan.rc == 0
+   - name: Register insights client
+     ansible.builtin.command: insights-client --register
+     when: subscription_status.rc == 0
+
+   - name: Perform initial Insights upload
+     ansible.builtin.command: >
+        /bin/insights-client
+     register: __insights_scan
+     changed_when: __insights_scan.rc == 0
