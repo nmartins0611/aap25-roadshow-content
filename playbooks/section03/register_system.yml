@@ -14,8 +14,8 @@
     - name: Register RHEL server with subscription manager
       community.general.redhat_subscription:
         state: present
-        username: "{{ lookup('env', 'REDHAT_USERNAME') }}"
-        password: "{{ _password_ }}"
+        username: "{{ rhsm_username }}"
+        password: "{{ rhsm_password }}"
         auto_attach: true
         
     - name: Register insights client
