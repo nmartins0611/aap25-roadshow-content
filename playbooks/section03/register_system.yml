@@ -31,9 +31,9 @@
     - name: Register insights client
       ansible.builtin.command: insights-client --register
 
-   - name: Perform initial Insights upload
-     ansible.builtin.command: >
+    - name: Perform initial Insights upload
+      ansible.builtin.command: >
         /bin/insights-client
-     register: __insights_scan
-     changed_when: __insights_scan.rc == 0
+      register: __insights_scan
+      changed_when: __insights_scan.rc == 0
 
