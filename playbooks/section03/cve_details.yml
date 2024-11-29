@@ -1,5 +1,5 @@
 ---
-- name: Create Inventory of CVE hosts
+- name: Gather CVE Details
   hosts: localhost
   gather_facts: false
 
@@ -7,9 +7,9 @@
    advisory_id:
    insights_username:
    insights_password:
-   SN_HOST:
-   SN_USERNAME:
-   SN_PASSWORD:
+   SN_HOST: "{{ lookup('env', 'SN_HOST') }}"
+   SN_USERNAME: "{{ lookup('env', 'SN_USERNAME') }}"
+   SN_PASSWORD: "{{ lookup('env', 'SN_PASSWORD') }}"
 
   tasks:
 
