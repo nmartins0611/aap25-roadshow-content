@@ -5,8 +5,8 @@
 
   vars:
    advisory_id:
-   insights_username:
-   insights_password:
+   rhsm_username:
+   rhsm_password:
    SN_HOST: "{{ lookup('env', 'SN_HOST') }}"
    SN_USERNAME: "{{ lookup('env', 'SN_USERNAME') }}"
    SN_PASSWORD: "{{ lookup('env', 'SN_PASSWORD') }}"
@@ -17,8 +17,8 @@
        ansible.builtin.uri:
         url: "https://console.redhat.com/api/patch/v3/advisories/{{ advisory_id }}/systems?page=1&perPage=20&sort=-last_upload&offset=0&limit=20"
         method: GET
-        url_username: "{{ insights_username }}"
-        url_password: "{{ insights_password }}"
+        url_username: "{{ rhsm_username }}"
+        url_password: "{{ rhsm_password }}"
         force_basic_auth: true
         status_code: 200
        register: cves_list
@@ -27,8 +27,8 @@
        ansible.builtin.uri:
         url: "https://console.redhat.com/api/patch/v3/advisories/{{ advisory_id }}"
         method: GET
-        url_username: "{{ insights_username }}"
-        url_password: "{{ insights_password }}"
+        url_username: "{{ rhsm_username }}"
+        url_password: "{{ rhsm_password }}"
         force_basic_auth: true
         status_code: 200
        register: cve_details
