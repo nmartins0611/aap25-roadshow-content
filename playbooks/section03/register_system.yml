@@ -1,6 +1,6 @@
 ---
-- name: Create a directory and setup as samba share
-  hosts: node01
+- name: Register Systems for RHSM
+  hosts: node02
   become: true
   collections:
     - redhat.rhel_system_roles
