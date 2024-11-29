@@ -1,0 +1,91 @@
+---
+- name: Create Inventory of CVE hosts
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+   advisory_id:
+   insights_username:
+   insights_password:
+   SN_HOST:
+   SN_USERNAME:
+   SN_PASSWORD:
+
+  tasks:
+
+     - name: EDA | Insights | Retrieve related CVEs from Advisories
+       ansible.builtin.uri:
+        url: "https://console.redhat.com/api/patch/v3/advisories/{{ advisory_id }}/systems?page=1&perPage=20&sort=-last_upload&offset=0&limit=20"
+        method: GET
+        url_username: "{{ insights_username }}"
+        url_password: "{{ insights_password }}"
+        force_basic_auth: true
+        status_code: 200
+       register: cves_list
+
+     - name: Gather CVE details
+       ansible.builtin.uri:
+        url: "https://console.redhat.com/api/patch/v3/advisories/{{ advisory_id }}"
+        method: GET
+        url_username: "{{ insights_username }}"
+        url_password: "{{ insights_password }}"
+        force_basic_auth: true
+        status_code: 200
+       register: cve_details
+
+     - name: Extract type
+       ansible.builtin.set_fact:
+        cve_type: "{{ cve_details.json.data.attributes.advisory_type_name }}"
+      
+     - name: Extract cve
+       ansible.builtin.set_fact:
+        cves: "{{ cve_details.json.data.attributes.cves }}"
+
+     - name: Extract Severityity
+       ansible.builtin.set_fact:
+        sev: "{{ cve_details.json.data.attributes.severity }}"
+
+     - name: Extract description
+       ansible.builtin.set_fact:
+        cves_description: "{{ cve_details.json.data.attributes.description }}"
+
+     - name: Extract Insights URL
+       ansible.builtin.set_fact:
+        insights_url: "{{ cve_details.json.data.attributes.description }}"
+
+     - name: Extract Solution
+       ansible.builtin.set_fact:
+        solution: "{{ cve_details.json.data.attributes.solution }}"
+
+     - name: Extract Topic
+       ansible.builtin.set_fact:
+        topic: "{{ cve_details.json.data.attributes.topic }}"
+
+
+     - name: Create incident
+       servicenow.itsm.incident:
+        instance:
+          host: "{{ SN_HOST }}"
+          username: "{{ SN_USERNAME }}"
+          password: "{{ SN_PASSWORD }}"
+        state: new
+        caller: "{{ SN_USERNAME }}"
+        short_description: New Advisory CVE Type - "{{ cve_type }}"
+        description: |
+      
+           Alert Type: "{{ cve_type }}"  CVE:  "{{ cves }}"
+           Incident Topic: "{{ topic }}"
+
+           CVE Description: "{{ cves_description }}"
+           Insights URL: "{{ insights_url }}"
+
+           Possible Solution: "{{ solution }}"
+        urgency: high
+       register: new_incident
+
+     - set_fact:
+        incident_number_cached: "{{ new_incident.record.number }}"
+        cacheable: true
+
+     - debug:
+        msg: "A new incident has been created: {{ new_incident.record.number }}"
