@@ -7,13 +7,6 @@
     backend_name: "backend_servers"
 
   tasks:
-    - name: Gather the IP address of the server
-      ansible.builtin.setup:
-        filter: ansible_default_ipv4
-
-    - name: Extract server IP
-      ansible.builtin.set_fact:
-        server_ip: "{{ ansible_facts['ansible_default_ipv4']['address'] }}"
 
     - name: Add server IP to HAProxy backend configuration
       ansible.builtin.lineinfile:
