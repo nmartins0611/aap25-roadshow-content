@@ -1,0 +1,20 @@
+---
+- name: Gather IP info
+  hosts: all
+  become: yes
+  vars:
+    haproxy_conf_path: /etc/haproxy/haproxy.conf
+    backend_name: "backend_servers"
+
+  tasks:
+    - name: Gather the IP address of the server
+      ansible.builtin.setup:
+        filter: ansible_default_ipv4
+
+    - name: Extract server IP
+      ansible.builtin.set_fact:
+        server_ip: "{{ ansible_facts['ansible_default_ipv4']['address'] }}"
+
+    - name: Display server IPS
+      debug:
+        msg: "{{ server_ip }}"
