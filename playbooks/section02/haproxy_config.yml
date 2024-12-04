@@ -1,0 +1,28 @@
+---
+- name: Add server IP to HAProxy backend configuration
+  hosts: all
+  become: yes
+  vars:
+    haproxy_conf_path: /etc/haproxy/haproxy.conf
+    backend_name: "backend_servers"
+
+  tasks:
+    - name: Gather the IP address of the server
+      ansible.builtin.setup:
+        filter: ansible_default_ipv4
+
+    - name: Extract server IP
+      ansible.builtin.set_fact:
+        server_ip: "{{ ansible_facts['ansible_default_ipv4']['address'] }}"
+
+    - name: Add server IP to HAProxy backend configuration
+      ansible.builtin.lineinfile:
+        path: "{{ haproxy_conf_path }}"
+        insertafter: "^backend {{ backend_name }}"
+        line: "    server {{ inventory_hostname }} {{ server_ip }}:80 check"
+        state: present
+
+    - name: Restart HAProxy to apply changes
+      ansible.builtin.service:
+        name: haproxy
+        state: restarted
