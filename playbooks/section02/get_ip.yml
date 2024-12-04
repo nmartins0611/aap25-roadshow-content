@@ -2,9 +2,6 @@
 - name: Gather IP info
   hosts: webservers
   become: yes
-  vars:
-    haproxy_conf_path: /etc/haproxy/haproxy.conf
-    backend_name: "backend_servers"
 
   tasks:
     - name: Gather the IP address of the server
