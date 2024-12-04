@@ -24,4 +24,4 @@
 
     - name: Display server IPS
       debug:
-        msg: "{{ system_ip }}"
+        msg: "{{ ansible_stats['system_ip'] }}"
