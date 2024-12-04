@@ -1,6 +1,6 @@
 ---
 - name: Gather IP info
-  hosts: all
+  hosts: webservers
   become: yes
   vars:
     haproxy_conf_path: /etc/haproxy/haproxy.conf
