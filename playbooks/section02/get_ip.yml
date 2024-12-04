@@ -2,6 +2,7 @@
 - name: Gather IP info
   hosts: webservers
   become: yes
+  gather_facts: true
 
   tasks:
     - name: Gather the IP address of the server
