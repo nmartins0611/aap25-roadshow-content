@@ -11,7 +11,7 @@
 
     - name: Extract server IP
       ansible.builtin.set_fact:
-        server_ip: "{{ ansible_facts['ansible_default_ipv4']['address'] }}"
+        server_ip: hostvars[inventory_hostname]['ansible_default_ipv4']['address']
 
     - name: Display server IPS
       debug:
