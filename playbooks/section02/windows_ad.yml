@@ -13,7 +13,7 @@
 
    - name: To view dns_domain from facts
      ansible.builtin.debug:
-      msg: "{{ ansible_facts['interfaces']['dns_domain'] }}"
+      msg: "{{ ansible_interfaces[0].dns_domain }}"
 
    # - name: Ensure local Administrator account has a password
    #   ansible.windows.win_user:
