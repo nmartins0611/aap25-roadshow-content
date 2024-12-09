@@ -12,8 +12,8 @@
   tasks:
 
    - name: To view dns_domain from facts
-      ansible.builtin.debug:
-        var: ansible_interfaces.dns_domain
+     ansible.builtin.debug:
+      var: ansible_interfaces.dns_domain
 
    # - name: Ensure local Administrator account has a password
    #   ansible.windows.win_user:
