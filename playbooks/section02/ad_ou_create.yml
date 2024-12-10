@@ -40,11 +40,15 @@
      debug:
        msg: "{{ formatted_domain }}"
 
+   - name: Create OU Path
+     set_fact:
+       ou_path: "OU={{ org_unit }},{{ formatted_domain }}"
+
    - name: Create a group in an OU
      microsoft.ad.group:
       identity: "{{ group_name }}"
       scope: global
-      path: OU={{ org_unit }},{{ formatted_domain }}
+      path: "{{ ou_path }}"
       state: present
 
    - name: Create users for lab
