@@ -23,26 +23,21 @@
 
    - name: Get DC details
      set_fact:
-       domain_name: "{{ ansible_interfaces[0].dns_domain }}"
+      domain_name: "{{ ansible_interfaces[0].dns_domain }}"
 
-   - name: Split and transform the domain into DC format
+   - name: Split domain and reformat as DC=value
      set_fact:
-       dc_format: >
-         {{
-           (domain_name.split('.')[:-1] | map('regex_replace', '^', 'DC=')) + 
-           ['DC=-' + domain_name.split('.')[-1]]
-         | join(', ')
-         }}
-    
-   - name: Show the DC format
-     debug:
-       msg: "{{ dc_format }}"
+      formatted_domain: "{{ domain_name.split('.') | map('regex_replace', '^', 'DC=') | join(', ') }}"
 
-   - name: Create a group in an OU
-     microsoft.ad.group:
-      identity: "{{ group_name }}"
-      scope: global
-    #  path: OU="{{ org_unit }}",DC="",DC=svc,DC=cluster,DC=local
-    #  state: present
+   - name: Display formatted domain
+     debug:
+       msg: "{{ formatted_domain }}"
+
+   # - name: Create a group in an OU
+   #   microsoft.ad.group:
+   #    identity: "{{ group_name }}"
+   #    scope: global
+   #  #  path: OU="{{ org_unit }}",DC="",DC=svc,DC=cluster,DC=local
+   #  #  state: present
 
   
