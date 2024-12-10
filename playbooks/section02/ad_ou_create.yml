@@ -41,7 +41,7 @@
      microsoft.ad.group:
       identity: "{{ group_name }}"
       scope: global
-      path: OU="{{ org_unit }}","{{ formatted_domain }}"
+      path: OU={{ org_unit }},{{ formatted_domain }}
       state: present
 
   
