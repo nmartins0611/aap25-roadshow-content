@@ -1,0 +1,15 @@
+---
+- name: Active Directory integration
+  hosts: managed-node-01.example.com
+  vars_files:
+    - vault.yml
+  tasks:
+    - name: Join an Active Directory
+      ansible.builtin.include_role:
+        name: rhel-system-roles.ad_integration
+      vars:
+        ad_integration_user: "{{ usr }}"
+        ad_integration_password: "{{ pwd }}"
+        ad_integration_realm: "ad.example.com"
+        ad_integration_allow_rc4_crypto: false
+        ad_integration_timesync_source: "time_server.ad.example.com"
