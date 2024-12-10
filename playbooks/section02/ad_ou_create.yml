@@ -58,7 +58,7 @@
       firstname: "{{ item.value.firstname }}"
       surname: "{{ item.value.surname }}"
       state: present
-      path: "{{ ou_path }}"
+      path: "OU={{ group_name }},{{ ou_path }}"
       groups:
        set:
         - Domain Users
