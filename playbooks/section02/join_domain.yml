@@ -1,0 +1,35 @@
+---
+- 
+  name: Configure Windows Server to domain
+  hosts: database_servers
+  gather_facts: true
+
+  vars_files:
+    - windows_auth
+  vars:
+    wins_domain: "{{ ansible_interfaces[0].dns_domain }}"
+
+  tasks:
+
+   - name: To view dns_domain from facts
+     ansible.builtin.debug:
+      msg: "{{ ansible_interfaces[0].dns_domain }}"
+
+   - name: Ensure local Administrator account has a password
+     ansible.windows.win_user:
+        name: "{{ username }}"
+        password: "{{ user_password }}"
+
+   - name: join host to ansible.vagrant with automatic reboot
+     microsoft.ad.membership:
+      dns_domain_name: "{{ wins_domain }}"
+      hostname: dbserver01
+      domain_admin_user: Administrator
+      domain_admin_password: "{{ safe_password }}"
+     # domain_ou_path: "OU=Windows,OU=Servers,DC=ansible,DC=vagrant"
+      state: domain
+      reboot: true
+
+   - name: Reboot system after joining domain
+     ansible.windows.win_reboot:
+     when: domain_install.reboot_required
