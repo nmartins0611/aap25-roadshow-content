@@ -1,18 +1,131 @@
+# Set in the file ending with microsoft.ad.ldap.yml or microsoft.ad.ldap.yaml
 plugin: microsoft.ad.ldap
+
+
+####################################################################
+#                        Connection Options                        #
+#                                                                  #
+# These options control how the plugin connects to the LDAP server #
+####################################################################
+
+# Connects to ldap://dc01.domain.com:389
+server: dc01.domain.com
+port: 389
+
+# Connects to ldaps://dc01.domain.com:636
+server: dc01.domain.com
 tls_mode: ldaps
+
+# Connects to the global catalog
+# ldap://dc01.domain.com:3268
+server: dc01.domain.com
+port: 3268
+
+# Provides explicit user, will use the current Kerberos ticket if no credential
+# is provided.
+username: domain-user@DOMAIN.COM
+password: Password123!
+
+# Only allow Kerberos authentication.
+auth_protocol: kerberos
+
+# Verify LDAPS CA chain with custom CA chain.
+tls_mode: ldaps
+ca_cert: /home/user/certs/ldap.pem
+
+# The username and password can be retrieved using a template with a lookup.
+# Other connection options can also be set this way, the option description
+# tells you whether it can be set to a template.
+username: '{{ lookup("ansible.builtin.env", "LDAP_USERNAME") }}'
+password: '{{ lookup("ansible.builtin.env", "LDAP_PASSWORD") }}'
+
+
+##############################################
+#               Search Options               #
+#                                            #
+# These options control the searching rules  #
+##############################################
+
+# Search for computer accounts in the Workshop OU.
+search_base: OU=Workshop A,DC=domain,DC=com
+
+# Filter the computer accounts returned for only ones with the dNSDomainName
+# attribute set.
+filter: (dNSDomainName=*)
+
+# Filter computer accounts returned for ones starting with PROD and with the
+# LAPS password set.
+filter: (&(sAMAccountName=PROD*)(ms-Mcs-AdmPwd=*))
+
+# See documentation for more details
 attributes:
-  OperatingSystem:
-    operating_system:
-  location:
+  sAMAccountName:
+    sam_account_name:
+  objectSid:
+    computer_sid:
+  pwdLastSet:
+    password_last_set: this | microsoft.ad.as_datetime
+  comment:
+    host_comment
   memberOf:
-    computer_membership: this | map("regex_search", '^CN=(?P<name>.+?)((?<!\\),)', '\g<name>') | flatten
+    # Gets the value (1) of the first RDN (0) of each memberOf instance (this).
+    # For example 'CN=Domain Admins,CN=Users,DC=domain,DC=test'
+    # will be returned as just 'Domain Admins'
+    computer_membership: this | microsoft.ad.parse_dn | map(attribute="0.1")
+  location:
+
+
+############################################################################
+#                             LAPS Integration                             #
+#                                                                          #
+# Examples on how to use the new Windows LAPS values as connection options #
+############################################################################
+
+attributes:
+  # msLAPS-Password is used if no encryption has been configured.
+  # Currently an encrypted LAPS password is not supported.
+  msLAPS-Password:
+    ansible_user: (this | from_json).n
+    ansible_password: (this | from_json).p
+
+  # msLAPS-EncryptedPassword is used if encryption has been configured.
+  # If the Python dpapi-ng library is installed the `this`` value will
+  # contain the entry `value` which is the decrypted value. The ``info``
+  # entry will contain the reason why the value could not be decrypted.
+  msLAPS-EncryptedPassword:
+    ansible_user: (this.value | from_json).n
+    ansible_password: (this.value | from_json).p
+
+  # ms-Mcs-AdmPwd is used for Legacy LAPS and stores just the password.
+  # The username needs to be hardcoded as a string value for this template.
+  ms-Mcs-AdmPwd:
+    ansible_user: '"Administrator"'
+    ansible_password: this
+
+
+#####################################################################
+#                        Constructed Options                        #
+#                                                                   #
+# These options control the constructed values like vars and groups #
+#####################################################################
+
+# Build composed host variables. Requires attributes to be set in the
+# attributes option to be referenced here.
+compose:
+  host_var: computer_sid
+
+# Conditionals that adds found hosts to the groups specified.
 groups:
+  # Adds all hosts to the windows group
   windows: true
-  production: '"Production" in computer_membership'
+
+  # Uses the memberOf fact documented above to place the host in the production
+  # group if it's a member of that group
+  production: '"Production Group" in computer_membership'
+
+# Adds the host to a group site_{{ location }} with the default group of
+# site_unknown if the location isn't defined
 keyed_groups:
-- key: operating_system | lower
-  prefix: os
-  default_value: unknown
-- key: location | lower
-  default_value: unknown
-  prefix: location
+  - key: location | default(omit)
+    prefix: site
+    default_value: unknown
