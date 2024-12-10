@@ -10,6 +10,14 @@
     wins_domain: "{{ ansible_interfaces[0].dns_domain }}"
 
   tasks:
+  
+   - name: Wait for LDAP service to be available on AD server
+     ansible.builtin.wait_for:
+      host: WindowsAD01
+      port: 389  
+      state: started                   
+      timeout: 300     
+     delegate_to: localhost
 
    - name: To view dns_domain from facts
      ansible.builtin.debug:
