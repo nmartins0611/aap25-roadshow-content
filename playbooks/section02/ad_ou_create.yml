@@ -37,11 +37,11 @@
      debug:
        msg: "{{ formatted_domain }}"
 
-   # - name: Create a group in an OU
-   #   microsoft.ad.group:
-   #    identity: "{{ group_name }}"
-   #    scope: global
-   #  #  path: OU="{{ org_unit }}",DC="",DC=svc,DC=cluster,DC=local
-   #  #  state: present
+   - name: Create a group in an OU
+     microsoft.ad.group:
+      identity: "{{ group_name }}"
+      scope: global
+      path: OU="{{ org_unit }}","{{ formatted_domain }}"
+      state: present
 
   
