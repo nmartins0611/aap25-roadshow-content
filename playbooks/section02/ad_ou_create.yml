@@ -9,6 +9,9 @@
    group_name:
    sandbox:
 
+  vars_files:
+    - users
+
   tasks:
 
    - name: Create Organizational Unit
