@@ -21,7 +21,7 @@
      microsoft.ad.group:
       name: "{{ group_name }}"
       scope: global
-      path: OU="{{ org_unit }}",DC="",DC=svc,DC=cluster,DC=local
+    #  path: OU="{{ org_unit }}",DC="",DC=svc,DC=cluster,DC=local
       state: present
 
   
