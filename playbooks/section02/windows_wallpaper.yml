@@ -1,0 +1,25 @@
+---
+- name: Set Default Desktop Wallpaper
+  hosts: windows
+  tasks:
+    - name: Download wallpaper file from Git repository
+      ansible.builtin.get_url:
+        url: https://github.com/cloin/ansible-meeting-bgs/blob/e3b8bfe2a3462f7bb5320a4e7cdb07def6752293/images/sean_easy_livin.png
+        dest: /tmp/wallpaper.jpg
+
+    - name: Copy wallpaper file to Windows machine
+      ansible.windows.win_copy:
+        src: /tmp/wallpaper.jpg
+        dest: C:\Windows\Web\Wallpaper\CustomWallpaper.jpg
+
+    - name: Set registry key for desktop wallpaper
+      ansible.windows.win_regedit:
+        path: HKCU:\Control Panel\Desktop
+        name: Wallpaper
+        value: C:\Windows\Web\Wallpaper\CustomWallpaper.jpg
+        type: string
+        state: present
+
+    - name: Refresh desktop settings
+      ansible.windows.win_command:
+        command: RUNDLL32.EXE USER32.DLL,UpdatePerUserSystemParameters
