@@ -2,7 +2,7 @@
 - 
   name: Create Organizational Units and Group for Ansible Admins
   hosts: windows
-  gather_facts: false
+  gather_facts: true
 
   vars:
    org_unit: 
