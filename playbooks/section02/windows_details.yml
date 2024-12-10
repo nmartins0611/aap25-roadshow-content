@@ -1,0 +1,14 @@
+---
+- name: Run PowerShell to fetch AD computer details and display on screen
+  hosts: windows
+  become: false
+  gather_facts: no
+  tasks:
+    - name: Run PowerShell command to get AD computer details and display
+      win_shell: |
+        $output = Get-ADComputer -Filter * -Properties ipv4Address, OperatingSystem, DistinguishedName | 
+                  Select-Object Name, ipv4Address, OperatingSystem, 
+                    @{label='OU';expression={$_.DistinguishedName.Split(',')[1].Split('=')[1]}}
+        $output | Format-Table -AutoSize
+      args:
+        executable: powershell
