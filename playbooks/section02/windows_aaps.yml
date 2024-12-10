@@ -26,7 +26,8 @@
       ansible.windows.win_command: python --version
       register: check_python_version
 
-    - ansible.builtin.debug:
+    - name: Show python version
+      ansible.builtin.debug:
       msg: Python Version is {{ check_python_version.stdout_lines[0] }}
 
     - name: Set registry key to disable automatic updates
