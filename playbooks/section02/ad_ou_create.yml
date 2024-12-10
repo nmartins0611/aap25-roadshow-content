@@ -47,4 +47,16 @@
       path: OU={{ org_unit }},{{ formatted_domain }}
       state: present
 
+   - name: Create users for lab
+     microsoft.ad.user:
+      identity: "{{ item.key }}"
+      password: "{{ user_password }}"
+      firstname: "{{ item.value.firstname }}"
+      surname: "{{ item.value.surname }}"
+      state: present
+      path: "{{ ou_path }}"
+      groups:
+       set:
+        - Domain Users
+     loop: "{{ users_list | dict2items }}"
   
