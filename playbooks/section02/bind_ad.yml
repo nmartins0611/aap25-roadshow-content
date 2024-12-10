@@ -1,8 +1,10 @@
 ---
 - name: Active Directory integration
   hosts: managed-node-01.example.com
+  
   vars_files:
-    - vault.yml
+     - windows_auth
+     
   tasks:
     - name: Join an Active Directory
       ansible.builtin.include_role:
