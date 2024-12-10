@@ -20,6 +20,7 @@
         - 7zip
         - git
         - notepadplusplus
+        - python
 
     - name: Set registry key to disable automatic updates
       ansible.windows.win_regedit:
