@@ -31,7 +31,7 @@
 
    - name: Split domain and reformat as DC=value
      set_fact:
-      domain_cleaned: "{{ domain_name.split('.') | map('regex_replace', '^', 'DC=') | join(', ') }}"
+      formatted_domain: "{{ domain_name.split('.') | map('regex_replace', '^', 'DC=') | join(', ') }}"
 
    - name: Display formatted domain
      debug:
