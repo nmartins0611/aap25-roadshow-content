@@ -19,9 +19,9 @@
 
    - name: Create a group in an OU
      microsoft.ad.group:
-      name: "{{ group_name }}"
+      identity: "{{ group_name }}"
       scope: global
     #  path: OU="{{ org_unit }}",DC="",DC=svc,DC=cluster,DC=local
-      state: present
+    #  state: present
 
   
