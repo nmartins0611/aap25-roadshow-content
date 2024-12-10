@@ -23,7 +23,7 @@
 
    - name: Get DC details
      set_fact:
-      domain_name: "{{ ansible_interfaces[0].dns_domain }}"
+      domain_name: "c2fx3yx9st9x.svc.cluster.local"
 
    - name: Split domain and reformat as DC=value
      set_fact:
