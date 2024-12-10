@@ -17,9 +17,22 @@
       state: present
       protect_from_deletion: true
 
-   - name: Transform domain into DC format
+   - name: To view dns_domain from facts
+     ansible.builtin.debug:
+      msg: "{{ ansible_interfaces[0].dns_domain }}"
+
+   - name: Get DC details
      set_fact:
-       dc_format: "{{ domain_name.split('.') | map('regex_replace', '^', 'DC=') | join(', ') }}"
+       domain_name: "{{ ansible_interfaces[0].dns_domain }}"
+
+   - name: Split and transform the domain into DC format
+     set_fact:
+       dc_format: >
+         {{
+           (domain_name.split('.')[:-1] | map('regex_replace', '^', 'DC=')) + 
+           ['DC=-' + domain_name.split('.')[-1]]
+         | join(', ')
+         }}
     
    - name: Show the DC format
      debug:
