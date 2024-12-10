@@ -1,28 +1,23 @@
 ---
 - name: Install software using Chocolatey
   hosts: windows
+  
   tasks:
     - name: Ensure Chocolatey is installed
       win_chocolatey:
         name: chocolatey
         state: present
 
-    - name: Install Google Chrome
+    - name: Install multiple packages sequentially
       win_chocolatey:
-        name: googlechrome
-        state: present
+       name: '{{ item }}'
+       state: present
+      loop:
+        - procexp
+        - putty
+        - windirstat
+        - chrome
+        - mysql
+        - 7zip
 
-    - name: Install ESET antivirus
-      win_chocolatey:
-        name: eset
-        state: present
 
-    - name: Install Malwarebytes
-      win_chocolatey:
-        name: malwarebytes
-        state: present
-
-    - name: Install 7-Zip
-      win_chocolatey:
-        name: 7zip
-        state: present
