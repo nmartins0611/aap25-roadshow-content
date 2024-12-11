@@ -32,7 +32,7 @@
      microsoft.ad.membership:
       dns_domain_name: "{{ wins_domain }}"
       hostname: dbserver01
-      domain_server: windows.{{ wins_domain }}
+     # domain_server: windows.{{ wins_domain }}
       domain_admin_user: Administrator
       domain_admin_password: "{{ safe_password }}"
      # domain_ou_path: "OU=Windows,OU=Servers,DC=ansible,DC=vagrant"
