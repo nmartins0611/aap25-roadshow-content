@@ -29,16 +29,16 @@
       forest_mode: Win2012R2
      register: domain_install
 
-   - name: Firewall rule to allow RDP on TCP port 3389
-     win_firewall_rule:
-      name: Remote Desktop
-      localport: 3389
-      action: allow
-      direction: in
-      protocol: tcp
-      profiles: domain,private,public
-      state: present
-      enabled: yes        
+   # - name: Firewall rule to allow RDP on TCP port 3389
+   #   win_firewall_rule:
+   #    name: Remote Desktop
+   #    localport: 3389
+   #    action: allow
+   #    direction: in
+   #    protocol: tcp
+   #    profiles: domain,private,public
+   #    state: present
+   #    enabled: yes        
 
    - name: Reboot system after promoting to domain Controller
      ansible.windows.win_reboot:
