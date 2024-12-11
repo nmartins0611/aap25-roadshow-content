@@ -7,11 +7,11 @@
   vars_files:
     - windows_auth
   vars:
-   # wins_domain: "{{ ansible_interfaces[0].dns_domain }}"
-     wins_domain: tmm.ansible
+    wins_domain: "{{ ansible_interfaces[0].dns_domain }}"
+
   tasks:
 
-   - name: To view dns_domain from facts
+   - name: To view dns_domain from network segment
      ansible.builtin.debug:
       msg: "{{ ansible_interfaces[0].dns_domain }}"
 
@@ -39,17 +39,6 @@
       profiles: domain,private,public
       state: present
       enabled: yes        
-
-   # - name: Firewall rule to allow RDP on TCP port 5986
-   #   win_firewall_rule:
-   #     name: WinRM
-   #     localport: 5986
-   #     action: allow
-   #     direction: in
-   #     protocol: tcp
-   #     profiles: domain,private,public
-   #     state: present
-   #     enabled: yes        
 
    - name: Reboot system after promoting to domain Controller
      ansible.windows.win_reboot:
