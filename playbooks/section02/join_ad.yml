@@ -13,9 +13,14 @@
 
   tasks:
 
+  
+   - name: Store Domain controller IP
+     set_fact:
+      ad_hostname: windows.{{ ansible_interfaces[0].dns_domain }}
+
    - name: Resolve DNS server hostname to IP
      set_fact:
-      dns_server_ip: "{{ lookup('dig', windows.{{ ansible_interfaces[0].dns_domain }}) }}"
+      dns_server_ip: "{{ lookup('dig', ad_hostname) }}"
 
    - name: Set a single address on the adapter named Ethernet
      ansible.windows.win_dns_client:
