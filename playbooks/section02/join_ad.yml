@@ -8,6 +8,7 @@
     - windows_auth
   vars:
     wins_domain: "{{ ansible_interfaces[0].dns_domain }}"
+    domain_controller: 
 
   tasks:
 
@@ -27,11 +28,11 @@
 
    - name: join host to ansible.vagrant with automatic reboot
      microsoft.ad.membership:
-      dns_domain_name: 
+      dns_domain_name: "{{ wins_domain }}"
       hostname: dbserver01
-      domain_admin_user: 
-      domain_admin_password:
-      domain_server: 
+      domain_admin_user: Administrator
+      domain_admin_password: "{{ safe_password }}"
+      domain_server: "{{ domain_controller }}"
      # domain_ou_path: "OU=Windows,OU=Servers,DC=ansible,DC=vagrant"
       state: domain
       reboot: true
