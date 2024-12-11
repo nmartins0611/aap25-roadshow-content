@@ -29,8 +29,8 @@
       forest_mode: Win2012R2
      register: domain_install
 
-  - name: Firewall rule to allow RDP on TCP port 5986
-    win_firewall_rule:
+   - name: Firewall rule to allow RDP on TCP port 5986
+     win_firewall_rule:
       name: WinRM     
       localport: 5986
       action: allow
