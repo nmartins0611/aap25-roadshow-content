@@ -17,9 +17,18 @@
      set_fact:
       ad_hostname: windows.{{ ansible_interfaces[0].dns_domain }}
 
+   - name: show me the host
+     debug:
+      msg: "{{ ad_hostname }}"
+    
+
    - name: Resolve DNS server hostname to IP
      set_fact:
       dns_server_ip: "{{ lookup('dig', ad_hostname) }}"
+
+   - name: show me the ip
+     debug:
+      msg: "{{ dns_server_ip }}"
 
    - name: Set a single address on the adapter named Ethernet
      ansible.windows.win_dns_client:
@@ -34,7 +43,7 @@
    - name: Join host to Domain
      microsoft.ad.membership:
       dns_domain_name: "{{ wins_domain }}"
-      hostname: "{{ ansible_host }}"
+      hostname: test
       domain_admin_user: Administrator
       domain_admin_password: "{{ safe_password }}"
       domain_server: "{{ ad_hostname }}"
