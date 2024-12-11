@@ -1,7 +1,7 @@
 ---
 - 
   name: Configure Windows Server as Domain Controller
-  hosts: domain_controllers
+  hosts: database_servers
   gather_facts: true
 
   vars_files:
