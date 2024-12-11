@@ -13,16 +13,14 @@
 
   tasks:
 
-   - name: Get IP address for a hostname
-     ansible.builtin.getent:
-      database: hosts
-      key: "windows.{{ ansible_interfaces[0].dns_domain }}"
-     register: getent_result
+   - name: Resolve DNS server hostname to IP
+     set_fact:
+      dns_server_ip: "{{ lookup('dig', windows.{{ ansible_interfaces[0].dns_domain }}) }}"
 
    - name: Set a single address on the adapter named Ethernet
      ansible.windows.win_dns_client:
       adapter_names: Ethernet
-      dns_servers: "{{ dns_ip }}"
+      dns_servers: "{{ dns_server_ip }}"
 
    - name: To view dns_domain from network segment
      ansible.builtin.debug:
