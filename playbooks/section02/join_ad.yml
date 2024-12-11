@@ -51,7 +51,3 @@
       domain_admin_password: "{{ safe_password }}"
       domain_server: "{{ hostname_cleaned }}"
       state: domain
-
-   - name: Reboot system after joining domain
-     ansible.windows.win_reboot:
-     when: domain_install.reboot_required
