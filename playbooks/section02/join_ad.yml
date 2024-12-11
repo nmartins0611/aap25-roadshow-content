@@ -25,25 +25,16 @@
         name: "{{ username }}"
         password: "{{ user_password }}"
 
-   - name: Promote system to a domain Controller
-     microsoft.ad.domain:
-      dns_domain_name: "{{ wins_domain }}"
-      safe_mode_password: "{{ safe_password }}"
-      domain_mode: Win2012R2
-      domain_netbios_name: ANSIBLE
-      forest_mode: Win2012R2
-     register: domain_install
-
-   - name: Firewall rule to allow RDP on TCP port 3389
-     win_firewall_rule:
-      name: Remote Desktop
-      localport: 3389
-      action: allow
-      direction: in
-      protocol: tcp
-      profiles: domain,private,public
-      state: present
-      enabled: yes        
+   - name: join host to ansible.vagrant with automatic reboot
+     microsoft.ad.membership:
+      dns_domain_name: 
+      hostname: dbserver01
+      domain_admin_user: 
+      domain_admin_password:
+      domain_server: 
+     # domain_ou_path: "OU=Windows,OU=Servers,DC=ansible,DC=vagrant"
+      state: domain
+      reboot: true
 
    - name: Reboot system after promoting to domain Controller
      ansible.windows.win_reboot:
