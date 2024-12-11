@@ -9,13 +9,14 @@
   vars:
     wins_domain: "{{ ansible_interfaces[0].dns_domain }}"
     domain_controller: 
+    dns_ip:
 
   tasks:
 
    - name: Set a single address on the adapter named Ethernet
      ansible.windows.win_dns_client:
       adapter_names: Ethernet
-      dns_servers: 192.168.34.5
+      dns_servers: "{{ dns_ip }}"
 
    - name: To view dns_domain from network segment
      ansible.builtin.debug:
