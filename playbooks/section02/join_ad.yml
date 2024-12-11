@@ -17,11 +17,14 @@
      set_fact:
       ad_hostname: windows.{{ ansible_interfaces[0].dns_domain }}
 
+   - name: Remove trailing dot
+     set_fact:
+      hostname_cleaned: "{{ ad_hostname | regex_replace('\\.$', '') }}"
+
    - name: show me the host
      debug:
-      msg: "{{ ad_hostname }}"
+      msg: "{{ hostname_cleaned }}"
     
-
    - name: Resolve DNS server hostname to IP
      set_fact:
       dns_server_ip: "{{ lookup('dig', ad_hostname) }}"
@@ -46,7 +49,7 @@
       hostname: test
       domain_admin_user: Administrator
       domain_admin_password: "{{ safe_password }}"
-      domain_server: "{{ ad_hostname }}"
+      domain_server: "{{ hostname_cleaned }}"
       state: domain
 
    - name: Reboot system after joining domain
