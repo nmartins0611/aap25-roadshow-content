@@ -25,7 +25,7 @@
       dns_domain_name: "{{ wins_domain }}"
       safe_mode_password: "{{ safe_password }}"
       domain_mode: Win2012R2
-      domain_netbios_name: ANSIBLE
+     # domain_netbios_name: ANSIBLE
       forest_mode: Win2012R2
      register: domain_install
 
