@@ -1,13 +1,12 @@
 ---
 - 
-  name: Create Organizational Units and Group for Ansible Admins
-  hosts: windows
+  name: Create Organizational Units and Groups
+  hosts: domain_controllers
   gather_facts: true
 
   vars:
    org_unit: 
    group_name:
-   sandbox:
 
   vars_files:
     - users
