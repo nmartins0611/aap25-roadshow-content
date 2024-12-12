@@ -52,7 +52,7 @@
 
    - name: what path
      debug:
-      msg: "OU={{ org_unit }},OU={{ group_name }},{{ ou_path }}"
+      msg: "OU={{ org_unit }},OU={{ group_name }},{{ formatted_domain }}"
       
 
    - name: Create users for lab
