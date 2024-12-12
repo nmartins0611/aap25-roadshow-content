@@ -50,6 +50,11 @@
       path: "{{ ou_path }}"
       state: present
 
+   - name: what path
+     debug:
+      msg: "OU={{ group_name }},{{ ou_path }}"
+      
+
    - name: Create users for lab
      microsoft.ad.user:
       identity: "{{ item.key }}"
