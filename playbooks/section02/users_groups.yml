@@ -61,9 +61,9 @@
       firstname: "{{ item.value.firstname }}"
       surname: "{{ item.value.surname }}"
       state: present
-     # path: "CN={{ group_name }},{{ ou_path }}"
       groups:
        set:
         - "{{ group_name }}"
+        - Domain Users
      loop: "{{ users_list | dict2items }}"
   
