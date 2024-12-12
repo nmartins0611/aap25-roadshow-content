@@ -43,3 +43,4 @@
       domain_admin_password: "{{ safe_password }}"
       domain_server: "{{ hostname_cleaned }}"
       state: domain
+      reboot: true
