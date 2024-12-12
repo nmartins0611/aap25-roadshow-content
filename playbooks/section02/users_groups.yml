@@ -64,6 +64,6 @@
      # path: "CN={{ group_name }},{{ ou_path }}"
       groups:
        set:
-        - "{{ group_name }}
+        - "{{ group_name }}"
      loop: "{{ users_list | dict2items }}"
   
