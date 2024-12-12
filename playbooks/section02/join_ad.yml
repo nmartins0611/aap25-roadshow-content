@@ -20,18 +20,10 @@
    - name: Remove trailing dot
      set_fact:
       hostname_cleaned: "{{ ad_hostname | regex_replace('\\.$', '') }}"
-
-   - name: show me the host
-     debug:
-      msg: "{{ hostname_cleaned }}"
-    
+  
    - name: Resolve DNS server hostname to IP
      set_fact:
       dns_server_ip: "{{ lookup('dig', ad_hostname) }}"
-
-   - name: show me the ip
-     debug:
-      msg: "{{ dns_server_ip }}"
 
    - name: Set a single address on the adapter named Ethernet
      ansible.windows.win_dns_client:
