@@ -19,10 +19,6 @@
       state: present
       protect_from_deletion: true
 
-   - name: To view dns_domain from facts
-     ansible.builtin.debug:
-      msg: "{{ ansible_interfaces[0].dns_domain }}"
-
    - name: Get DC details
      set_fact:
       domain_name: "{{ ansible_interfaces[0].dns_domain }}"
@@ -35,10 +31,6 @@
      set_fact:
       formatted_domain: "{{ domain_cleaned.split('.') | map('regex_replace', '^', 'DC=') | join(', ') }}"
 
-   - name: Display formatted domain
-     debug:
-       msg: "{{ formatted_domain }}"
-
    - name: Create OU Path
      set_fact:
        ou_path: "OU={{ org_unit }},{{ formatted_domain }}"
@@ -50,10 +42,6 @@
       path: "{{ ou_path }}"
       state: present
 
-   - name: what path
-     debug:
-      msg: "CN={{ group_name }},{{ ou_path }}"
-      
    - name: Create users for lab
      microsoft.ad.user:
       identity: "{{ item.key }}"
