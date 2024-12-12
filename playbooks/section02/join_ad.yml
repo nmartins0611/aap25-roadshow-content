@@ -46,7 +46,7 @@
    - name: Join host to Domain
      microsoft.ad.membership:
       dns_domain_name: "{{ wins_domain }}"
-      hostname: test
+      hostname: "{{ inventory_hostname }}"
       domain_admin_user: Administrator
       domain_admin_password: "{{ safe_password }}"
       domain_server: "{{ hostname_cleaned }}"
