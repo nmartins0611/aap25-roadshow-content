@@ -52,7 +52,7 @@
 
    - name: what path
      debug:
-      msg: "OU={{ org_unit }},OU={{ group_name }},{{ formatted_domain }}"
+      msg: "CN={{ group_name }},OU={{ org_unit }},{{ ou_path }}"
       
 
    - name: Create users for lab
@@ -62,7 +62,7 @@
       firstname: "{{ item.value.firstname }}"
       surname: "{{ item.value.surname }}"
       state: present
-      path: "OU={{ org_unit }},OU={{ group_name }},{{ ou_path }}"
+      path: "CN={{ group_name }},OU={{ org_unit }},{{ ou_path }}"
       groups:
        set:
         - Domain Users
