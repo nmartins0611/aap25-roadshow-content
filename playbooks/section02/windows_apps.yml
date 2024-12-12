@@ -14,12 +14,9 @@
        state: present
       loop:
         - procexp
-        - putty
         - windirstat
-        - mysql
         - 7zip
         - git
-        - notepadplusplus
         - python
 
     - name: Check python version
