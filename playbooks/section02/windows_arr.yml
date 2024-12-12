@@ -1,6 +1,6 @@
 ---
 - name: Configure IIS ARR on Windows Server
-  hosts: windows
+  hosts: database_servers
   tasks:
 
     - name: Install IIS and required components
