@@ -19,6 +19,25 @@ if [ -z "$CONTROLLER_URL" ]; then
     exit 1
 fi
 
+# Prompt for the token and confirm it
+function get_auth_token() {
+    while true; do
+        echo -n -e "${CYAN}🤖 Hello! I am your co-worker simulator S.E.A.N - Please provide your authorization token: ${RESET}"
+        read -s AUTH_TOKEN
+        echo -e "\n${CYAN}🤖 You entered: ${GREEN}$AUTH_TOKEN${RESET}"
+        echo -n -e "${CYAN}🤖 Is this correct? (yes/no): ${RESET}"
+        read answer
+        if [[ "$answer" == "yes" ]]; then
+            break
+        else
+            echo -e "${RED}🤖 Let's try again.${RESET}"
+        fi
+    done
+    echo "$AUTH_TOKEN" > "$TOKEN_FILE"
+    chmod 600 "$TOKEN_FILE"  # Restrict file permissions for security
+    echo -e "${CYAN}🤖 Token saved to file.${RESET}"
+}
+
 # Check if the token file exists
 if [ -f "$TOKEN_FILE" ]; then
     # Load the token from the file
@@ -26,14 +45,7 @@ if [ -f "$TOKEN_FILE" ]; then
     echo -e "${CYAN}🤖 Token loaded from file.${RESET}"
 else
     # Prompt for a new token
-    echo -n -e "${CYAN}🤖 Hello! I am your co-worker simulator S.E.A.N - Please provide your authorization token: ${RESET}"
-    read -s AUTH_TOKEN
-    echo -e "\n${CYAN}🤖 Token received. Preparing to execute commands.${RESET}"
-
-    # Save the token to a file
-    echo "$AUTH_TOKEN" > "$TOKEN_FILE"
-    chmod 600 "$TOKEN_FILE"  # Restrict file permissions for security
-    echo -e "${CYAN}🤖 Token saved to file.${RESET}"
+    get_auth_token
 fi
 
 # Display menu
