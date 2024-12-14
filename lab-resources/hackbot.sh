@@ -20,6 +20,8 @@ echo -n -e "${CYAN}🤖 Hello! i am your co-worker simulator S.E.A.N - Please pr
 read -s AUTH_TOKEN
 echo -e "\n${CYAN}🤖 Token received. Preparing to execute commands.${RESET}"
 
+# Display the token for debugging purposes
+echo -e "${GREEN}🤖 The Token you supplied is: ${AUTH_TOKEN}${RESET}"
 
 # Display menu
 function show_menu() {
