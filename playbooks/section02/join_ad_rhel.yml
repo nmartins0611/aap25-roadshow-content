@@ -47,6 +47,10 @@
      set_fact:
       dns_server_ip: "{{ lookup('dig', domain_controller) }}"
 
+   - name: name
+     debug:
+      msg: "{{ dns_server_ip }}"
+
       #### RHEL Tasks 
 
    - name: Add DNS from AD to /etc/resolv
