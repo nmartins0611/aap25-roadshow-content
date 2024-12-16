@@ -9,6 +9,8 @@
     - windows_auth
   vars:
     domain:
+    admin_username:
+    admin_password:
     packages:
       - samba-common-tools
       - realmd
