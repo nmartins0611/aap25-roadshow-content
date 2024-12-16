@@ -52,23 +52,3 @@
        controller_username: "{{ controller_username }}"
        controller_password: "{{ controller_password }}"
        validate_certs: false
-
-   - name: Install apache
-     ansible.builtin.package:
-       name: apache2
-       state: present
-    
-   # - name: Open firewall ports
-   #   ansible.posix.firewalld:
-   #     port: "{{ item }}"
-   #     permanent: true
-   #     state: enabled
-   #   loop:
-   #     - 80/tcp
-   #     - 443/tcp
-   #     - 22/tcp
-    
-   - name: Configure message of the day
-     ansible.builtin.copy:
-       content: "This is a test system.\n"
-       dest: /etc/motd
