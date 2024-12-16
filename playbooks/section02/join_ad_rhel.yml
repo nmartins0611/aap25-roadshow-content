@@ -9,7 +9,7 @@
     - windows_auth
   vars:
     domain:
-    admin_username:
+    admin_username: ansibleadmin
     admin_password:
     packages:
       - samba-common-tools
