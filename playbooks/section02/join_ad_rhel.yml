@@ -65,12 +65,12 @@
    - name: Bind to AD with realm
      block:
      
-      - name: Realm Discover
-        ansible.builtin.command: /bin/bash -c "realm discover {{ domain }}"
+       - name: Realm Discover
+         ansible.builtin.command: /bin/bash -c "realm discover {{ domain }}"
          register: discovery
 
-      - name: Output Realm discovery
-        debug:
+       - name: Output Realm discovery
+         debug:
           msg: "{{ discovery }}"
      
        - name: Join system
