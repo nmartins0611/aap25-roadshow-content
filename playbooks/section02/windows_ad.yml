@@ -26,22 +26,7 @@
       safe_mode_password: "{{ safe_password }}"
       domain_mode: Win2012R2
       forest_mode: Win2012R2
-     register: domain_install
-
-   - name: Reboot system after promoting to domain Controller
-     ansible.windows.win_reboot:
-     when: domain_install.reboot_required
-
-   - name: Create users for lab
-     microsoft.ad.user:
-      identity: "{{ admin_user }}"
-      password: "{{ admin_password }}"
-      firstname: "Ansible AD"
-      surname: "Administrator"
-      state: present
-      groups:
-       set:
-        - Domain Admins
+      reboot: true
 
    - name: Firewall rule to allow RDP on TCP port 5986
      win_firewall_rule:
