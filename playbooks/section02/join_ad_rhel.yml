@@ -8,13 +8,37 @@
     - windows_auth
   vars:
     domain:
+    packages:
+      - samba-common-tools
+      - realmd
+      - oddjob
+      - oddjob-mkhomedir
+      - sssd
+      - adcli
+      - krb5-workstation
+      - httpd
 
   tasks:
 
+    - name: Install required packages
+      ansible.builtin.yum:
+        name: "{{ packages }}"
+        state: present
+        
+    - name: Verify installation
+      ansible.builtin.shell: |
+        for package in {{ packages | join(' ') }}; do
+          rpm -q $package || echo "$package not installed";
+        done
+      register: verify_packages
+
+    - name: Debug package installation status
+      ansible.builtin.debug:
+        var: verify_packages.stdout_lines
+        
    - name: Resolve DNS server hostname to IP
      set_fact:
       domain_controller: windows."{{ domain }}"
-
   
    - name: Resolve DNS server hostname to IP
      set_fact:
