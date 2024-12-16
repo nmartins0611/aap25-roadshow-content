@@ -13,20 +13,19 @@
 
   tasks:
 
-   - name: Provisioning system
-     block:
-       
-      - ansible.builtin.debug:
-          msg: "Warming up the server"
-
-      - ansible.builtin.debug:
-         msg: "Switching on the network"
-
-      - ansible.builtin.debug:
-         msg: "Ordering Coffee"
-         
-      - ansible.builtin.debug:
-         msg: "Making a Meme of Sean Cavanaugh"
+   - name: Provision System
+      ansible.builtin.debug:
+        msg: "{{ item }}"
+      loop:
+        - "CPU usage: 25%"
+        - "Warming up the server"
+        - "Memory usage: 60%"
+        - "Disk space: 80%"
+        - "Switching on the network"
+        - "Network status: Active"
+        - "Ordering Coffee"
+        - "Service status: Running"
+        - "Making a Meme of Sean Cavanaugh"
 
    - name: Add Video platform inventory
      ansible.controller.inventory:
