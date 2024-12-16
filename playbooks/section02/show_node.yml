@@ -1,0 +1,28 @@
+---
+- name: Gather Node details
+  hosts: webservers
+  become: yes
+  gather_facts: true
+  
+  tasks:
+
+    - name: Prepare data for table format
+      ansible.builtin.set_fact:
+        machine_details: |
+          | **Detail**               | **Value**                           |
+          |--------------------------|-------------------------------------|
+          | Hostname                | {{ ansible_facts['hostname'] }}     |
+          | OS                      | {{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_version'] }} |
+          | Kernel Version          | {{ ansible_facts['kernel'] }}       |
+          | Architecture            | {{ ansible_facts['architecture'] }} |
+          | CPU Model               | {{ ansible_facts['processor'][0] }} |
+          | CPU Cores               | {{ ansible_facts['processor_cores'] }} |
+          | Total Memory            | {{ ansible_facts['memtotal_mb'] }} MB |
+          | Total Swap              | {{ ansible_facts['swaptotal_mb'] }} MB |
+          | Default IPv4 Address    | {{ ansible_facts['default_ipv4']['address'] }} |
+          | Default IPv4 Interface  | {{ ansible_facts['default_ipv4']['interface'] }} |
+          | Disk Information        | {{ ansible_facts['devices'] | join(', ') }} |
+
+    - name: Display machine details
+      ansible.builtin.debug:
+        msg: "{{ machine_details }}"
