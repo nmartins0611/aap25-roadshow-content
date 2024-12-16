@@ -4,7 +4,12 @@
   become: true
   collections:
     - ansible.controller
+    
   vars:
+    node_name: 
+
+  vars_files:
+    controller_details
 
   tasks:
 ###############INVENTORY###############
@@ -15,9 +20,9 @@
        description: "Nodes used for streaming"
        organization: "Default"
        state: present
-       controller_host: "https://control"
-       controller_username: admin
-       controller_password: ansible123!
+       controller_host: "{{ controller_host }}"
+       controller_username: "{{ controller_username }}"
+       controller_password: "{{ controller_password }}"
        validate_certs: false
 
    - name: Add Streaming Server hosts
@@ -27,12 +32,12 @@
        inventory: "Video Platform Inventory"
        state: present
        enabled: true
-       controller_host: "https://control"
-       controller_username: admin
-       controller_password: ansible123!
+       controller_host: "{{ controller_host }}"
+       controller_username: "{{ controller_username }}"
+       controller_password: "{{ controller_password }}"
        validate_certs: false
      loop:
-       - node01
+       - "{{ node_name }}"
   
    - name: Add Streaming server group
      ansible.controller.group:
@@ -40,10 +45,30 @@
        description: "Application Nodes"
        inventory: "Video Platform Inventory"
        hosts:
-         - node01
+       - "{{ node_name }}"
        variables:
          ansible_user: rhel
-       controller_host: "https://control"
-       controller_username: admin
-       controller_password: ansible123!
+       controller_host: "{{ controller_host }}"
+       controller_username: "{{ controller_username }}"
+       controller_password: "{{ controller_password }}"
        validate_certs: false
+
+   - name: Install apache
+     ansible.builtin.package:
+       name: apache2
+       state: present
+    
+   - name: Open firewall ports
+     ansible.posix.firewalld:
+       port: "{{ item }}"
+       permanent: true
+       state: enabled
+     loop:
+       - 80/tcp
+       - 443/tcp
+       - 22/tcp
+    
+   - name: Configure message of the day
+     ansible.builtin.copy:
+       content: "This is a test system.\n"
+       dest: /etc/motd
