@@ -1,4 +1,4 @@
-y ---
+---
 - name: Deploy RHEL/Add node
   hosts: localhost
   become: true
