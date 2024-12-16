@@ -54,4 +54,15 @@
         - "{{ group_name }}"
         - Domain Users
      loop: "{{ users_list | dict2items }}"
+
+   - name: Create Ansible Admin
+     microsoft.ad.user:
+      identity: "{{ admin_user }}"
+      password: "{{ admin_password }}"
+      firstname: "Ansible AD"
+      surname: "Administrator"
+      state: present
+      groups:
+       set:
+        - Domain Admins
   
