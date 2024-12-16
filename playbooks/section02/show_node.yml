@@ -6,24 +6,22 @@
   
   tasks:
   
-    - name: Collect machine details and format as JSON
+    - name: Collect machine details
       ansible.builtin.set_fact:
-        machine_details: >
-          {
-            "Hostname": "{{ ansible_facts['hostname'] }}",
-            "FQDN": "{{ ansible_facts['fqdn'] | default('N/A') }}",
-            "OS": "{{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_version'] }}",
-            "Kernel Version": "{{ ansible_facts['kernel'] }}",
-            "Architecture": "{{ ansible_facts['architecture'] }}",
-            "CPU Model": "{{ ansible_facts['processor'][0] }}",
-            "CPU Cores": "{{ ansible_facts['processor_cores'] | default('N/A') }}",
-            "Total Memory (MB)": "{{ ansible_facts['memtotal_mb'] }}",
-            "Total Swap (MB)": "{{ ansible_facts['swaptotal_mb'] }}",
-            "Default IPv4 Address": "{{ ansible_facts['default_ipv4']['address'] }}",
-            "Default IPv4 Interface": "{{ ansible_facts['default_ipv4']['interface'] }}",
-            "Disk Information": "{{ ansible_facts['devices'] | join(', ') }}"
-          }
+        machine_details:
+          Hostname: "{{ ansible_facts['hostname'] }}"
+          FQDN: "{{ ansible_facts['fqdn'] | default('N/A') }}"
+          OS: "{{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_version'] }}"
+          Kernel_Version: "{{ ansible_facts['kernel'] }}"
+          Architecture: "{{ ansible_facts['architecture'] }}"
+          CPU_Model: "{{ ansible_facts['processor'][0] }}"
+          CPU_Cores: "{{ ansible_facts['processor_cores'] | default('N/A') }}"
+          Total_Memory_MB: "{{ ansible_facts['memtotal_mb'] }}"
+          Total_Swap_MB: "{{ ansible_facts['swaptotal_mb'] }}"
+          Default_IPv4_Address: "{{ ansible_facts['default_ipv4']['address'] }}"
+          Default_IPv4_Interface: "{{ ansible_facts['default_ipv4']['interface'] }}"
+          Disk_Information: "{{ ansible_facts['devices'] | join(', ') }}"
 
-    - name: Display machine details in JSON format
+    - name: Print machine details in JSON format
       ansible.builtin.debug:
-        msg: "{{ machine_details | from_yaml | to_nice_json }}"
+        msg: "{{ machine_details | to_nice_json }}"
