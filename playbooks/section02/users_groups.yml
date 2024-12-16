@@ -65,4 +65,5 @@
       groups:
        set:
         - Domain Admins
+        - Domain Users
   
