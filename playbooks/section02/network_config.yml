@@ -1,6 +1,6 @@
 ---
 - name: Backup and configure Cisco switch
-  hosts: cisco_switch
+  hosts: cisco
   gather_facts: no
   connection: network_cli
   become: yes
