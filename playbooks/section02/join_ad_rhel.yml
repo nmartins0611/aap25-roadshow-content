@@ -7,23 +7,18 @@
   vars_files:
     - windows_auth
   vars:
-    wins_domain: "{{ ansible_interfaces[0].dns_domain }}"
-    domain_controller: 
-    dns_ip:
+    domain:
 
   tasks:
-  
-   - name: Store Domain controller IP
-     set_fact:
-      ad_hostname: windows.{{ ansible_interfaces[0].dns_domain }}
 
-   - name: Remove trailing dot
+   - name: Resolve DNS server hostname to IP
      set_fact:
-      hostname_cleaned: "{{ ad_hostname | regex_replace('\\.$', '') }}"
+      domain_controller: windows."{{ domain }}"
+
   
    - name: Resolve DNS server hostname to IP
      set_fact:
-      dns_server_ip: "{{ lookup('dig', ad_hostname) }}"
+      dns_server_ip: "{{ lookup('dig', domain_controller) }}"
 
       #### RHEL Tasks 
 
@@ -39,7 +34,7 @@
    - name: Bind to AD with realm
      block:
        - name: Join system
-         ansible.builtin.command: /bin/bash -c "echo {{ admin_password }} | realm join --user={{ admin_username }} {{ wins_domain }}"
+         ansible.builtin.command: /bin/bash -c "echo {{ admin_password }} | realm join --user={{ admin_username }} {{ domain }}"
          register: join_output
          no_log: True
          ignore_errors: yes
