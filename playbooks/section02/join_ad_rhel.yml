@@ -45,7 +45,7 @@
 
    - name: Resolve DNS server hostname to IP
      set_fact:
-      dns_server_ip: "{{ lookup('dig', domain_controller) }}
+      dns_server_ip: "{{ lookup('dig', domain_controller) }}"
 
    - name: name
      debug:
