@@ -26,6 +26,7 @@
       safe_mode_password: "{{ safe_password }}"
       domain_mode: Win2012R2
       forest_mode: Win2012R2
+     register: domain_install
 
    - name: Reboot system after promoting to domain Controller
      ansible.windows.win_reboot:
