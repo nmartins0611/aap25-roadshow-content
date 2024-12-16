@@ -61,8 +61,6 @@
        - name: Join system
          ansible.builtin.command: /bin/bash -c "echo {{ admin_password }} | realm join --user={{ admin_username }} {{ domain }}"
          register: join_output
-         no_log: True
-         ignore_errors: yes
 
        - name: Display success message
          ansible.builtin.debug:
