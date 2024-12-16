@@ -1,0 +1,37 @@
+---
+- name: Backup and configure Cisco switch
+  hosts: cisco_switch
+  gather_facts: no
+  connection: network_cli
+  become: yes
+
+  tasks:
+    - name: Backup Cisco configuration
+      cisco.ios.ios_config:
+        backup: yes
+        dest: "/tmp/cisco_backup_{{ inventory_hostname }}.cfg"
+
+    - name: Configure port for VLAN 100
+      cisco.ios.ios_config:
+        lines:
+          - interface GigabitEthernet1/0/1
+          - switchport mode access
+          - switchport access vlan 100
+        match: exact
+        parents: interface GigabitEthernet1/0/1
+
+    - name: Create ACL for HTTP and HTTPS traffic
+      cisco.ios.ios_config:
+        lines:
+          - ip access-list extended ACL_HTTP_HTTPS
+          - permit tcp any any eq 80
+          - permit tcp any any eq 443
+        match: exact
+        parents: ip access-list extended ACL_HTTP_HTTPS
+
+    - name: Apply ACL to the interface
+      cisco.ios.ios_config:
+        lines:
+          - ip access-group ACL_HTTP_HTTPS in
+        match: exact
+        parents: interface GigabitEthernet1/0/1
