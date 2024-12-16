@@ -1,4 +1,4 @@
----
+y ---
 - name: Deploy RHEL/Add node
   hosts: localhost
   become: true
@@ -58,15 +58,15 @@
        name: apache2
        state: present
     
-   - name: Open firewall ports
-     ansible.posix.firewalld:
-       port: "{{ item }}"
-       permanent: true
-       state: enabled
-     loop:
-       - 80/tcp
-       - 443/tcp
-       - 22/tcp
+   # - name: Open firewall ports
+   #   ansible.posix.firewalld:
+   #     port: "{{ item }}"
+   #     permanent: true
+   #     state: enabled
+   #   loop:
+   #     - 80/tcp
+   #     - 443/tcp
+   #     - 22/tcp
     
    - name: Configure message of the day
      ansible.builtin.copy:
