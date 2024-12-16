@@ -42,6 +42,11 @@
    - name: Resolve DNS server hostname to IP
      set_fact:
       domain_controller: windows."{{ domain }}"
+
+   - name: name
+     debug:
+      msg: "{{ domain_controller }}"
+
   
    - name: Resolve DNS server hostname to IP
      set_fact:
