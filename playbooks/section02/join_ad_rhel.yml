@@ -27,22 +27,6 @@
 
       #### RHEL Tasks 
 
-   - name: Set a single address on the adapter named Ethernet
-     ansible.windows.win_dns_client:
-      adapter_names: Ethernet
-      dns_servers: "{{ dns_server_ip }}"
-
-   - name: Ensure local Administrator account has a password
-     ansible.windows.win_user:
-        name: "{{ username }}"
-        password: "{{ user_password }}"
-
-   - name: Join host to Domain
-     microsoft.ad.membership:
-      dns_domain_name: "{{ wins_domain }}"
-      hostname: "{{ inventory_hostname }}"
-      domain_admin_user: Administrator
-      domain_admin_password: "{{ safe_password }}"
-      domain_server: "{{ hostname_cleaned }}"
-      state: domain
-      reboot: true
+   - name: Add DNS from AD to /etc/resolv
+     
+   
