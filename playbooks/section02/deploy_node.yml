@@ -13,21 +13,20 @@
 
   tasks:
 
-   - name: Print "Warming up the server"
-     ansible.builtin.debug:
-      msg: "Warming up the server"
+   - name: Provisioning system
+     block:
+       
+      - ansible.builtin.debug:
+          msg: "Warming up the server"
 
-   - name: Print "Switching on the network"
-     ansible.builtin.debug:
-       msg: "Switching on the network"
+      - ansible.builtin.debug:
+         msg: "Switching on the network"
 
-   - name: Print "Performing system checks"
-     ansible.builtin.debug:
-       msg: "Ordering Coffee"
-
-   - name: Print "Initialization complete"
-     ansible.builtin.debug:
-      msg: "Making a Meme of Sean Cavanaugh"
+      - ansible.builtin.debug:
+         msg: "Ordering Coffee"
+         
+      - ansible.builtin.debug:
+         msg: "Making a Meme of Sean Cavanaugh"
 
    - name: Add Video platform inventory
      ansible.controller.inventory:
