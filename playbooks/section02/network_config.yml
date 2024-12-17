@@ -1,6 +1,6 @@
 ---
 - name: Configure Network Switch
-  hosts: cisco
+  hosts: Core
   gather_facts: no
   
   vars:
