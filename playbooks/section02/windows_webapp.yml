@@ -33,6 +33,11 @@
         protocol: Tcp
       with_items: "{{ iis_sites }}"
 
+    - name: Create site directory structure
+      ansible.windows.win_file:
+        path: "C:\repo"
+        state: directory
+
     - name: Execute PowerShell script to clone the Git repository
       win_shell: |
         $repositoryUrl = "https://github.com/nmartins0611/aap25-roadshow-content.git"
