@@ -15,4 +15,4 @@
        - name: GigabitEthernet1
          mode: access
          access:
-           vlan: {{ vlan_id }}
+           vlan: 100
