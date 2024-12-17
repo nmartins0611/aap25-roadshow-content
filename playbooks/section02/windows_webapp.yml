@@ -33,30 +33,21 @@
         protocol: Tcp
       with_items: "{{ iis_sites }}"
 
-      
-    - name: Clone Git repository
-      win_command:
-        cmd: >
-          git clone https://github.com/nmartins0611/aap25-roadshow-content.git C:\Temp\repo
-      args:
-        creates: C:\Temp\repo
-
-    - name: Ensure destination directory exists
-      win_file:
-        path: "{{ path }}"
-        state: directory
-
-    - name: Move contents of cloned repository to destination directory
+    - name: Execute PowerShell script to clone the Git repository
       win_shell: |
-        Get-ChildItem -Path "C:\Temp\aap25-roadshow-content/lab-resources" -Recurse |
-        ForEach-Object {
-          Move-Item -Path $_.FullName -Destination "C:\sites\webapp" -Force
+        $repositoryUrl = "https://github.com/nmartins0611/aap25-roadshow-content.git"
+        $targetFolder = "C:\repo"
+
+        # Ensure the target folder does not already exist
+        if (Test-Path $targetFolder) {
+            Write-Host "Target folder '$targetFolder' already exists. Deleting it to ensure a fresh clone."
+            Remove-Item -Recurse -Force -Path $targetFolder
         }
+
+        # Clone the repository
+        Write-Host "Cloning repository from $repositoryUrl into $targetFolder..."
+        git clone $repositoryUrl $targetFolder
+
       args:
         executable: powershell
-
-    - name: Cleanup cloned repository
-      win_file:
-        path: C:\Temp\repository
-        state: absent
 
