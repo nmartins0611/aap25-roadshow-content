@@ -25,6 +25,11 @@
         remote_src: true
       notify:
         - restart apache
+
+    - name: Start httpd service
+      ansible.builtin.service:
+        name: httpd
+        state: started
     
   #   - name: Open port 80 for http access
   #     ansible.posix.firewalld:
