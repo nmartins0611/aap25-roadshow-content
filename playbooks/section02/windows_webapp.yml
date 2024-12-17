@@ -32,3 +32,31 @@
         direction: In
         protocol: Tcp
       with_items: "{{ iis_sites }}"
+
+      
+    - name: Clone Git repository
+      win_command:
+        cmd: >
+          git clone https://github.com/nmartins0611/aap25-roadshow-content.git C:\Temp\repository
+      args:
+        creates: C:\Temp\repository
+
+    - name: Ensure destination directory exists
+      win_file:
+        path: "{{ path }}"
+        state: directory
+
+    - name: Move contents of cloned repository to destination directory
+      win_shell: |
+        Get-ChildItem -Path "C:\Temp\aap25-roadshow-content/lab-resources" -Recurse |
+        ForEach-Object {
+          Move-Item -Path $_.FullName -Destination "C:\sites\webapp" -Force
+        }
+      args:
+        executable: powershell
+
+    - name: Cleanup cloned repository
+      win_file:
+        path: C:\Temp\repository
+        state: absent
+
