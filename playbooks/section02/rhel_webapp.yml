@@ -1,0 +1,31 @@
+---
+- name: Deploy Webapp on RHEL
+  hosts: webservers
+  
+  tasks:
+  
+    - name: Install httpd
+      ansible.builtin.package:
+        name: httpd
+        state: present
+  
+    - name: clone a git repo
+      ansible.builtin.git:
+        repo: https://github.com/sudhanshumall/ansible.git
+        dest: /var/www/html/ansible
+    
+    - name: copy all files from one directory to another
+      ansible.builtin.copy:
+        src: /var/www/html/ansible/
+        dest: /var/www/html
+    
+    - name: Restart service httpd, in all cases
+      ansible.builtin.service:
+        name: httpd
+        state: restarted
+    
+    - name: Open port 80 for http access
+      ansible.posix.firewalld:
+        service: http
+        permanent: true
+        state: enabled
