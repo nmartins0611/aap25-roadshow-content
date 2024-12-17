@@ -16,7 +16,7 @@
     - name: clone a git repo
       ansible.builtin.git:
         repo: https://github.com/nmartins0611/aap25-roadshow-content.git
-        dest: /tmp/repo/
+        dest: /tmp/repo
     
     - name: copy all files from one directory to another
       ansible.builtin.copy:
