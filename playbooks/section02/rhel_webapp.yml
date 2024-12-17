@@ -11,12 +11,12 @@
   
     - name: clone a git repo
       ansible.builtin.git:
-        repo: https://github.com/sudhanshumall/ansible.git
-        dest: /var/www/html/ansible
+        repo: https://github.com/nmartins0611/aap25-roadshow-content.git
+        dest: /tmp/
     
     - name: copy all files from one directory to another
       ansible.builtin.copy:
-        src: /var/www/html/ansible/
+        src: /tmp/aap25-roadshow-content/lab-resources/
         dest: /var/www/html
     
     - name: Open port 80 for http access
