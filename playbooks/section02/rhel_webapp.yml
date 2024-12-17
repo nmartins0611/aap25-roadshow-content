@@ -23,8 +23,8 @@
         src: /tmp/repo/lab-resources/
         dest: /var/www/html
         remote_src: true
-      notify:
-        - restart apache
+      # notify:
+      #   - restart apache
 
     - name: Start httpd service
       ansible.builtin.service:
@@ -39,8 +39,8 @@
   #     notify:
   #       - restart apache
 
-  handlers:
-    - name: restart apache
-      service:
-        name: httpd
-        state: restarted
+  # handlers:
+  #   - name: restart apache
+  #     service:
+  #       name: httpd
+  #       state: restarted
