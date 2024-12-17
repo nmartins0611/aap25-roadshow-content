@@ -1,6 +1,6 @@
 ---
 - name: Configure IIS on Windows
-  hosts: windows
+  hosts: database_servers
   gather_facts: no
 
   vars:
