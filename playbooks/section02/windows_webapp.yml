@@ -60,5 +60,5 @@
       ansible.windows.win_copy:
        src: C:\repo\aap25-roadshow-content\lab-resources
        dest: C:\sites\webapp
-      remote_src: yes
+      remote_src: true
 
