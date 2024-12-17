@@ -37,9 +37,9 @@
     - name: Clone Git repository
       win_command:
         cmd: >
-          git clone https://github.com/nmartins0611/aap25-roadshow-content.git C:\Temp\repository
+          git clone https://github.com/nmartins0611/aap25-roadshow-content.git C:\Temp\repo
       args:
-        creates: C:\Temp\repository
+        creates: C:\Temp\repo
 
     - name: Ensure destination directory exists
       win_file:
