@@ -59,6 +59,6 @@
     - name: Copy folder contents recursively
       ansible.windows.win_copy:
        src: C:\repo\lab-resources\
-       dest: C:\sites\webapp
+       dest: C:\inetpub\wwwroot
        remote_src: true
 
