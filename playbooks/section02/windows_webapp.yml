@@ -59,5 +59,5 @@
     - name: Copy folder contents recursively
       ansible.windows.win_copy:
        src: C:\repo\aap25-roadshow-content\lab-resources
-       dest: "{{ path }}"
+       dest: C:\sites\webapp
 
