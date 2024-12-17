@@ -2,7 +2,6 @@
 - name: Configure IIS on Windows
   hosts: database_servers
   gather_facts: true
-  become: true
 
   vars:
     iis_sites:
