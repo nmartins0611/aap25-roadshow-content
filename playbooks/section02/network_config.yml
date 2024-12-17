@@ -8,12 +8,11 @@
    interface: GigabitEthernet1
 
   tasks:
-  
-   - name: Merge provided configuration with device configuration
-     cisco.ios.ios_l2_interfaces:
-      config:
-        - name: GigabitEthernet1
-          mode: access
-          access:
-            vlan: 100
-     state: replaced
+    
+    - name: Override device configuration of all l2 interfaces with provided configuration
+      cisco.ios.ios_l2_interfaces:
+       config:
+         - name: GigabitEthernet1
+           access:
+            vlan: 20
+      state: overridden
