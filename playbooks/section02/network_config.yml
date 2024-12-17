@@ -16,3 +16,4 @@
          mode: access
          access:
            vlan: 100
+     state: merged      
