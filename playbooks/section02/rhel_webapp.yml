@@ -6,9 +6,11 @@
   
   tasks:
   
-    - name: Install httpd
+    - name: Install httpd and Git
       ansible.builtin.package:
-        name: httpd
+        name: 
+          - httpd
+          - git
         state: present
   
     - name: clone a git repo
