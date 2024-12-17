@@ -12,7 +12,7 @@
     - name: Create VLANs
       cisco.ios.ios_config:
         lines:
-          - vlan {{ vlan_id }}
+          - vlan 100
 
     - name: Configure port for VLAN 100
       cisco.ios.ios_config:
