@@ -20,7 +20,7 @@
     
     - name: copy all files from one directory to another
       ansible.builtin.copy:
-        src: /tmp/repo/aap25-roadshow-content/lab-resources/
+        src: /tmp/repo/lab-resources/
         dest: /var/www/html
         remote_src: true
     
