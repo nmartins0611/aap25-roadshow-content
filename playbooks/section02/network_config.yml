@@ -16,26 +16,26 @@
         backup: yes
         dest: "/tmp/cisco_backup_{{ inventory_hostname }}.cfg"
 
-    - name: Configure port for VLAN 100
-      cisco.ios.ios_config:
-        lines:
-          - interface {{ port }}
-          - switchport mode access
-          - switchport access vlan {{ vlan_id }}
-        match: exact
-        parents: interface GigabitEthernet1/0/1
+    # - name: Configure port for VLAN 100
+    #   cisco.ios.ios_config:
+    #     lines:
+    #       - interface {{ port }}
+    #       - switchport mode access
+    #       - switchport access vlan {{ vlan_id }}
+    #     match: exact
+    #     parents: interface GigabitEthernet1/0/1
 
-    - name: Create ACL for HTTP and HTTPS traffic
-      cisco.ios.ios_config:
-        lines:
-          - ip access-list extended ACL_HTTP
-          - permit tcp any any eq {{ ascl_port }}
-        match: exact
-        parents: ip access-list extended ACL_HTTP
+    # - name: Create ACL for HTTP and HTTPS traffic
+    #   cisco.ios.ios_config:
+    #     lines:
+    #       - ip access-list extended ACL_HTTP
+    #       - permit tcp any any eq {{ ascl_port }}
+    #     match: exact
+    #     parents: ip access-list extended ACL_HTTP
 
-    - name: Apply ACL to the interface
-      cisco.ios.ios_config:
-        lines:
-          - ip access-group ACL_HTTP in
-        match: exact
-        parents: interface GigabitEthernet1/0/1
+    # - name: Apply ACL to the interface
+    #   cisco.ios.ios_config:
+    #     lines:
+    #       - ip access-group ACL_HTTP in
+    #     match: exact
+    #     parents: interface GigabitEthernet1/0/1
