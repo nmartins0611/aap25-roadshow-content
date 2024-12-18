@@ -27,7 +27,7 @@
        path: /etc/haproxy/haproxy.cfg
        regexp: '^## STATIC CONFIG ANSIBLE'
        line: |
-            server  webapp {{ host_ip }}:80 check
+            server  static {{ host_ip }}:80 check
        insertafter: '^## STATIC CONFIG ANSIBLE'
 
    - name: Add host to loadbalancer App
