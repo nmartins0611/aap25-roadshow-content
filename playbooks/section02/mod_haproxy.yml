@@ -13,7 +13,7 @@
         
    - name: Resolve DNS server hostname to IP
      set_fact:
-      hostname: "{{ host }}.{{ domain }}"
+      hostname: "{{ host }}.{{ lookup('env', 'DOMAIN_DNS') }}"
 
    - debug:
        msg: "{{ hostname }}"
