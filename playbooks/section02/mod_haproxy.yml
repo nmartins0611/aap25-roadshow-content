@@ -22,10 +22,19 @@
      set_fact:
       host_ip: "{{ lookup('dig', host) }}"
 
-   - name: Add host to loadbalancer
+   - name: Add host to loadbalancer Static
      lineinfile:
        path: /etc/haproxy/haproxy.cfg
-       regexp: '^## ANSIBLE BUILD'
+       regexp: '^## STATIC CONFIG ANSIBLE'
        line: |
             server  webapp {{ host_ip }}:80 check
-       insertafter: '^## ANSIBLE BUILD'
+       insertafter: '^## STATIC CONFIG ANSIBLE'
+
+   - name: Add host to loadbalancer App
+     lineinfile:
+       path: /etc/haproxy/haproxy.cfg
+       regexp: '^## APP CONFIG ANSIBLE'
+       line: |
+            server  webapp {{ host_ip }}:80 check
+       insertafter: '^## APP CONFIG ANSIBLE'
+
