@@ -6,18 +6,10 @@
   become: true
 
   vars:
- #   domain: "{{ lookup('env', '_SANDBOX_ID') }}"
     host:
 
   tasks:
         
-   # - name: Resolve DNS server hostname to IP
-   #   set_fact:
-   #    hostname: "{{ host }}.{{ lookup('env', 'DOMAIN_DNS') }}"
-
-   # - debug:
-   #     msg: "{{ domain }}"
-
    - name: Resolve DNS server hostname to IP
      set_fact:
       host_ip: "{{ lookup('dig', host) }}"
