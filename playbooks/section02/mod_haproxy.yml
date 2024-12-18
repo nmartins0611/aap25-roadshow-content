@@ -15,6 +15,9 @@
      set_fact:
       hostname: "{{ host }}.{{ domain }}"
 
+   - debug:
+       msg: "{{ hostname }}"
+
    - name: Resolve DNS server hostname to IP
      set_fact:
       host_ip: "{{ lookup('dig', hostname) }}"
