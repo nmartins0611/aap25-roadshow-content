@@ -24,7 +24,7 @@
 
    - name: Add host to loadbalancer
      lineinfile:
-       path: /etc/haproxy/haproxy.conf
+       path: /etc/haproxy/haproxy.cfg
        regexp: '^## ANSIBLE BUILD'
        line: |
             server  webapp {{ host_ip }}:80 check
