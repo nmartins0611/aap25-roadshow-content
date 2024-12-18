@@ -30,3 +30,12 @@
             server  webapp {{ host_ip }}:80 check
        insertafter: '^## APP CONFIG ANSIBLE'
 
+     notify:
+      - restart haproxy
+
+  handlers:
+    - name: restart haproxy
+      service:
+        name: haproxy
+        state: restarted
+
