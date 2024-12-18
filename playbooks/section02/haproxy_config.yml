@@ -1,6 +1,6 @@
 ---
 - name: Add server IP to HAProxy backend configuration
-  hosts: all
+  hosts: loadbalancer
   become: yes
   vars:
     haproxy_conf_path: /etc/haproxy/haproxy.conf
