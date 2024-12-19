@@ -19,7 +19,7 @@
       path: /etc/haproxy/haproxy.cfg
       line: "server static {{ item }}:80 check"
       insertafter: '^## STATIC CONFIG ANSIBLE'
-     state: present
+      state: present
      loop: "{{ host_ip }}"
 
    - name: Add webapp hosts to load balancer
@@ -27,7 +27,7 @@
       path: /etc/haproxy/haproxy.cfg
       line: "server webapp {{ item }}:80 check"
       insertafter: '^## APP CONFIG ANSIBLE'
-     state: present
+      state: present
      loop: "{{ host_ip }}"
      notify:
       - restart haproxy
