@@ -17,7 +17,7 @@
    - name: Add static hosts to load balancer
      lineinfile:
       path: /etc/haproxy/haproxy.cfg
-      line: "server static {{ host_ip }}:80 check"
+      line: "server static-{{ host}} {{ host_ip }}:80 check"
       insertafter: '^## STATIC CONFIG ANSIBLE'
       state: present
 
@@ -25,7 +25,7 @@
    - name: Add webapp hosts to load balancer
      lineinfile:
       path: /etc/haproxy/haproxy.cfg
-      line: "server webapp {{ host_ip }}:80 check"
+      line: "server webapp-{{ host }} {{ host_ip }}:80 check"
       insertafter: '^## APP CONFIG ANSIBLE'
       state: present
      notify:
