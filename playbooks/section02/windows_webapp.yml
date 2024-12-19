@@ -62,9 +62,9 @@
        dest: C:\inetpub\wwwroot
        remote_src: true
 
-    - name: Tag the page
-      ansible.windows.win_lineinfile:
-        path: C:\inetpub\wwwroot\index.html
-        line: "This is running on the Windows Host"
-        insertafter: "<p>&copy; 2024 TMM - Where comedy lives. All rights reserved.</p>"
+    # - name: Tag the page
+    #   ansible.windows.win_lineinfile:
+    #     path: C:\inetpub\wwwroot\index.html
+    #     line: "This is running on the Windows Host"
+    #     insertafter: "<p>&copy; 2024 TMM - Where comedy lives. All rights reserved.</p>"
 
