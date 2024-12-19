@@ -62,6 +62,15 @@
        dest: C:\inetpub\wwwroot
        remote_src: true
 
+    - name: Read the HTML file content
+      ansible.windows.win_shell: |
+        $htmlContent = Get-Content -Path "C:\inetpub\wwwroot\index.html"
+        $insertIndex = $htmlContent.IndexOf("<p>&copy; 2024 TMM - Where comedy lives. All rights reserved.</p>") + 1
+        $newLine = "<p>This is running on the Windows Host</p>"
+        $updatedContent = $htmlContent[0..($insertIndex-1)] + $newLine + $htmlContent[$insertIndex..($htmlContent.Count - 1)]
+        $updatedContent | Set-Content -Path "C:\inetpub\wwwroot\index.html"
+
+
     # - name: Tag the page
     #   ansible.windows.win_lineinfile:
     #     path: C:\inetpub\wwwroot\index.html
