@@ -12,27 +12,28 @@
     <p></p>
   </header>
 
-    <!-- Main Content Container -->
-    <div class="container">
-      <main>
-        <div class="video-player">
-          <video id="main-video" controls>
-            <source src="videos/sample1.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <h2 id="video-title">Sample Video 1</h2>
-        </div>
-      </main>
+  <!-- Main Content Container -->
+  <div class="container">
+    <main>
+      <div class="video-player">
+        <!-- Set a poster image as the still image -->
+        <video id="main-video" controls poster="images/still-image.jpg">
+          <source src="videos/sample1.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <h2 id="video-title">Sample Video 1</h2>
+      </div>
+    </main>
 
-      <aside>
-        <h3>Top Movies</h3>
-        <ul id="playlist">
-          <li onclick="playVideo('videos/the_office01.mp4', 'The Office')">The NC Office</li>
-          <li onclick="playVideo('videos/andrius_happy.mp4', 'Happy Birthday')">Happy Birthday</li>
-        </ul>
-      </aside>
-    </div>
-    
+    <aside>
+      <h3>Top Movies</h3>
+      <ul id="playlist">
+        <li onclick="playVideo('videos/the_office01.mp4', 'The Office')">The NC Office</li>
+        <li onclick="playVideo('videos/andrius_happy.mp4', 'Happy Birthday')">Happy Birthday</li>
+      </ul>
+    </aside>
+  </div>
+
   <!-- Footer Area -->
   <footer>
     <p>&copy; 2024 TMM - Where comedy lives. All rights reserved.</p>
