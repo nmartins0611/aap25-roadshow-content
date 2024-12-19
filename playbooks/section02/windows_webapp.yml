@@ -66,6 +66,6 @@
       ansible.windows.win_shell: |
         $htmlContent = Get-Content -Path "C:\inetpub\wwwroot\index.html"
         $htmlContent = $htmlContent -replace '<!-- InsertHere -->', '<p>This is running on a Windows Host</p>'
-        $htmlContent | Set-Content -Path "C:\path\to\your\file.html"
+        $htmlContent | Set-Content -Path "C:\inetpub\wwwroot\index.html"
 
 
