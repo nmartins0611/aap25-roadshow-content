@@ -20,7 +20,7 @@
       line: "server static {{ item }}:80 check"
       insertafter: '^## STATIC CONFIG ANSIBLE'
       state: present
-     loop: "{{ host_ip }}"
+
 
    - name: Add webapp hosts to load balancer
      lineinfile:
@@ -28,7 +28,6 @@
       line: "server webapp {{ item }}:80 check"
       insertafter: '^## APP CONFIG ANSIBLE'
       state: present
-     loop: "{{ host_ip }}"
      notify:
       - restart haproxy
 
