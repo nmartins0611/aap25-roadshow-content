@@ -1,0 +1,58 @@
+---
+- name: Configure IIS on Windows
+  hosts: database_servers
+  gather_facts: true
+
+  vars:
+    # iis_sites:
+    #   - name: 'Web Streaming'
+    #     port: '80'
+    #     path: 'C:\sites\webapp'
+
+  tasks:
+
+    - name: Install IIS
+      ansible.windows.win_feature:
+        name: Web-Server
+        state: present
+
+    # - name: Create site directory structure
+    #   ansible.windows.win_file:
+    #     path: "{{ item.path }}"
+    #     state: directory
+    #   with_items: "{{ iis_sites }}"
+
+    - name: Open port for site on the firewall
+      community.windows.win_firewall_rule:
+        name: "iisport{{ item.port }}"
+        enable: true
+        state: present
+        localport: "{{ item.port }}"
+        action: Allow
+        direction: In
+        protocol: Tcp
+      with_items: "{{ iis_sites }}"
+   
+    - name: Create temp area
+      ansible.windows.win_file:
+        path: C:\temp
+        state: directory
+
+    - name: Check for updates matching the specified category
+      ansible.windows.win_updates:
+        category_names:
+          - Security Updates
+          - Critical Updates
+        state: searched
+      register: update_results
+
+    - name: Generate an HTML report using a Jinja2 template
+      template:
+        src: templates/windows_updates_report.html.j2
+        dest: C:\temp\windows_updates_report.html
+
+    - name: Move report to iis dir
+      ansible.windows.win_copy:
+       src:  C:\temp\windows_updates_report.html
+       dest: C:\inetpub\wwwroot
+       remote_src: true
