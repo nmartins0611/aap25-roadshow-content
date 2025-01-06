@@ -1,0 +1,38 @@
+---
+- name: Snapshot LVM Volumes on RHEL
+  hosts: node01
+  become: yes
+  vars:
+    lvm_volumes:
+      - { vg_name: "vg_data", lv_name: "lv_data", snapshot_name: "snap_data", size: "1G" }
+      - { vg_name: "vg_backup", lv_name: "lv_backup", snapshot_name: "snap_backup", size: "500M" }
+
+  tasks:
+    - name: Ensure lvm2 package is installed
+      ansible.builtin.yum:
+        name: lvm2
+        state: present
+
+    - name: Check if the snapshot already exists
+      ansible.builtin.command:
+        cmd: "lvdisplay /dev/{{ item.vg_name }}/{{ item.snapshot_name }}"
+      register: snapshot_check
+      failed_when: false
+      with_items: "{{ lvm_volumes }}"
+
+    - name: Create LVM snapshot
+      ansible.builtin.command:
+        cmd: "lvcreate --size {{ item.size }} --snapshot --name {{ item.snapshot_name }} /dev/{{ item.vg_name }}/{{ item.lv_name }}"
+      when: snapshot_check.results[loop.index0].rc != 0
+      with_items: "{{ lvm_volumes }}"
+
+    - name: Verify LVM snapshots were created
+      ansible.builtin.command:
+        cmd: "lvdisplay /dev/{{ item.vg_name }}/{{ item.snapshot_name }}"
+      with_items: "{{ lvm_volumes }}"
+      register: verify_snapshot
+
+    - name: Debug snapshot creation status
+      ansible.builtin.debug:
+        msg: "Snapshot for {{ item.item.snapshot_name }}: {{ 'Created' if item.rc == 0 else 'Failed' }}"
+      with_items: "{{ verify_snapshot.results }}"
