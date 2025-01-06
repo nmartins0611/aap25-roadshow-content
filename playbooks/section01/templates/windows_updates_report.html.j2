@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Windows Updates Report</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Windows Updates Report</h1>
+    <p>Updates checked on: {{ ansible_date_time.date }}</p>
+    <table>
+        <thead>
+            <tr>
+                <th>KB Number</th>
+                <th>Title</th>
+                <th>Category</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if update_results.updates %}
+                {% for update in update_results.updates %}
+                    <tr>
+                        <td>{{ update.KBArticleIDs | join(', ') }}</td>
+                        <td>{{ update.Title }}</td>
+                        <td>{{ update.Categories | join(', ') }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="3">No updates found for the specified categories.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</body>
+</html>
