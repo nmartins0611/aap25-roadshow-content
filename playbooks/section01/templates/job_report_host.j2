@@ -21,12 +21,6 @@
       <p>Job Status: <strong>{% if hostvars[thehost]['job_success']|bool %}Success{% else %}Failed{% endif %}</strong></p>
 
       <!-- We don't indent anything between 'pre' tags , because the space will be taken literally -->
-      <p><strong>Command 1 output:</strong></p>
-      <div class="code">
-        <pre>
-{{ hostvars[thehost]['cmd1_results']['stdout'] | default('no output') | trim }}
-        </pre>
-      </div>
 
       <p><strong>Storage Usage:</strong></p>
       <div class="code">
@@ -35,10 +29,10 @@
         </pre>
       </div>
 
-<p><strong>Running Services:</strong></p>
+      <p><strong>Users:</strong></p>
       <div class="code">
         <pre>
-{{ hostvars[thehost]['running_services']['stdout'] | default('no output') | trim }}
+{{ hostvars[thehost]['userlist']['stdout'] | default('no output') | trim }}
         </pre>
       </div>
 
