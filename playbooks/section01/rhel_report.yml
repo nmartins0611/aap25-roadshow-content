@@ -12,14 +12,7 @@
     report_type:
 
   pre_tasks:
-    
-    - name: Create output folder
-      run_once: yes
-      delegate_to: localhost
-      file:
-        path: "{{ outdir }}"
-        state: directory
-    
+       
     - name: Set initial job status to catch missing/failed hosts
       set_fact:
         job_success: False
@@ -33,6 +26,13 @@
         missing: False
 
   tasks:
+
+    - name: Create output folder
+      run_once: yes
+      delegate_to: localhost
+      file:
+        path: "{{ outdir }}"
+        state: directory
 
     - name: Gather storage capacity
       shell: df -h --total | grep total
