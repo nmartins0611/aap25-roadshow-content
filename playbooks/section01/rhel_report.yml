@@ -34,10 +34,6 @@
 
   tasks:
     
-    ############################
-    # Add your own tasks here! #
-    ############################
-    
     - name: Gather storage capacity
       shell: df -h --total | grep total
       register: storageusage
@@ -49,8 +45,6 @@
     - name: Gather list of users
       command: cat /etc/passwd
       register: userlist
-
-  post_tasks:
 
     - name: Mark surviving hosts as successful
       set_fact:
@@ -85,49 +79,8 @@
     - name: Copy application files to shared storage
       ansible.builtin.copy:
         src: "{{ outdir}}/report.html"
-        dest: /var/www/html/
+        dest: /var/www/html/index.html
         remote_src: true
       delegate_to: node01
 
-
-# ---
-# - name: Gather system data and create HTML report
-#   hosts: Streaming_Infrastucture
-#   gather_facts: no
-  
-#   tasks:
-#     - name: Gather kernel version
-#       command: uname -r
-#       register: kernel_version
-
-#     - name: Gather OS version
-#       command: cat /etc/redhat-release
-#       register: os_version
-
-#     - name: Gather list of users
-#       command: cat /etc/passwd
-#       register: users
-
-#     - name: Gather storage capacity
-#       shell: df -h --total | grep total
-#       register: storage
-
-#     - name: Gather network addresses
-#       command: ip -4 addr show
-#       register: network_addresses
-
-#     - name: Create report data
-#       set_fact:
-#        report_data:
-#         kernel_version: "{{ kernel_version.stdout.strip() }}"
-#         os_version: "{{ os_version.stdout.strip() }}"
-#         users: "{{ users.stdout.splitlines() | map('regex_replace', '^([^:]+):.*$', '\\1') | list }}"
-#         storage: "{{ storage.stdout.strip() }}"
-#         network_addresses: "{{ network_addresses.stdout.strip() }}"
-
-#     - name: Render HTML report from template
-#       template:
-#         src: rhel_report_template.j2
-#         dest: /var/www/html/index.html
-#       delegate_to: node01
 
