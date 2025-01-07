@@ -42,15 +42,6 @@
       shell: df -h --total | grep total
       register: storageusage
 
-    - name: Get running services
-      ansible.builtin.set_fact:
-        running_services: >-
-          {{ ansible_facts.services 
-             | dict2items 
-             | selectattr('value.state', 'equalto', 'running') 
-             | map(attribute='key') 
-             | list }}
-
   post_tasks:
 
     - name: Mark surviving hosts as successful
