@@ -22,6 +22,13 @@
 
       <!-- We don't indent anything between 'pre' tags , because the space will be taken literally -->
 
+      <p><strong>OS Version:</strong></p>
+      <div class="code">
+        <pre>
+{{ hostvars[thehost]['os_version']['stdout'] | default('no output') | trim }}
+        </pre>
+      </div>
+
       <p><strong>Storage Usage:</strong></p>
       <div class="code">
         <pre>
