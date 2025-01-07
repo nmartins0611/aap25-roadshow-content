@@ -1,41 +1,95 @@
 ---
 - name: Gather system data and create HTML report
   hosts: Streaming_Infrastucture
-  gather_facts: no
-  
+  gather_facts: yes
+
+  vars:
+    # Location for job reports
+   outdir: /var/tmp/reports
+    # CSS styling for navbar: menu width, failed/missing colors
+   nav_width: 200px
+   failed_style: 'color:orangered'
+   missing_style: 'color:grey;text-decoration:line-through'
+
+
   tasks:
-    - name: Gather kernel version
-      command: uname -r
-      register: kernel_version
+   
+   - name: Create output folder
+     run_once: yes
+     delegate_to: localhost
+     ansible.builtin.file:
+       path: "{{ outdir }}"
+       state: directory
 
-    - name: Gather OS version
-      command: cat /etc/redhat-release
-      register: os_version
+   - name: Save summary facts under Ansible controller
+     delegate_to: localhost
+     delegate_facts: True
+     run_once: yes
+     set_fact:
+       date_str: "{{ date }}_{{ hms }}"
+       date_str_pretty: "{{ date }} {{ hms_pretty }}"
+       kernels_list: '{{ hostvars | json_query(kernel_query) | unique | sort }}'
+       success_list: '{{ hostvars | dict2items | json_query(success_query) }}'
+       failed_list: '{{ hostvars | dict2items | json_query(failed_query) }}'
+       missing_list: '{{ hostvars | dict2items | json_query(missing_query) }}'
+     vars:
+       kernel_query: "*.ansible_kernel"
+       success_query: "[?value.job_success==`true`].key"
+       failed_query: "[?value.job_success==`false` && value.missing==`false`].key"
+       missing_query: "[?value.missing==`true`].key"
+       date: "{{ '%Y-%m-%d' | strftime }}"
+       hms_pretty: "{{ '%H:%M:%S' | strftime }}"
+       hms: "{{ hms_pretty | replace(':','-') }}"
 
-    - name: Gather list of users
-      command: cat /etc/passwd
-      register: users
+   - name: Save job report to {{ outdir }}
+     delegate_to: localhost
+     delegate_facts: True
+     run_once: yes
+     ansible.builtin.template:
+      src: job_report_master.j2
+      dest: "{{ outdir  }}/index.html"
 
-    - name: Gather storage capacity
-      shell: df -h --total | grep total
-      register: storage
 
-    - name: Gather network addresses
-      command: ip -4 addr show
-      register: network_addresses
 
-    - name: Create report data
-      set_fact:
-       report_data:
-        kernel_version: "{{ kernel_version.stdout.strip() }}"
-        os_version: "{{ os_version.stdout.strip() }}"
-        users: "{{ users.stdout.splitlines() | map('regex_replace', '^([^:]+):.*$', '\\1') | list }}"
-        storage: "{{ storage.stdout.strip() }}"
-        network_addresses: "{{ network_addresses.stdout.strip() }}"
 
-    - name: Render HTML report from template
-      template:
-        src: rhel_report_template.j2
-        dest: /var/www/html/index.html
-      delegate_to: node01
+# ---
+# - name: Gather system data and create HTML report
+#   hosts: Streaming_Infrastucture
+#   gather_facts: no
+  
+#   tasks:
+#     - name: Gather kernel version
+#       command: uname -r
+#       register: kernel_version
+
+#     - name: Gather OS version
+#       command: cat /etc/redhat-release
+#       register: os_version
+
+#     - name: Gather list of users
+#       command: cat /etc/passwd
+#       register: users
+
+#     - name: Gather storage capacity
+#       shell: df -h --total | grep total
+#       register: storage
+
+#     - name: Gather network addresses
+#       command: ip -4 addr show
+#       register: network_addresses
+
+#     - name: Create report data
+#       set_fact:
+#        report_data:
+#         kernel_version: "{{ kernel_version.stdout.strip() }}"
+#         os_version: "{{ os_version.stdout.strip() }}"
+#         users: "{{ users.stdout.splitlines() | map('regex_replace', '^([^:]+):.*$', '\\1') | list }}"
+#         storage: "{{ storage.stdout.strip() }}"
+#         network_addresses: "{{ network_addresses.stdout.strip() }}"
+
+#     - name: Render HTML report from template
+#       template:
+#         src: rhel_report_template.j2
+#         dest: /var/www/html/index.html
+#       delegate_to: node01
 
