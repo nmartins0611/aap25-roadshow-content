@@ -7,6 +7,8 @@
   vars:
     outdir: /var/tmp/reports
     nav_width: 200px
+    failed_style: 'color:orangered'
+    missing_style: 'color:grey;text-decoration:line-through'
 
   pre_tasks:
     
