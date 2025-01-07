@@ -80,9 +80,8 @@
       ansible.builtin.copy:
         src: "{{ outdir}}/report.html"
         dest: /var/www/html/
+        remote_src: true
       delegate_to: node01
-      remote_src: true
-
 
 
 # ---
