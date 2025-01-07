@@ -28,8 +28,6 @@
   tasks:
 
     - name: Create output folder
-      run_once: yes
-      delegate_to: localhost
       file:
         path: "{{ outdir }}"
         state: directory
