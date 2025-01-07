@@ -1,38 +1,35 @@
 ---
 - name: Gather system data and create HTML report
   hosts: Streaming_Infrastucture
-  gather_facts: no
+  gather_facts: true
   become: true
 
   vars:
-     # Location for job reports
     outdir: /var/tmp/reports
-    # CSS styling for navbar: menu width, failed/missing colors
     nav_width: 200px
-    failed_style: 'color:orangered'
-    missing_style: 'color:grey;text-decoration:line-through'
 
   pre_tasks:
+
+       
+    # # We set hosts as failed/missing until proven otherwise. See README.md
+    # - name: Set initial job status to catch missing/failed hosts
+    #   set_fact:
+    #     job_success: False
+    #     missing: True
     
+    # - name: Gather server facts and weed out unavailable hosts
+    #   setup:
+    
+    # - name: Set remaining hosts as not missing
+    #   set_fact:
+    #     missing: False
+
+  tasks:
+
     - name: Create output folder
       file:
         path: "{{ outdir }}"
         state: directory
-    
-    # We set hosts as failed/missing until proven otherwise. See README.md
-    - name: Set initial job status to catch missing/failed hosts
-      set_fact:
-        job_success: False
-        missing: True
-    
-    - name: Gather server facts and weed out unavailable hosts
-      setup:
-    
-    - name: Set remaining hosts as not missing
-      set_fact:
-        missing: False
-
-  tasks:
     
     - name: Gather storage capacity
       shell: df -h --total | grep total
