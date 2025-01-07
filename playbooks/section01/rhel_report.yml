@@ -37,4 +37,5 @@
       template:
         src: rhel_report_template.j2
         dest: /var/www/html/index.html
+      delegate_to: node01
 
