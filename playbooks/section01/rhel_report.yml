@@ -4,50 +4,82 @@
   gather_facts: yes
 
   vars:
-    # Location for job reports
-   outdir: /var/tmp/reports
+     # Location for job reports
+    outdir: /var/tmp/reports
     # CSS styling for navbar: menu width, failed/missing colors
-   nav_width: 200px
-   failed_style: 'color:orangered'
-   missing_style: 'color:grey;text-decoration:line-through'
+    nav_width: 200px
+    failed_style: 'color:orangered'
+    missing_style: 'color:grey;text-decoration:line-through'
 
+  pre_tasks:
+    
+    - name: Create output folder
+      run_once: yes
+      delegate_to: localhost
+      file:
+        path: "{{ outdir }}"
+        state: directory
+    
+    # We set hosts as failed/missing until proven otherwise. See README.md
+    - name: Set initial job status to catch missing/failed hosts
+      set_fact:
+        job_success: False
+        missing: True
+    
+    - name: Gather server facts and weed out unavailable hosts
+      setup:
+    
+    - name: Set remaining hosts as not missing
+      set_fact:
+        missing: False
 
   tasks:
-   
-   - name: Create output folder
-     run_once: yes
-     delegate_to: localhost
-     ansible.builtin.file:
-       path: "{{ outdir }}"
-       state: directory
+    
+    ############################
+    # Add your own tasks here! #
+    ############################
+    
+    - name: Run a command and save the results (ignore errors)
+      command:
+        cmd: echo "This is output from command 1."
+      ignore_errors: yes
+      register: cmd1_results
 
-   - name: Save summary facts under Ansible controller
-     delegate_to: localhost
-     delegate_facts: True
-     run_once: yes
-     set_fact:
-       date_str: "{{ date }}_{{ hms }}"
-       date_str_pretty: "{{ date }} {{ hms_pretty }}"
-       kernels_list: '{{ hostvars | json_query(kernel_query) | unique | sort }}'
-       success_list: '{{ hostvars | dict2items | json_query(success_query) }}'
-       failed_list: '{{ hostvars | dict2items | json_query(failed_query) }}'
-       missing_list: '{{ hostvars | dict2items | json_query(missing_query) }}'
-     vars:
-       kernel_query: "*.ansible_kernel"
-       success_query: "[?value.job_success==`true`].key"
-       failed_query: "[?value.job_success==`false` && value.missing==`false`].key"
-       missing_query: "[?value.missing==`true`].key"
-       date: "{{ '%Y-%m-%d' | strftime }}"
-       hms_pretty: "{{ '%H:%M:%S' | strftime }}"
-       hms: "{{ hms_pretty | replace(':','-') }}"
+  post_tasks:
 
-   - name: Save job report to {{ outdir }}
-     delegate_to: localhost
-     delegate_facts: True
-     run_once: yes
-     ansible.builtin.template:
-      src: job_report_master.j2
-      dest: "{{ outdir  }}/index.html"
+    - name: Mark surviving hosts as successful
+      set_fact:
+        job_success: True
+
+    # Saving curated lists of hosts as localhost facts, to make the Jinja loops easier to read in the template. 
+    # To use: hostvars['localhost']['success_list'] , etc
+    - name: Save summary facts under Ansible controller
+      delegate_to: localhost
+      delegate_facts: True
+      run_once: yes
+      set_fact:
+        date_str: "{{ date }}_{{ hms }}"
+        date_str_pretty: "{{ date }} {{ hms_pretty }}"
+        kernels_list: '{{ hostvars | json_query(kernel_query) | unique | sort }}'
+        success_list: '{{ hostvars | dict2items | json_query(success_query) }}'
+        failed_list: '{{ hostvars | dict2items | json_query(failed_query) }}'
+        missing_list: '{{ hostvars | dict2items | json_query(missing_query) }}'
+      vars:
+        kernel_query: "*.ansible_kernel"
+        success_query: "[?value.job_success==`true`].key"
+        failed_query: "[?value.job_success==`false` && value.missing==`false`].key"
+        missing_query: "[?value.missing==`true`].key"
+        date: "{{ '%Y-%m-%d' | strftime }}"
+        hms_pretty: "{{ '%H:%M:%S' | strftime }}"
+        hms: "{{ hms_pretty | replace(':','-') }}"
+
+    - name: Save job report to {{ outdir }}
+      delegate_to: localhost
+      delegate_facts: True
+      run_once: yes
+      template:
+        src: job_report_master.j2
+        dest: "{{ outdir  }}/index.html"
 
 
 
