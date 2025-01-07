@@ -35,6 +35,6 @@
 
     - name: Render HTML report from template
       template:
-        src: rhel_report_template.j2
+        src: playbooks/section01/templates/rhel_report_template.j2
         dest: /var/www/html/index.html
 
