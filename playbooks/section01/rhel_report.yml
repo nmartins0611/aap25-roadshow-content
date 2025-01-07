@@ -35,12 +35,12 @@
     - name: Gather storage capacity
       shell: df -h --total | grep total
       register: storageusage
-      when: report_type == "Storage" or report_type == "All"
+      when: report_type == "Storage Usage" or report_type == "All"
 
     - name: Gather OS version
       command: cat /etc/redhat-release
       register: os_version
-      when: report_type == "OS Version" or report_type == "All"
+      when: report_type == "OS Versions" or report_type == "All"
 
     - name: Gather list of users
       command: cat /etc/passwd
