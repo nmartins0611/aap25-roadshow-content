@@ -1,22 +1,21 @@
-# Example Jinja2 Template (report_template.j2):
-# <!DOCTYPE html>
-# <html>
-# <head>
-#     <title>System Report</title>
-# </head>
-# <body>
-#     <h1>System Report</h1>
-#     <p><strong>Kernel Version:</strong> {{ report_data.kernel_version }}</p>
-#     <p><strong>OS Version:</strong> {{ report_data.os_version }}</p>
-#     <h2>Users</h2>
-#     <ul>
-#         {% for user in report_data.users %}
-#         <li>{{ user }}</li>
-#         {% endfor %}
-#     </ul>
-#     <h2>Storage</h2>
-#     <pre>{{ report_data.storage }}</pre>
-#     <h2>Network Addresses</h2>
-#     <pre>{{ report_data.network_addresses }}</pre>
-# </body>
-# </html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>System Report</title>
+ </head>
+ <body>
+    <h1>System Report</h1>
+    <p><strong>Kernel Version:</strong> {{ report_data.kernel_version }}</p>
+    <p><strong>OS Version:</strong> {{ report_data.os_version }}</p>
+    <h2>Users</h2>
+    <ul>
+        {% for user in report_data.users %}
+        <li>{{ user }}</li>
+        {% endfor %}
+    </ul>
+    <h2>Storage</h2>
+    <pre>{{ report_data.storage }}</pre>
+    <h2>Network Addresses</h2>
+    <pre>{{ report_data.network_addresses }}</pre>
+</body>
+</html>
