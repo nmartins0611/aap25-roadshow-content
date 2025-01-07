@@ -38,17 +38,18 @@
     # Add your own tasks here! #
     ############################
     
-    - name: Gather list of users
-      command: cat /etc/passwd
-      register: userlist
-
     - name: Gather storage capacity
       shell: df -h --total | grep total
       register: storageusage
 
-    - name: Gather network addresses
-      command: ip -4 addr show
-      register: network_addresses
+    - name: Get running services
+      ansible.builtin.set_fact:
+        running_services: >-
+          {{ ansible_facts.services 
+             | dict2items 
+             | selectattr('value.state', 'equalto', 'running') 
+             | map(attribute='key') 
+             | list }}
 
   post_tasks:
 
