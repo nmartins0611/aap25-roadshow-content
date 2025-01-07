@@ -50,8 +50,6 @@
       set_fact:
         job_success: True
 
-    # Saving curated lists of hosts as localhost facts, to make the Jinja loops easier to read in the template. 
-    # To use: hostvars['localhost']['success_list'] , etc
     - name: Save summary facts under Ansible controller
       delegate_to: localhost
       delegate_facts: True
@@ -73,12 +71,18 @@
         hms: "{{ hms_pretty | replace(':','-') }}"
 
     - name: Save job report to {{ outdir }}
-      # delegate_to: localhost
-      # delegate_facts: True
-      # run_once: yes
       template:
         src: job_report_master.j2
         dest: "{{ outdir}}/report.html"
+      delegate_to: node01  
+
+    - name: Copy application files to shared storage
+      ansible.builtin.copy:
+        src: "{{ outdir}}/report.html"
+        dest: /var/www/html/
+      delegate_to: node01
+
+
 
 # ---
 # - name: Gather system data and create HTML report
