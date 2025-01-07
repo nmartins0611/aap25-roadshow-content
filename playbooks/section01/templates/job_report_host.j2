@@ -1,4 +1,4 @@
-    <!-- This is a 'child' template sourced from our master report template. -->
+     <!-- This is a 'child' template sourced from our master report template. -->
     <!-- To reference a host's facts, use our loop variable named thehost, i.e. hostvars[thehost]['some_fact'] -->
     <hr>
     <h2 id="{{ thehost }}">{{ thehost }}</h2>
@@ -43,7 +43,6 @@
         </pre>
       </div>
 
-
       {% if hostvars[thehost]['cmd1_results']['stderr_lines'] | d([]) | length > 0 %}
         <!-- This code snippet will only appear if our command task had any lines printed to stderr -->
         <p><strong>Command 1 errors:</strong></p>
@@ -55,3 +54,5 @@
       {% endif %}
 
     {% endif %}
+
+
