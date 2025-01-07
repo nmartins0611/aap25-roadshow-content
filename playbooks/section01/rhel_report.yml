@@ -1,7 +1,7 @@
 ---
 - name: Gather system data and create HTML report
   hosts: Streaming_Infrastucture
-  gather_facts: yes
+  gather_facts: no
   become: true
 
   vars:
@@ -15,8 +15,6 @@
   pre_tasks:
     
     - name: Create output folder
-      run_once: yes
-      delegate_to: localhost
       file:
         path: "{{ outdir }}"
         state: directory
