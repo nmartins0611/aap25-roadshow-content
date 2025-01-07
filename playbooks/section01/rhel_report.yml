@@ -2,6 +2,7 @@
 - name: Gather system data and create HTML report
   hosts: Streaming_Infrastucture
   gather_facts: yes
+  become: true
 
   vars:
      # Location for job reports
@@ -74,15 +75,12 @@
         hms: "{{ hms_pretty | replace(':','-') }}"
 
     - name: Save job report to {{ outdir }}
-      delegate_to: localhost
-      delegate_facts: True
-      run_once: yes
+      # delegate_to: localhost
+      # delegate_facts: True
+      # run_once: yes
       template:
         src: job_report_master.j2
-        dest: "{{ outdir  }}/index.html"
-
-
-
+        dest: "/var/www/index.html"
 
 # ---
 # - name: Gather system data and create HTML report
