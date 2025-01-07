@@ -17,7 +17,6 @@
         path: "{{ outdir }}"
         state: directory
     
-    # We set hosts as failed/missing until proven otherwise. See README.md
     - name: Set initial job status to catch missing/failed hosts
       set_fact:
         job_success: False
@@ -31,12 +30,7 @@
         missing: False
 
   tasks:
-
-    - name: Create output folder
-      file:
-        path: "{{ outdir }}"
-        state: directory
-    
+   
     - name: Gather storage capacity
       shell: df -h --total | grep total
       register: storageusage
@@ -49,10 +43,14 @@
       command: cat /etc/passwd
       register: userlist
 
+  post_tasks:
+
     - name: Mark surviving hosts as successful
       set_fact:
         job_success: True
 
+    # Saving curated lists of hosts as localhost facts, to make the Jinja loops easier to read in the template. 
+    # To use: hostvars['localhost']['success_list'] , etc
     - name: Save summary facts under Ansible controller
       delegate_to: localhost
       delegate_facts: True
