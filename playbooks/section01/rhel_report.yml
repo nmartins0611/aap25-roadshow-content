@@ -9,9 +9,15 @@
     nav_width: 200px
 
   pre_tasks:
-
-       
-    # # We set hosts as failed/missing until proven otherwise. See README.md
+    
+    - name: Create output folder
+      run_once: yes
+      delegate_to: localhost
+      file:
+        path: "{{ outdir }}"
+        state: directory
+    
+    # We set hosts as failed/missing until proven otherwise. See README.md
     - name: Set initial job status to catch missing/failed hosts
       set_fact:
         job_success: False
