@@ -28,6 +28,28 @@
         </pre>
       </div>
 
+      <p><strong>Storage Usage:</strong></p>
+      <div class="code">
+        <pre>
+{{ hostvars[thehost]['storageusage']['stdout'] | default('no output') | trim }}
+        </pre>
+      </div>
+
+      <p><strong>Package Details:</strong></p>
+      <div class="code">
+        <pre>
+{{ hostvars[thehost]['storageusage']['stdout'] | default('no output') | trim }}
+        </pre>
+      </div>
+
+<p><strong>Running Services:</strong></p>
+      <div class="code">
+        <pre>
+{{ hostvars[thehost]['services']['stdout'] | default('no output') | trim }}
+        </pre>
+      </div>
+
+
       {% if hostvars[thehost]['cmd1_results']['stderr_lines'] | d([]) | length > 0 %}
         <!-- This code snippet will only appear if our command task had any lines printed to stderr -->
         <p><strong>Command 1 errors:</strong></p>
