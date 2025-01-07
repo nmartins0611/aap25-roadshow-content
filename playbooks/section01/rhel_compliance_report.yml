@@ -1,6 +1,6 @@
 ---
 - name: Generate OpenSCAP compliance report
-  hosts: 'node01'
+  hosts: 'node02'
   become: true
 
   vars:
