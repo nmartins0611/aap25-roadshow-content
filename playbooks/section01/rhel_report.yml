@@ -42,6 +42,14 @@
       shell: df -h --total | grep total
       register: storageusage
 
+    - name: Gather OS version
+      command: cat /etc/redhat-release
+      register: os_version
+
+    - name: Gather list of users
+      command: cat /etc/passwd
+      register: userlist
+
   post_tasks:
 
     - name: Mark surviving hosts as successful
