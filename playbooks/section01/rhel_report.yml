@@ -26,12 +26,12 @@
 
     - name: Create report data
       set_fact:
-        report_data:
-          kernel_version: "{{ kernel_version.stdout.strip() }}"
-          os_version: "{{ os_version.stdout.strip() }}"
-          users: "{{ users.stdout.splitlines() | map('split', ':')[0] | list }}"
-          storage: "{{ storage.stdout.strip() }}"
-          network_addresses: "{{ network_addresses.stdout.strip() }}"
+       report_data:
+        kernel_version: "{{ kernel_version.stdout.strip() }}"
+        os_version: "{{ os_version.stdout.strip() }}"
+        users: "{{ users.stdout.splitlines() | map('regex_replace', '^([^:]+):.*$', '\\1') | list }}"
+        storage: "{{ storage.stdout.strip() }}"
+        network_addresses: "{{ network_addresses.stdout.strip() }}"
 
     - name: Render HTML report from template
       template:
