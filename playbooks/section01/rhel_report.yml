@@ -70,7 +70,7 @@
         hms_pretty: "{{ '%H:%M:%S' | strftime }}"
         hms: "{{ hms_pretty | replace(':','-') }}"
 
-    - name: Save job report to {{ outdir }}
+    - name: Save job report
       template:
         src: job_report_master.j2
         dest: "{{ outdir}}/report.html"
@@ -81,6 +81,7 @@
         src: "{{ outdir}}/report.html"
         dest: /var/www/html/
       delegate_to: node01
+      remote_src: true
 
 
 
