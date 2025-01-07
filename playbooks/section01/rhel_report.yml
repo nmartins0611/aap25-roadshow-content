@@ -12,17 +12,17 @@
 
        
     # # We set hosts as failed/missing until proven otherwise. See README.md
-    # - name: Set initial job status to catch missing/failed hosts
-    #   set_fact:
-    #     job_success: False
-    #     missing: True
+    - name: Set initial job status to catch missing/failed hosts
+      set_fact:
+        job_success: False
+        missing: True
     
-    # - name: Gather server facts and weed out unavailable hosts
-    #   setup:
+    - name: Gather server facts and weed out unavailable hosts
+      setup:
     
-    # - name: Set remaining hosts as not missing
-    #   set_fact:
-    #     missing: False
+    - name: Set remaining hosts as not missing
+      set_fact:
+        missing: False
 
   tasks:
 
