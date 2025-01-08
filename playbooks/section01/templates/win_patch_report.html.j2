@@ -35,13 +35,6 @@
         tr:hover {
             background-color: #eef7ff;
         }
-        .no-updates {
-            font-size: 1.2em;
-            color: #0078d4;
-            font-weight: bold;
-            text-align: center;
-            margin-top: 20px;
-        }
     </style>
 </head>
 <body>
@@ -57,14 +50,14 @@
                 {% if updates | length == 0 %}
                     <div class="no-updates">No updates needed</div>
                 {% else %}
-                    <ul>
-                        {% for update in updates %}
-                        <li>
-                            <strong>KB{{ update.kb[0] }}:</strong> {{ update.title }} 
-                        </li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
+                <ul>
+                    {% for update_id, update in updates.items() %}
+                    <li>
+                        <strong>KB{{ update.kb[0] }}:</strong> {{ update.title }} 
+                        <br> Categories: {{ update.categories | join(', ') }}
+                    </li>
+                    {% endfor %}
+                </ul>
             </td>
         </tr>
     </table>
