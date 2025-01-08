@@ -49,41 +49,45 @@
         <tr>
             <td>{{ inventory_hostname }}</td>
             <td colspan="3">
-                {% if updates | length == 0 and filtered_updates | length == 0 %}
+                {% if updates | length == 0 and (filtered_updates | default([])) | length == 0 %}
                     <div class="no-updates">No updates needed</div>
                 {% else %}
-                    <h3>Updates:</h3>
-                    <table>
-                        {% for update_id, update in updates.items() %}
-                        <tr>
-                            <td>{{ update.title }}</td>
-                            <td>
-                                <ul>
-                                    {% for kb_number in update.kb %}
-                                        <li>KB{{ kb_number }}</li>
-                                    {% endfor %}
-                                </ul>
-                            </td>
-                            <td>{{ update.categories | join(', ') }}</td>
-                        </tr>
-                        {% endfor %}
-                    </table>
-                    <h3>Filtered Updates:</h3>
-                    <table>
-                        {% for update_id, update in filtered_updates.items() %}
-                        <tr>
-                            <td>{{ update.title }}</td>
-                            <td>
-                                <ul>
-                                    {% for kb_number in update.kb %}
-                                        <li>KB{{ kb_number }}</li>
-                                    {% endfor %}
-                                </ul>
-                            </td>
-                            <td>{{ update.categories | join(', ') }}</td>
-                        </tr>
-                        {% endfor %}
-                    </table>
+                    {% if updates %}
+                        <h3>Updates:</h3>
+                        <table>
+                            {% for update_id, update in updates.items() %}
+                            <tr>
+                                <td>{{ update.title }}</td>
+                                <td>
+                                    <ul>
+                                        {% for kb_number in update.kb %}
+                                            <li>KB{{ kb_number }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </td>
+                                <td>{{ update.categories | join(', ') }}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    {% endif %}
+                    {% if filtered_updates | default([]) %}
+                        <h3>Filtered Updates:</h3>
+                        <table>
+                            {% for update_id, update in filtered_updates.items() %}
+                            <tr>
+                                <td>{{ update.title }}</td>
+                                <td>
+                                    <ul>
+                                        {% for kb_number in update.kb %}
+                                            <li>KB{{ kb_number }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </td>
+                                <td>{{ update.categories | join(', ') }}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    {% endif %}
                 {% endif %}
             </td>
         </tr>
