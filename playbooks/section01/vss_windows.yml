@@ -3,7 +3,7 @@
   hosts: domain_controllers
 
   tasks:
-    - name: Create a shadow copy for the C: drive
+    - name: Create a shadow copy for the C drive
       win_shell: vssadmin create shadow /for=C:
       register: shadow_create_output
 
