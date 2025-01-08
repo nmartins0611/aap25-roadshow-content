@@ -15,12 +15,6 @@
         state: present
       when: ansible_facts.os_family == "RedHat"
 
-    - name: Check if xfsrestore is installed
-      ansible.builtin.yum:
-        name: xfsrestore
-        state: present
-      when: ansible_facts.os_family == "RedHat"
-
     - name: Check if the xfsdump command exists
       ansible.builtin.shell:
         cmd: which xfsdump
