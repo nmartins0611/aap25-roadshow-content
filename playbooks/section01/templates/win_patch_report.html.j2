@@ -56,11 +56,11 @@
                             <strong>Title:</strong> {{ update.title }}
                             <br> 
                             <strong>KB Numbers:</strong>
-                            <ul>
+{#                             <ul>
                                 {% for kb_number in update.kb %}
                                     <li>KB{{ kb_number }}</li>
                                 {% endfor %}
-                            </ul>
+                            </ul> #}
                             <br> Categories: {{ update.categories | join(', ') }}
                         </li>
                     {% endfor %}
