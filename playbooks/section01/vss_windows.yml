@@ -31,3 +31,8 @@
         }
         }
 
+    - name: Get shadow copy details
+      win_shell: |
+       $output = vssadmin list shadows
+       Write-Output $output
+
