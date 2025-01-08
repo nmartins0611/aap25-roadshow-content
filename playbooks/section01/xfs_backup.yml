@@ -25,7 +25,7 @@
       ansible.builtin.command:
         cmd: >
           xfsdump -l 0 -L -o {{ backup_label }}
-          -f {{ backup_file }} {{ xfs_mount_point }}
+          -f {{ backup_file }}/{{ backup_label}} {{ xfs_mount_point }}
           
     #   register: backup_result
     #   ignore_errors: no
