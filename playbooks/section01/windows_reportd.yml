@@ -1,17 +1,28 @@
 ---
 - name: Check and Report Windows Updates
   hosts: domain_controllers
+  gather_facts: false
+
+  vars:
+    report_path: 'C:\ansible_reports'
+
   tasks:
+  
+    - name: Create site directory structure
+      ansible.windows.win_file:
+        path: "{{ report_path }}"
+        state: directory
+        
     - name: Check available updates
       win_updates:
         category_names:
-          - Security Updates
-        log_path: C:\temp\windows_updates.log
+          - Definition Updates
+        log_path: {{ report_path}}\Ansible_windows_updates.log
       register: update_result
 
     - name: Generate HTML report
       template:
         src: templates/win_patch_report.html.j2
-        dest: C:\temp\windows_updates_report.html
+        dest: C:\sites\ad_report\user_info.html
       vars:
         updates: "{{ update_result.updates }}"
