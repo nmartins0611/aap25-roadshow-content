@@ -22,10 +22,7 @@
         mode: '0755'
 
     - name: Perform xfsdump backup
-      ansible.builtin.command:
-        cmd: >
-          xfsdump -L session_0 -M {{ backup_label }}
-          -f {{ backup_file }} {{ xfs_mount_point }}
+      ansible.builtin.command: xfsdump -L session_0 -M {{ backup_label }} -f {{ backup_file }} {{ xfs_mount_point }}
           
     #   register: backup_result
     #   ignore_errors: no
