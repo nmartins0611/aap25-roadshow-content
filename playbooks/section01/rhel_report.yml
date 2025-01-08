@@ -79,7 +79,7 @@
       template:
         src: job_report_master.j2
         dest: "{{ outdir }}/report.html"
-      delegate_to: node01  
+      delegate_to: node03
 
     - name: Copy application files to shared storage
       ansible.builtin.copy:
@@ -87,6 +87,6 @@
         dest: /var/www/html/index.html
         remote_src: true
         force: yes
-      delegate_to: node01
+      delegate_to: node03
 
 
