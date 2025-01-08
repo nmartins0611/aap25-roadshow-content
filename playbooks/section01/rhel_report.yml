@@ -86,6 +86,7 @@
         src: "{{ outdir }}/report.html"
         dest: /var/www/html/index.html
         remote_src: true
+        force: yes
       delegate_to: node01
 
 
