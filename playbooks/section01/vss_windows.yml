@@ -6,3 +6,28 @@
       win_shell: |
         $result = vssadmin create shadow /for=C:
         Write-Output $result
+
+    - name: Shadow copy details
+      win_shell: |
+        # Run the vssadmin command and store its output
+        $output = vssadmin list shadows
+        $shadowCopies = $output -split "Shadow Copy ID"
+        foreach ($shadow in $shadowCopies) {
+          if ($shadow -match "Volume Name:\s*(.+)") {
+              $volumeName = $matches[1]
+          }
+        if ($shadow -match "Creation Time:\s*(.+)") {
+            $creationTime = $matches[1]
+        }
+        if ($shadow -match "Shadow Copy ID:\s*({[0-9a-fA-F-]+})") {
+            $shadowCopyID = $matches[1]
+        }
+
+        if ($shadowCopyID) {
+            Write-Output "Shadow Copy ID: $shadowCopyID"
+            Write-Output "Volume Name: $volumeName"
+            Write-Output "Creation Time: $creationTime"
+            Write-Output "-----------------------------"
+        }
+        }
+
