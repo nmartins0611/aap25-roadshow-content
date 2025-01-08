@@ -32,12 +32,12 @@
         cmd: >
           xfsdump -l 0 -L {{ backup_label }}
           -f {{ backup_file }} {{ xfs_mount_point }}
-      register: backup_result
-      ignore_errors: no
+    #   register: backup_result
+    #   ignore_errors: no
 
-    - name: Verify xfsdump success
-      ansible.builtin.debug:
-        msg: "Backup completed successfully: {{ backup_result.stdout }}"
+    # - name: Verify xfsdump success
+    #   ansible.builtin.debug:
+    #     msg: "Backup completed successfully: {{ backup_result.stdout }}"
 
     # - name: Ensure the restore directory exists
     #   ansible.builtin.file:
