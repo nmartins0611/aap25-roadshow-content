@@ -17,7 +17,7 @@
       win_updates:
         category_names:
           - Definition Updates
-        log_path: {{ report_path}}\Ansible_windows_updates.log
+        log_path: "{{ report_path }}"\Ansible_windows_updates.log
       register: update_result
 
     - name: Generate HTML report
