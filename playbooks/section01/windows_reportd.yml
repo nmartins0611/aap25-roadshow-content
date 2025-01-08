@@ -21,12 +21,6 @@
         state: searched
       register: update_result
 
-
-    - name: Debug updates result
-      debug:
-       msg: "{{ update_result }}"
- 
-
     - name: Generate HTML report
       template:
         src: templates/win_patch_report.html.j2
