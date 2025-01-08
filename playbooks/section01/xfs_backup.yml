@@ -33,18 +33,18 @@
       ansible.builtin.debug:
         msg: "Backup completed successfully: {{ backup_result.stdout }}"
 
-    - name: Restore from XFS dump
-      block:
-       - name: Perform xfsrestore
-         ansible.builtin.command:
-          cmd: >
-            xfsrestore -f {{ backup_file }} {{ restore_point }}
-         register: restore_result
-         ignore_errors: no
+    # - name: Restore from XFS dump
+    #   block:
+    #    - name: Perform xfsrestore
+    #      ansible.builtin.command:
+    #       cmd: >
+    #         xfsrestore -f {{ backup_file }} {{ restore_point }}
+    #      register: restore_result
+    #      ignore_errors: no
 
-       - name: Verify xfsrestore success
-         ansible.builtin.debug:
-          msg: "Restore completed successfully: {{ restore_result.stdout }}"
-      tags:
-        - never
-        - restore
+    #    - name: Verify xfsrestore success
+    #      ansible.builtin.debug:
+    #       msg: "Restore completed successfully: {{ restore_result.stdout }}"
+    #   tags:
+    #     - never
+    #     - restore
