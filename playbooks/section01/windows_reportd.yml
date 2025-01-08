@@ -1,0 +1,68 @@
+---
+- name: Gather system data and create HTML report for Windows
+  hosts: domain_controllers
+  gather_facts: true
+
+  vars:
+    outdir: C:\Temp\reports
+    nav_width: 200px
+    failed_style: 'color:orangered'
+    missing_style: 'color:grey;text-decoration:line-through'
+    report_type: All
+
+  pre_tasks:
+    - name: Ensure the output directory exists
+      win_file:
+        path: "{{ outdir }}"
+        state: directory
+
+    - name: Set initial job status to catch missing/failed hosts
+      set_fact:
+        job_success: False
+        missing: True
+
+  tasks:
+    - name: Gather disk usage
+      win_shell: Get-PSDrive -PSProvider FileSystem | Select-Object Name, Used, Free
+      register: disk_usage
+      when: report_type == "Storage Usage" or report_type == "All"
+
+    - name: Gather OS version
+      win_shell: (Get-CimInstance -ClassName Win32_OperatingSystem).Caption
+      register: os_version
+      when: report_type == "OS Versions" or report_type == "All"
+
+    - name: Gather list of users
+      win_shell: Get-LocalUser | Select-Object Name
+      register: userlist
+      when: report_type == "User List" or report_type == "All"
+
+  post_tasks:
+    - name: Mark surviving hosts as successful
+      set_fact:
+        job_success: True
+
+    - name: Save summary facts under Ansible controller
+      delegate_to: localhost
+      delegate_facts: True
+      run_once: yes
+      set_fact:
+        date_str: "{{ ansible_date_time.date }}_{{ ansible_date_time.time }}"
+        date_str_pretty: "{{ ansible_date_time.date }} {{ ansible_date_time.time }}"
+        success_list: '{{ hostvars | dict2items | json_query(success_query) }}'
+        failed_list: '{{ hostvars | dict2items | json_query(failed_query) }}'
+        missing_list: '{{ hostvars | dict2items | json_query(missing_query) }}'
+      vars:
+        success_query: "[?value.job_success==`true`].key"
+        failed_query: "[?value.job_success==`false` && value.missing==`false`].key"
+        missing_query: "[?value.missing==`true`].key"
+
+    - name: Save job report
+      win_template:
+        src: job_report_master.j2
+        dest: "{{ outdir }}\\report.html"
+
+    - name: Copy application files to shared storage
+      win_copy:
+        src: "{{ outdir }}\\report.html"
+        dest: C:\inetpub\wwwroot\index.html
