@@ -5,6 +5,7 @@
 
   vars:
     report_path: 'C:\ansible_reports'
+    category: SecurityUpdates
 
   tasks:
   
@@ -15,8 +16,7 @@
         
     - name: Check available updates
       win_updates:
-        category_names:
-          - Definition Updates
+        category_names: "{{ category }}"
         #log_path: "{{ report_path }}"\Ansible_windows_updates.log
         state: searched
       register: update_result
