@@ -82,6 +82,7 @@
            owner: root
            group: root
            mode: 0644
+       delegate_to: node03
 
   handlers:
     - name: Restart httpd
