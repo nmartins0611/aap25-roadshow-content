@@ -1,0 +1,8 @@
+---
+- name: Execute a VSS PowerShell script on Windows
+  hosts: domain_controllers
+  tasks:
+    - name: Run VSS PowerShell script
+      win_shell: |
+        $result = vssadmin create shadow /for=C:
+        Write-Output $result
