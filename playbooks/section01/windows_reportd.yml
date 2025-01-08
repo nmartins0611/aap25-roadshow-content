@@ -23,6 +23,6 @@
     - name: Generate HTML report
       template:
         src: templates/win_patch_report.html.j2
-        dest: C:\sites\ad_report\user_info.html
+        dest: C:\inetpub\wwwroot\index.html
       vars:
         updates: "{{ update_result.updates }}"
