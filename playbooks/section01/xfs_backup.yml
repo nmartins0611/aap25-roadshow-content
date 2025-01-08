@@ -39,8 +39,8 @@
          ansible.builtin.command:
           cmd: >
             xfsrestore -f {{ backup_file }} {{ restore_point }}
-        register: restore_result
-        ignore_errors: no
+         register: restore_result
+         ignore_errors: no
 
        - name: Verify xfsrestore success
          ansible.builtin.debug:
