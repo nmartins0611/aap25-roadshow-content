@@ -24,7 +24,7 @@
     - name: Perform xfsdump backup
       ansible.builtin.command:
         cmd: >
-          xfsdump -l 0 -L {{ backup_label }}
+          xfsdump -l 0 -L -o {{ backup_label }}
           -f {{ backup_file }} {{ xfs_mount_point }}
           
     #   register: backup_result
