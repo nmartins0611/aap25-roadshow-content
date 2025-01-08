@@ -49,9 +49,9 @@
       set_fact:
         date_str: "{{ ansible_date_time.date }}_{{ ansible_date_time.time }}"
         date_str_pretty: "{{ ansible_date_time.date }} {{ ansible_date_time.time }}"
-        success_list: '{{ hostvars | dict2items | json_query(success_query) }}'
-        failed_list: '{{ hostvars | dict2items | json_query(failed_query) }}'
-        missing_list: '{{ hostvars | dict2items | json_query(missing_query) }}'
+        # success_list: '{{ hostvars | dict2items | json_query(success_query) }}'
+        # failed_list: '{{ hostvars | dict2items | json_query(failed_query) }}'
+        # missing_list: '{{ hostvars | dict2items | json_query(missing_query) }}'
       vars:
         success_query: "[?value.job_success==`true`].key"
         failed_query: "[?value.job_success==`false` && value.missing==`false`].key"
