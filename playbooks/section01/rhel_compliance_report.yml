@@ -51,34 +51,37 @@
             path: /etc/httpd/conf.d/welcome.conf
             state: absent
           notify: Restart httpd
+      delegate_to: node03
 
-    - name: Ensure report directory exists
-      ansible.builtin.file:
-        path: '{{ _report_dir }}/{{ _profile }}'
-        state: directory
-        owner: root
-        group: root
-        mode: 0755
+    - name: Create report on Report Server
+      block:
+       - name: Ensure report directory exists
+         ansible.builtin.file:
+           path: '{{ _report_dir }}/{{ _profile }}'
+           state: directory
+           owner: root
+           group: root
+           mode: 0755
 
-    - name: Set report name
-      ansible.builtin.set_fact:
-        _report: '{{ _report_dir }}/{{ _profile }}/report-{{ ansible_date_time.iso8601 }}.html'
+       - name: Set report name
+         ansible.builtin.set_fact:
+           _report: '{{ _report_dir }}/{{ _profile }}/report-{{ ansible_date_time.iso8601 }}.html'
 
-    - name: Generate compliance report
-      ansible.builtin.command: >-
-        oscap xccdf eval --profile {{ _profile }} --report {{ _report }}
-        /usr/share/xml/scap/ssg/content/ssg-rhel{{ ansible_distribution_major_version }}-ds.xml
-      args:
-        creates: '{{ _report }}'
-      register: _oscap
-      failed_when: _oscap.rc not in [0, 2]
+       - name: Generate compliance report
+         ansible.builtin.command: >-
+           oscap xccdf eval --profile {{ _profile }} --report {{ _report }}
+           /usr/share/xml/scap/ssg/content/ssg-rhel{{ ansible_distribution_major_version }}-ds.xml
+         args:
+           creates: '{{ _report }}'
+         register: _oscap
+         failed_when: _oscap.rc not in [0, 2]
 
-    - name: Set report permissions
-      ansible.builtin.file:
-        path: '{{ _report }}'
-        owner: root
-        group: root
-        mode: 0644
+       - name: Set report permissions
+         ansible.builtin.file:
+           path: '{{ _report }}'
+           owner: root
+           group: root
+           mode: 0644
 
   handlers:
     - name: Restart httpd
