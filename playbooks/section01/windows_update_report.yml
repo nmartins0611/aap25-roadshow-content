@@ -21,10 +21,12 @@
         state: searched
       register: update_result
 
-    - name: Updates found
-      debug:
-        msg: "{{ update_result }}"
-
+    - name: Check if index.html exists and delete it if it does
+      ansible.windows.win_file:
+        path: C:\inetpub\wwwroot\index.html
+        state: absent
+      ignore_errors: true
+      
     - name: Generate HTML report
       ansible.windows.win_template:
         src: templates/win_patch_report.html.j2
