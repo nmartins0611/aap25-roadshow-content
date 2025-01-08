@@ -45,22 +45,22 @@
       ansible.builtin.debug:
         msg: "Backup completed successfully: {{ backup_result.stdout }}"
 
-    - name: Ensure the restore directory exists
-      ansible.builtin.file:
-        path: "{{ restore_point }}"
-        state: directory
-        mode: '0755'
-      tags: restore
+    # - name: Ensure the restore directory exists
+    #   ansible.builtin.file:
+    #     path: "{{ restore_point }}"
+    #     state: directory
+    #     mode: '0755'
+    #   tags: restore
 
-    - name: Perform xfsrestore
-      ansible.builtin.command:
-        cmd: >
-          xfsrestore -f {{ backup_file }} {{ restore_point }}
-      register: restore_result
-      ignore_errors: no
-      tags: restore
+    # - name: Perform xfsrestore
+    #   ansible.builtin.command:
+    #     cmd: >
+    #       xfsrestore -f {{ backup_file }} {{ restore_point }}
+    #   register: restore_result
+    #   ignore_errors: no
+    #   tags: restore
 
-    - name: Verify xfsrestore success
-      ansible.builtin.debug:
-        msg: "Restore completed successfully: {{ restore_result.stdout }}"
-      tags: restore
+    # - name: Verify xfsrestore success
+    #   ansible.builtin.debug:
+    #     msg: "Restore completed successfully: {{ restore_result.stdout }}"
+    #   tags: restore
