@@ -1,22 +1,62 @@
----
-- name: Create Snapshot backup of system
-  hosts: 'node02'
+- name: Test creating snapshots as percentage of free
+  hosts: node01
   become: true
-
+  vars:
+    volume_group: test_vg
+    base_volume_name: test_lv
+    volume_size: 3g
+    base_test_directory: "/mnt/test"
+    snapshot_set_name: demo_snap
   tasks:
+  - name: Run pre-test steps
+    vars:
+      volumes:
+      - name: "{{ base_volume_name }}-1"
+        size: "{{ volume_size }}"
+        directory: "{{ base_test_directory }}-1"
+      - name: "{{ base_volume_name }}-2"
+        size: "{{ volume_size }}"
+        directory: "{{ base_test_directory }}-2"
+    ansible.builtin.include_tasks: pre-test-tasks.yml
 
-    - name: Generate snapshot list out of volumes list
+  - name: Create the snapshot
+    vars:
+      volumes:
+      - name: "{{ base_volume_name }}-1"
+        size: 45%FREE
+      - name: "{{ base_volume_name }}-2"
+        size: 45%FREE
+    ansible.builtin.include_tasks: create-snapshot.yml
+
+  - name: Verify the snapshot sizes and cleanup
+    block:
+    - name: Get the size of the created snapshot
+      ansible.builtin.command: lvs --select 'vg_name = {{ volume_group }} && origin = {{ item }}' --units b --reportformat json
+      register: lvs_response
+      changed_when: false
+      loop:
+      - "{{ base_volume_name }}-1"
+      - "{{ base_volume_name }}-2"
+    - name: Parse report
       ansible.builtin.set_fact:
-       _snapshots: "{{ (_snapshots | default([])) + [{'vg': volume_group, 'lv': item.name, 'size': item.size}] }}"
-      loop: "{{ volumes }}"
-
-    - name: Create the snapshot
+        lvs_sizes: "{{ (lvs_sizes | default([])) + [(item.stdout | from_json).report[0].lv[0].lv_size] }}"
+      loop: "{{ lvs_response.results }}"
+    - name: Assert that both snapshots have the same size
+      ansible.builtin.assert:
+        that: lvs_sizes[0] == lvs_sizes[1]
+        fail_msg: "The snapshots were not created with the same size: {{ lvs_sizes[0] }} != {{ lvs_sizes[1] }}"
+        success_msg: "Both snapshots were created with the same size: {{ lvs_sizes[0] }}"
+    always:
+    - name: Remove Snapshot
       vars:
-       snapshot_create_volumes: "{{ _snapshots }}"
-       snapshot_create_set_name: "{{ snapshot_set_name }}"
+        snapshot_remove_set_name: "{{ snapshot_set_name }}"
       ansible.builtin.include_role:
-      name: snapshot_create
-
-    - name: Verify that the snapshot was created
-      ansible.builtin.include_tasks: verify-snapshot-created.yml
-      loop: "{{ volumes }}"
+        name: snapshot_remove
+    - name: Cleanup
+      vars:
+        volumes:
+        - name: "{{ base_volume_name }}-1"
+          directory: "{{ base_test_directory }}-1"
+        - name: "{{ base_volume_name }}-2"
+          directory: "{{ base_test_directory }}-2"
+      ansible.builtin.include_tasks: post-test-tasks.yml
