@@ -24,7 +24,7 @@
 
     - name: Debug updates result
       debug:
-       msg: update_result
+       msg: {{ update_result }}
  
 
     - name: Generate HTML report
