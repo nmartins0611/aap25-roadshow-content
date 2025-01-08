@@ -1,7 +1,7 @@
 ---
 - name: Check and Report Windows Updates
   hosts: domain_controllers
-  gather_facts: false
+  gather_facts: true
 
   vars:
     report_path: 'C:\ansible_reports'
