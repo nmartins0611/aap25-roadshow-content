@@ -1,0 +1,66 @@
+---
+- name: XFS Backup and Restore Playbook
+  hosts: all
+  become: true
+  vars:
+    xfs_mount_point: "/mnt/data"    # The XFS filesystem mount point to back up
+    backup_file: "/backup/data.xfs" # Path to save the backup file
+    restore_point: "/mnt/restore"  # Destination mount point for restoration
+    backup_label: "backup_{{ ansible_date_time.iso8601 }}" # Label for the xfsdump operation
+
+  tasks:
+    - name: Check if xfsdump is installed
+      ansible.builtin.yum:
+        name: xfsdump
+        state: present
+      when: ansible_facts.os_family == "RedHat"
+
+    - name: Check if xfsrestore is installed
+      ansible.builtin.yum:
+        name: xfsrestore
+        state: present
+      when: ansible_facts.os_family == "RedHat"
+
+    - name: Check if the xfsdump command exists
+      ansible.builtin.shell:
+        cmd: which xfsdump
+        register: xfsdump_check
+        failed_when: xfsdump_check.rc != 0
+
+    - name: Ensure the backup directory exists
+      ansible.builtin.file:
+        path: "{{ backup_file | dirname }}"
+        state: directory
+        mode: '0755'
+
+    - name: Perform xfsdump backup
+      ansible.builtin.command:
+        cmd: >
+          xfsdump -l 0 -L {{ backup_label }}
+          -f {{ backup_file }} {{ xfs_mount_point }}
+      register: backup_result
+      ignore_errors: no
+
+    - name: Verify xfsdump success
+      ansible.builtin.debug:
+        msg: "Backup completed successfully: {{ backup_result.stdout }}"
+
+    - name: Ensure the restore directory exists
+      ansible.builtin.file:
+        path: "{{ restore_point }}"
+        state: directory
+        mode: '0755'
+      tags: restore
+
+    - name: Perform xfsrestore
+      ansible.builtin.command:
+        cmd: >
+          xfsrestore -f {{ backup_file }} {{ restore_point }}
+      register: restore_result
+      ignore_errors: no
+      tags: restore
+
+    - name: Verify xfsrestore success
+      ansible.builtin.debug:
+        msg: "Restore completed successfully: {{ restore_result.stdout }}"
+      tags: restore
