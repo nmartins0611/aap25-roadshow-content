@@ -15,12 +15,6 @@
         state: present
       when: ansible_facts.os_family == "RedHat"
 
-    - name: Check if the xfsdump command exists
-      ansible.builtin.shell:
-        cmd: which xfsdump
-        register: xfsdump_check
-        failed_when: xfsdump_check.rc != 0
-
     - name: Ensure the backup directory exists
       ansible.builtin.file:
         path: "{{ backup_file | dirname }}"
