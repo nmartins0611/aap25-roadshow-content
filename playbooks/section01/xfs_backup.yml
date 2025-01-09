@@ -4,8 +4,7 @@
   become: true
   vars:
     xfs_mount_point: "/"    # The XFS filesystem mount point to back up
-    backup_file: "/backup/data.xfsdump"
-    restore_point: "/"  # Destination mount point for restoration
+    backup_file: "/backup/data_{{ inventory_hostname }}_{{ ansible_date_time.date }}_{{ ansible_date_time.time | replace(':', '') }}.xfsdump"
     backup_label: "backup_{{ ansible_date_time.iso8601 }}" # Label for the xfsdump operation
 
   tasks:
