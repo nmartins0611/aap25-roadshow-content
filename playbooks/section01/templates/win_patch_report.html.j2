@@ -6,7 +6,7 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 20px;
-            background-color: #f3f3f3;
+            background-color: #f9f9f9;
             color: #333;
         }
         h1 {
@@ -19,7 +19,7 @@
             background-color: #fff;
         }
         th, td {
-            border: 1px solid #e1e1e1;
+            border: 1px solid #ddd;
             padding: 12px 15px;
             text-align: left;
         }
@@ -30,63 +30,128 @@
             letter-spacing: 0.5px;
         }
         tr:nth-child(even) {
-            background-color: #f9f9f9;
+            background-color: #f4f4f4;
         }
         tr:hover {
             background-color: #eef7ff;
+        }
+        .section-title {
+            margin-top: 20px;
+            color: #2b579a;
+            text-transform: uppercase;
         }
     </style>
 </head>
 <body>
     <h1>Windows Updates Report</h1>
+
+    <h2 class="section-title">Updates</h2>
+    {% if updates %}
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>KB Numbers</th>
+                <th>Categories</th>
+                <th>Downloaded</th>
+                <th>Installed</th>
+                <th>Update ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for update_id, update in updates.items() %}
+            <tr>
+                <td>{{ update.title }}</td>
+                <td>
+                    {% if update.kb %}
+                    <ul>
+                        {% for kb_number in update.kb %}
+                        <li>KB{{ kb_number }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    N/A
+                    {% endif %}
+                </td>
+                <td>{{ update.categories | join(', ') }}</td>
+                <td>{{ update.downloaded }}</td>
+                <td>{{ update.installed }}</td>
+                <td>{{ update_id }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No updates available.</p>
+    {% endif %}
+
+    <h2 class="section-title">Filtered Updates</h2>
+    {% if filtered_updates | default([]) %}
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>KB Numbers</th>
+                <th>Categories</th>
+                <th>Downloaded</th>
+                <th>Installed</th>
+                <th>Filtered Reason</th>
+                <th>Update ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for update_id, update in filtered_updates.items() %}
+            <tr>
+                <td>{{ update.title }}</td>
+                <td>
+                    {% if update.kb %}
+                    <ul>
+                        {% for kb_number in update.kb %}
+                        <li>KB{{ kb_number }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    N/A
+                    {% endif %}
+                </td>
+                <td>{{ update.categories | join(', ') }}</td>
+                <td>{{ update.downloaded }}</td>
+                <td>{{ update.installed }}</td>
+                <td>{{ update.filtered_reasons | join(', ') }}</td>
+                <td>{{ update_id }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No filtered updates available.</p>
+    {% endif %}
+
+    <h2 class="section-title">Summary</h2>
     <table>
         <tr>
-            <th>Server Name</th>
-            <th>Required Updates</th>
+            <th>Field</th>
+            <th>Value</th>
         </tr>
         <tr>
-            <td>{{ inventory_hostname }}</td>
-            <td>
-                {% if updates | length == 0 %}
-                    <div class="no-updates">No updates needed</div>
-                {% else %}
-                    <ul>
-                        {% for update_id, update in updates.items() %}
-                            <li>
-                                <strong>Title:</strong> {{ update.title }}
-                                <br>
-                                <strong>KB Numbers:</strong>
-                                <ul>
-                                    {% for kb_number in update.kb %}
-                                        <li>KB{{ kb_number }}</li>
-                                    {% endfor %}
-                                </ul>
-                                <br> Categories: {{ update.categories | join(', ') }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-
-                {% if filtered_updates | length == 0 %}
-                    <div class="no-updates">No filtered updates needed</div>
-                {% else %}
-                    <ul>
-                        {% for update_id, update in filtered_updates.items() %}
-                            <li>
-                                <strong>Title:</strong> {{ update.title }}
-                                <br>
-                                <strong>KB Numbers:</strong>
-                                <ul>
-                                    {% for kb_number in update.kb %}
-                                        <li>KB{{ kb_number }}</li>
-                                    {% endfor %}
-                                </ul>
-                                <br> Categories: {{ update.categories | join(', ') }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            </td>
+            <td>Reboot Required</td>
+            <td>{{ reboot_required }}</td>
+        </tr>
+        <tr>
+            <td>Found Update Count</td>
+            <td>{{ found_update_count }}</td>
+        </tr>
+        <tr>
+            <td>Failed Update Count</td>
+            <td>{{ failed_update_count }}</td>
+        </tr>
+        <tr>
+            <td>Installed Update Count</td>
+            <td>{{ installed_update_count }}</td>
+        </tr>
+        <tr>
+            <td>Failed</td>
+            <td>{{ failed }}</td>
         </tr>
     </table>
 </body>
