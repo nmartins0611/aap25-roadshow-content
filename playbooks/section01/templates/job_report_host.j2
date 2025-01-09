@@ -35,6 +35,11 @@
     <pre style="margin: 0;">{{ hostvars[thehost]['storageusage']['stdout'] | default('no output') | trim }}</pre>
   </div>
 
+    <p style="font-size: 16px; font-weight: bold;">Available Backups:</p>
+  <div style="background-color: #f9f9f9; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-family: monospace;">
+    <pre style="margin: 0;">{{ hostvars[thehost]['dir_listing']['stdout'] | default('no output') | trim }}</pre>
+  </div>
+
   <p style="font-size: 16px; font-weight: bold;">Users:</p>
   <div style="background-color: #f9f9f9; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-family: monospace;">
     <pre style="margin: 0;">{{ hostvars[thehost]['userlist']['stdout'] | default('no output') | trim }}</pre>
