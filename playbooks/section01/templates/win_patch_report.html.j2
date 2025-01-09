@@ -50,34 +50,41 @@
                 {% if updates | length == 0 %}
                     <div class="no-updates">No updates needed</div>
                 {% else %}
-                <ul>
-                    {% for update_id, update in updates.items() %}
-                        <li>
-                            <strong>Title:</strong> {{ update.title }}
-                            <br>
-                            <strong>KB Numbers:</strong>
-                            <ul>
-                                {% for kb_number in update.kb %}
-                                    <li>KB{{ kb_number }}</li>
-                                {% endfor %}
-                            </ul>
-                            <br> Categories: {{ update.categories | join(', ') }}
-                        </li>
-                    {% endfor %}
-                    {% for fupdate_id, fupate in filtered_updates.items() %}
-                        <li>
-                            <strong>Title:</strong> {{ fupdate.title }}
-                            <br>
-                            <strong>KB Numbers:</strong>
-                            <ul>
-                                {% for kb_number in fupdate.kb %}
-                                    <li>KB{{ kb_number }}</li>
-                                {% endfor %}
-                            </ul>
-                            <br> Categories: {{ fupdate.categories | join(', ') }}
-                        </li>
-                    {% endfor %}
-                </ul>
+                    <ul>
+                        {% for update_id, update in updates.items() %}
+                            <li>
+                                <strong>Title:</strong> {{ update.title }}
+                                <br>
+                                <strong>KB Numbers:</strong>
+                                <ul>
+                                    {% for kb_number in update.kb %}
+                                        <li>KB{{ kb_number }}</li>
+                                    {% endfor %}
+                                </ul>
+                                <br> Categories: {{ update.categories | join(', ') }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+                {% if filtered_updates | length == 0 %}
+                    <div class="no-updates">No filtered updates needed</div>
+                {% else %}
+                    <ul>
+                        {% for update_id, update in filtered_updates.items() %}
+                            <li>
+                                <strong>Title:</strong> {{ update.title }}
+                                <br>
+                                <strong>KB Numbers:</strong>
+                                <ul>
+                                    {% for kb_number in update.kb %}
+                                        <li>KB{{ kb_number }}</li>
+                                    {% endfor %}
+                                </ul>
+                                <br> Categories: {{ update.categories | join(', ') }}
+                            </li>
+                        {% endfor %}
+                    </ul>
                 {% endif %}
             </td>
         </tr>
