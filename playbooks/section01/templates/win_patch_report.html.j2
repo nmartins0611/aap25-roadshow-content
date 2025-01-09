@@ -38,36 +38,62 @@
     </style>
 </head>
 <body>
-    <h1>Windows Updates Report</h1>
-    <table>
-        <tr>
-            <th>Server Name</th>
-            <th>Required Updates</th>
-        </tr>
-        <tr>
-            <td>{{ inventory_hostname }}</td>
-            <td>
-                {% if updates | length == 0 %}
-                    <div class="no-updates">No updates needed</div>
-                {% else %}
-                <ul>
+    <div class="container">
+        <h1>Updates Dashboard</h1>
+
+        <div>
+            <div class="section-title">Available Updates</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>KB</th>
+                        <th>Categories</th>
+                        <th>Downloaded</th>
+                        <th>Installed</th>
+                    </tr>
+                </thead>
+                <tbody>
                     {% for update_id, update in updates.items() %}
-                        <li>
-                            <strong>Title:</strong> {{ update.title }}
-                            <br> 
-                            <strong>KB Numbers:</strong>
-                            <ul>
-                                {% for kb_number in update.kb %}
-                                    <li>KB{{ kb_number }}</li>
-                                {% endfor %}
-                            </ul>
-                            <br> Categories: {{ update.categories | join(', ') }}
-                        </li>
+                    <tr>
+                        <td>{{ update.title }}</td>
+                        <td>{{ update.kb | join(", ") }}</td>
+                        <td>{{ update.categories | join(", ") }}</td>
+                        <td>{{ "Yes" if update.downloaded else "No" }}</td>
+                        <td>{{ "Yes" if update.installed else "No" }}</td>
+                    </tr>
                     {% endfor %}
-                </ul>
-                {% endif %}
-            </td>
-        </tr>
-    </table>
+                </tbody>
+            </table>
+        </div>
+
+        <div>
+            <div class="section-title">Filtered Updates</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>KB</th>
+                        <th>Categories</th>
+                        <th>Downloaded</th>
+                        <th>Installed</th>
+                        <th>Filter Reason</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for update_id, update in filtered_updates.items() %}
+                    <tr>
+                        <td>{{ update.title }}</td>
+                        <td>{{ update.kb | join(", ") }}</td>
+                        <td>{{ update.categories | join(", ") }}</td>
+                        <td>{{ "Yes" if update.downloaded else "No" }}</td>
+                        <td>{{ "Yes" if update.installed else "No" }}</td>
+                        <td>{{ update.filtered_reason }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </body>
 </html>
