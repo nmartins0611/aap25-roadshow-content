@@ -1,0 +1,17 @@
+---
+- name: Checking for backups
+  hosts: all
+  become: true
+  vars:
+    backup_file: "/backup/data_{{ inventory_hostname }}_{{ ansible_date_time.date }}_{{ ansible_date_time.time | replace(':', '') }}.xfsdump"
+
+  tasks:
+
+    - name: Verify the dumps
+      ansible.builtin.command:
+        cmd: ls -l "{{ backup_file | dirname }}"
+      register: dir_listing
+
+    - name: Show the directory listing
+      ansible.builtin.debug:
+        var: dir_listing.stdout
