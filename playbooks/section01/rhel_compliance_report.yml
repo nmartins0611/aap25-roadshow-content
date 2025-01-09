@@ -2,7 +2,18 @@
 - name: Generate OpenSCAP compliance report
   hosts: Streaming_Infrastucture
   become: true
+
+  
+  vars:
+    openscap_packages:
+      - openscap-scanner
+      - openscap-utils
+      - scap-security-guide
+    compliance_profile: ospp
+    use_httpd: true
+    
   tasks:
+  
     - name: Check if the system is RHEL 8
       ansible.builtin.debug:
         msg: "This playbook is not compatible with {{ inventory_hostname }} (not RHEL 8)"
