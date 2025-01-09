@@ -5,7 +5,7 @@
 
   vars:
     report_path: 'C:\ansible_reports'
-    category: Definition Updates
+    category:
 
   tasks:
   
