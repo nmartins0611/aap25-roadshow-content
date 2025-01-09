@@ -10,6 +10,7 @@
     failed_style: 'color:orangered'
     missing_style: 'color:grey;text-decoration:line-through'
     report_type:
+    backup_file: "/backup/data_{{ inventory_hostname }}_{{ ansible_date_time.date }}_{{ ansible_date_time.time | replace(':', '') }}.xfsdump"
 
   pre_tasks:
        
