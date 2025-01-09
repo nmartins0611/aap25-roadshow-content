@@ -64,7 +64,7 @@
 
        - name: Set report name
          ansible.builtin.set_fact:
-           _report: '{{ _report_dir }}/{{ _profile }}/report-{{ inventory_host }}-{{ ansible_date_time.iso8601 }}.html'
+           _report: '{{ _report_dir }}/{{ _profile }}/report-{{ inventory_hostname }}-{{ ansible_date_time.iso8601 }}.html'
 
        - name: Generate compliance report
          ansible.builtin.command: >-
