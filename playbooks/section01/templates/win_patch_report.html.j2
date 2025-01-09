@@ -6,8 +6,29 @@
     <title>Windows Update Report</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f3f3;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #0078d4;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        main {
+            margin: 20px auto;
+            padding: 20px;
+            max-width: 1200px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
         }
         table {
             width: 100%;
@@ -15,105 +36,134 @@
             margin-bottom: 20px;
         }
         th, td {
+            padding: 10px;
             border: 1px solid #ddd;
-            padding: 8px;
         }
         th {
-            background-color: #f2f2f2;
+            background-color: #e1e1e1;
             text-align: left;
         }
-        .section-title {
+        td ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        td ul li {
+            list-style-type: disc;
+        }
+        h2 {
+            border-bottom: 2px solid #0078d4;
+            padding-bottom: 5px;
             margin-top: 30px;
-            font-size: 1.5em;
-            color: #333;
+            color: #0078d4;
+        }
+        p {
+            margin: 10px 0;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #f1f1f1;
+            color: #555;
+        }
+        .empty-message {
+            font-style: italic;
+            color: #666;
         }
     </style>
 </head>
 <body>
-    <h1>Windows Update Report</h1>
-    <p><strong>Date Generated:</strong> {{ ansible_date_time.date }}</p>
-    <p><strong>Reboot Required:</strong> {{ reboot_required | default(false) }}</p>
-    
-    <h2 class="section-title">Available Updates</h2>
-    {% if updates | default({}) %}
-    <table>
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>KB Numbers</th>
-                <th>Categories</th>
-                <th>Downloaded</th>
-                <th>Installed</th>
-                <th>Update ID</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for update_id, update in updates.items() %}
-            <tr>
-                <td>{{ update.title }}</td>
-                <td>
-                    {% if update.kb %}
-                    <ul>
-                        {% for kb_number in update.kb %}
-                        <li>KB{{ kb_number }}</li>
-                        {% endfor %}
-                    </ul>
-                    {% else %}
-                    N/A
-                    {% endif %}
-                </td>
-                <td>{{ update.categories | join(', ') }}</td>
-                <td>{{ update.downloaded }}</td>
-                <td>{{ update.installed }}</td>
-                <td>{{ update_id }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-    <p>No updates available.</p>
-    {% endif %}
-    
-    <h2 class="section-title">Filtered Updates</h2>
-    {% if filtered_updates | default({}) %}
-    <table>
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>KB Numbers</th>
-                <th>Categories</th>
-                <th>Downloaded</th>
-                <th>Installed</th>
-                <th>Filtered Reason</th>
-                <th>Update ID</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for update_id, update in filtered_updates.items() %}
-            <tr>
-                <td>{{ update.title }}</td>
-                <td>
-                    {% if update.kb %}
-                    <ul>
-                        {% for kb_number in update.kb %}
-                        <li>KB{{ kb_number }}</li>
-                        {% endfor %}
-                    </ul>
-                    {% else %}
-                    N/A
-                    {% endif %}
-                </td>
-                <td>{{ update.categories | join(', ') }}</td>
-                <td>{{ update.downloaded }}</td>
-                <td>{{ update.installed }}</td>
-                <td>{{ update.filtered_reasons | join(', ') }}</td>
-                <td>{{ update_id }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-    <p>No filtered updates available.</p>
-    {% endif %}
+    <header>
+        <h1>Windows Update Report</h1>
+    </header>
+    <main>
+        <p><strong>Date Generated:</strong> {{ ansible_date_time.date }}</p>
+        <p><strong>Reboot Required:</strong> {{ reboot_required | default(false) }}</p>
+
+        <h2>Available Updates</h2>
+        {% if updates | default({}) %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>KB Numbers</th>
+                    <th>Categories</th>
+                    <th>Downloaded</th>
+                    <th>Installed</th>
+                    <th>Update ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for update_id, update in updates.items() %}
+                <tr>
+                    <td>{{ update.title }}</td>
+                    <td>
+                        {% if update.kb %}
+                        <ul>
+                            {% for kb_number in update.kb %}
+                            <li>KB{{ kb_number }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        N/A
+                        {% endif %}
+                    </td>
+                    <td>{{ update.categories | join(', ') }}</td>
+                    <td>{{ update.downloaded }}</td>
+                    <td>{{ update.installed }}</td>
+                    <td>{{ update_id }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="empty-message">No updates available.</p>
+        {% endif %}
+
+        <h2>Filtered Updates</h2>
+        {% if filtered_updates | default({}) %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>KB Numbers</th>
+                    <th>Categories</th>
+                    <th>Downloaded</th>
+                    <th>Installed</th>
+                    <th>Filtered Reason</th>
+                    <th>Update ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for update_id, update in filtered_updates.items() %}
+                <tr>
+                    <td>{{ update.title }}</td>
+                    <td>
+                        {% if update.kb %}
+                        <ul>
+                            {% for kb_number in update.kb %}
+                            <li>KB{{ kb_number }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        N/A
+                        {% endif %}
+                    </td>
+                    <td>{{ update.categories | join(', ') }}</td>
+                    <td>{{ update.downloaded }}</td>
+                    <td>{{ update.installed }}</td>
+                    <td>{{ update.filtered_reasons | join(', ') }}</td>
+                    <td>{{ update_id }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="empty-message">No filtered updates available.</p>
+        {% endif %}
+    </main>
+    <footer>
+        <p>&copy; {{ ansible_date_time.year }} Windows Update Report</p>
+    </footer>
 </body>
 </html>
