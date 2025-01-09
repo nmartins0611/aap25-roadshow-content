@@ -47,6 +47,11 @@
       register: userlist
       when: report_type == "User List" or report_type == "All"
 
+    - name: Verify the dumps
+      ansible.builtin.command:
+        cmd: ls -l "{{ backup_file | dirname }}"
+      register: dir_listing
+
   post_tasks:
 
     - name: Mark surviving hosts as successful
