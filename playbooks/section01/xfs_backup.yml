@@ -32,6 +32,15 @@
       ansible.builtin.debug:
         msg: "Backup completed successfully: {{ backup_result.stdout }}"
 
+    - name: Verify the dumps
+      ansible.builtin.command:
+        cmd: ls -l /path/to/directory
+      register: dir_listing
+
+    - name: Show the directory listing
+      ansible.builtin.debug:
+        var: dir_listing.stdout
+
     # - name: Restore from XFS dump
     #   block:
     #    - name: Perform xfsrestore
