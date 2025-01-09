@@ -1,99 +1,119 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Windows Updates Report</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows Update Report</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Arial, sans-serif;
             margin: 20px;
-            background-color: #f3f3f3;
-            color: #333;
-        }
-        h1 {
-            color: #2b579a;
         }
         table {
-            border-collapse: collapse;
             width: 100%;
-            margin-top: 20px;
-            background-color: #fff;
+            border-collapse: collapse;
+            margin-bottom: 20px;
         }
         th, td {
-            border: 1px solid #e1e1e1;
-            padding: 12px 15px;
-            text-align: left;
+            border: 1px solid #ddd;
+            padding: 8px;
         }
         th {
-            background-color: #2b579a;
-            color: white;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            background-color: #f2f2f2;
+            text-align: left;
         }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        tr:hover {
-            background-color: #eef7ff;
+        .section-title {
+            margin-top: 30px;
+            font-size: 1.5em;
+            color: #333;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Updates Dashboard</h1>
-
-        <div>
-            <div class="section-title">Available Updates</div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>KB</th>
-                        <th>Categories</th>
-                        <th>Downloaded</th>
-                        <th>Installed</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for update_id, update in updates.items() %}
-                    <tr>
-                        <td>{{ update.title }}</td>
-                        <td>{{ update.kb | join(", ") }}</td>
-                        <td>{{ update.categories | join(", ") }}</td>
-                        <td>{{ "Yes" if update.downloaded else "No" }}</td>
-                        <td>{{ "Yes" if update.installed else "No" }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-
-        <div>
-            <div class="section-title">Filtered Updates</div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>KB</th>
-                        <th>Categories</th>
-                        <th>Downloaded</th>
-                        <th>Installed</th>
-                        <th>Filter Reason</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for update_id, update in filtered_updates.items() %}
-                    <tr>
-                        <td>{{ update.title }}</td>
-                        <td>{{ update.kb | join(", ") }}</td>
-                        <td>{{ update.categories | join(", ") }}</td>
-                        <td>{{ "Yes" if update.downloaded else "No" }}</td>
-                        <td>{{ "Yes" if update.installed else "No" }}</td>
-                        <td>{{ update.filtered_reason }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
+    <h1>Windows Update Report</h1>
+    <p><strong>Date Generated:</strong> {{ ansible_date_time.date }}</p>
+    <p><strong>Reboot Required:</strong> {{ reboot_required | default(false) }}</p>
+    
+    <h2 class="section-title">Available Updates</h2>
+    {% if updates | default({}) %}
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>KB Numbers</th>
+                <th>Categories</th>
+                <th>Downloaded</th>
+                <th>Installed</th>
+                <th>Update ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for update_id, update in updates.items() %}
+            <tr>
+                <td>{{ update.title }}</td>
+                <td>
+                    {% if update.kb %}
+                    <ul>
+                        {% for kb_number in update.kb %}
+                        <li>KB{{ kb_number }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    N/A
+                    {% endif %}
+                </td>
+                <td>{{ update.categories | join(', ') }}</td>
+                <td>{{ update.downloaded }}</td>
+                <td>{{ update.installed }}</td>
+                <td>{{ update_id }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No updates available.</p>
+    {% endif %}
+    
+    <h2 class="section-title">Filtered Updates</h2>
+    {% if filtered_updates | default({}) %}
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>KB Numbers</th>
+                <th>Categories</th>
+                <th>Downloaded</th>
+                <th>Installed</th>
+                <th>Filtered Reason</th>
+                <th>Update ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for update_id, update in filtered_updates.items() %}
+            <tr>
+                <td>{{ update.title }}</td>
+                <td>
+                    {% if update.kb %}
+                    <ul>
+                        {% for kb_number in update.kb %}
+                        <li>KB{{ kb_number }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    N/A
+                    {% endif %}
+                </td>
+                <td>{{ update.categories | join(', ') }}</td>
+                <td>{{ update.downloaded }}</td>
+                <td>{{ update.installed }}</td>
+                <td>{{ update.filtered_reasons | join(', ') }}</td>
+                <td>{{ update_id }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No filtered updates available.</p>
+    {% endif %}
 </body>
 </html>
