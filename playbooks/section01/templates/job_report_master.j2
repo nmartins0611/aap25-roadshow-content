@@ -115,16 +115,7 @@
     {% for item in ansible_play_hosts_all | sort %}
     <a {% if item in hostvars['localhost']['failed_list'] %}style="color: #ff6347;"{% elif item in hostvars['localhost']['missing_list'] %}style="color: #ffcc00;"{% endif %} href="#{{ item }}">{{ item }}</a>
     {% endfor %}
-    <hr>
-    <p>Missing Hosts</p>
-    {% for item in hostvars['localhost']['missing_list'] %}
-      <a href="#{{ item }}">{{ item }}</a>
-    {% endfor %}
-    <hr>
-    <p>Failed Hosts</p>
-    {% for item in hostvars['localhost']['failed_list'] %}
-    <a href="#{{ item }}">{{ item }}</a>
-    {% endfor %}
+    
   </div>
 
   <div class="content">
