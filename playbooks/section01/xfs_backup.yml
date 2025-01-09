@@ -9,11 +9,11 @@
 
   tasks:
 
-    - name: Check available disk space
-      ansible.builtin.command:
-        cmd: df --output=avail -h / | tail -n 1
-      register: disk_space
-      changed_when: false
+    # - name: Check available disk space
+    #   ansible.builtin.command:
+    #     cmd: df --output=avail -h / | tail -n 1
+    #   register: disk_space
+    #   changed_when: false
 
     # - name: Skip the host if disk space is less than 5GB
     #   ansible.builtin.debug:
