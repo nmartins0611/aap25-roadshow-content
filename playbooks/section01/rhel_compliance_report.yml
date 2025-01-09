@@ -64,7 +64,7 @@
 
        - name: Set report name
          ansible.builtin.set_fact:
-           _report: '{{ _report_dir }}/{{ _profile }}/report-{{ ansible_date_time.iso8601 }}.html'
+           _report: '{{ _report_dir }}/{{ _profile }}/report-{{ inventory_host }}-{{ ansible_date_time.iso8601 }}.html'
 
        - name: Generate compliance report
          ansible.builtin.command: >-
@@ -81,6 +81,13 @@
            owner: root
            group: root
            mode: 0644
+
+        - name: Grab other reports
+          ansible.builtin.fetch:
+            src: "{{  _report }}"
+            dest: '{{ _report_dir }}/{{ _profile }}'
+            flat: yes
+          delegate_to: node03  
 
   handlers:
     - name: Restart httpd
