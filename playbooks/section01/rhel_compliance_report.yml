@@ -88,17 +88,3 @@
         name: httpd
         state: restarted
         enabled: true
-
----
-- name: Generate OpenSCAP compliance report
-  hosts: node03
-  become: true
-
-  tasks:
-   
-    - name: Grab other reports
-      ansible.builtin.fetch:
-        src: "{{  _report }}"
-        dest: '{{ _report_dir }}/{{ _profile }}'
-        flat: yes
-      delegate_to: node03  
