@@ -34,7 +34,7 @@
 
     - name: Verify the dumps
       ansible.builtin.command:
-        cmd: ls -l /path/to/directory
+        cmd: ls -l "{{ backup_file | dirname }}"
       register: dir_listing
 
     - name: Show the directory listing
