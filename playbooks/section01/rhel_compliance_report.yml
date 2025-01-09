@@ -1,6 +1,6 @@
 ---
 - name: Generate OpenSCAP compliance report
-  hosts: node02
+  hosts: Streaming_Infrastucture
   become: true
   tasks:
     - name: Check if the system is RHEL 8
