@@ -54,7 +54,7 @@
                     {% for update_id, update in updates.items() %}
                         <li>
                             <strong>Title:</strong> {{ update.title }}
-                            <br> 
+                            <br>
                             <strong>KB Numbers:</strong>
                             <ul>
                                 {% for kb_number in update.kb %}
@@ -62,6 +62,19 @@
                                 {% endfor %}
                             </ul>
                             <br> Categories: {{ update.categories | join(', ') }}
+                        </li>
+                    {% endfor %}
+                    {% for fupdate_id, fupate in filtered_updates.items() %}
+                        <li>
+                            <strong>Title:</strong> {{ fupdate.title }}
+                            <br>
+                            <strong>KB Numbers:</strong>
+                            <ul>
+                                {% for kb_number in fupdate.kb %}
+                                    <li>KB{{ kb_number }}</li>
+                                {% endfor %}
+                            </ul>
+                            <br> Categories: {{ fupdate.categories | join(', ') }}
                         </li>
                     {% endfor %}
                 </ul>
