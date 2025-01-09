@@ -82,12 +82,12 @@
            group: root
            mode: 0644
 
-        - name: Grab other reports
-          ansible.builtin.fetch:
-            src: "{{  _report }}"
-            dest: '{{ _report_dir }}/{{ _profile }}'
-            flat: yes
-          delegate_to: node03  
+       - name: Grab other reports
+         ansible.builtin.fetch:
+           src: "{{  _report }}"
+           dest: '{{ _report_dir }}/{{ _profile }}'
+           flat: yes
+         delegate_to: node03  
 
   handlers:
     - name: Restart httpd
