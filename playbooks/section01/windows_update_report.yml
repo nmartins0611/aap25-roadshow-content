@@ -35,5 +35,12 @@
       ansible.windows.win_template:
         src: templates/win_patch_report.html.j2
         dest: C:\inetpub\wwwroot\index.html
+      notify: restart_iis
       vars:
-        updates: "{{ update_result.updates }}"
+        updates: "{{ update_result.updates }}" 
+
+
+    - name: Restart IIS service
+      ansible.windows.win_service:
+        name: W3SVC
+        state: restarted
