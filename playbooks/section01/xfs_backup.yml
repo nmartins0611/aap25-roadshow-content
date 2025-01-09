@@ -8,6 +8,19 @@
     backup_label: "backup_{{ ansible_date_time.iso8601 }}" # Label for the xfsdump operation
 
   tasks:
+
+    - name: Check available disk space
+      ansible.builtin.command:
+        cmd: df --output=avail -h / | tail -n 1
+      register: disk_space
+      changed_when: false
+
+    - name: Skip the host if disk space is less than 5GB
+      ansible.builtin.debug:
+        msg: "Available disk space is less than 5GB. Skipping this host. Disk space: {{ disk_space.stdout }}"
+      when: disk_space.stdout | int < 5
+      meta: end_play
+  
     - name: Check if xfsdump is installed
       ansible.builtin.yum:
         name: xfsdump
