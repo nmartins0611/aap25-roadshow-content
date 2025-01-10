@@ -1,0 +1,17 @@
+---
+- name: Check for VSS Snapshots
+  hosts: domain_controllers
+
+  tasks:
+
+    - name: Retrieve details of all shadow copies
+      win_shell: |
+        vssadmin list shadows
+      register: shadow_list_output
+
+    - name: Parse and display shadow copy details
+      debug:
+        msg: >
+          {%- for line in shadow_list_output.stdout_lines -%}
+          {{ line }}
+          {%- endfor -%}
