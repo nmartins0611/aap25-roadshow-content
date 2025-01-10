@@ -18,7 +18,8 @@
       ansible.windows.win_updates:
         category_names: "{{ category }}"
         #log_path: "{{ report_path }}"\Ansible_windows_updates.log
-        state: searched
+        state: installed
+      check_mode: yes  
       register: update_result
 
     # - name: Show us the updates
