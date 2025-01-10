@@ -5,8 +5,7 @@
 
   vars:
     report_path: 'C:\ansible_reports'
-    category:
-
+    category: "Developer Kits"
   tasks:
   
     - name: Create site directory structure
