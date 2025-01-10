@@ -15,7 +15,8 @@
         
     - name: Check available updates
       ansible.windows.win_updates:
-        category_names: "{{ category | default(omit) }}"
+        category_names: 
+         - "{{ category | default(omit) }}"
 #        reboot: "{{ allow_reboot }}"
         state: searched
       register: update_result
