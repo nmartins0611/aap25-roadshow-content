@@ -13,11 +13,11 @@
         path: "{{ report_path }}"
         state: directory
 
-    - name: Check if index.html exists and delete it if it does
-      ansible.windows.win_file:
-        path: C:\inetpub\wwwroot\index.html
-        state: absent
-      ignore_errors: true
+    # - name: Check if index.html exists and delete it if it does
+    #   ansible.windows.win_file:
+    #     path: C:\inetpub\wwwroot\index.html
+    #     state: absent
+    #   ignore_errors: true
         
     - name: Check available updates
       ansible.windows.win_updates:
@@ -35,6 +35,7 @@
       ansible.windows.win_template:
         src: templates/win_patch_report.html.j2
         dest: C:\inetpub\wwwroot\index.html
+        force: true  
       notify: restart_iis
       vars:
         updates: "{{ update_result.updates }}" 
