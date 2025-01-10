@@ -16,14 +16,14 @@
         
     - name: Check available updates
       ansible.windows.win_updates:
-        category_names: "{{ win_update_categories | default(omit) }}"
+        category_names: "{{ category | default(omit) }}"
 #        reboot: "{{ allow_reboot }}"
         state: searched
       register: update_result
 
-    # - name: Show us the updates
-    #   debug:
-    #     msg: "{{ update_result }}"
+    - name: Show us the updates
+      debug:
+        msg: "{{ category }}"
 
     - name: Check if index.html exists and delete it if it does
       ansible.windows.win_file:
