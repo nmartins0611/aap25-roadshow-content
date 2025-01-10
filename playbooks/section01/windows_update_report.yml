@@ -5,7 +5,8 @@
 
   vars:
     report_path: 'C:\ansible_reports'
-    category:
+    update_catagory:
+    
   tasks:
   
     - name: Create site directory structure
@@ -15,12 +16,12 @@
 
     - name: Show us the updates
       debug:
-        msg: "{{ category }}"
+        msg: "{{ update_catagory }}"
 
     - name: Check available updates
       ansible.windows.win_updates:
         category_names: 
-         - "{{ category | default(omit) }}"
+         - "{{ update_catagory | default(omit) }}"
         state: searched
       register: update_result
      
