@@ -8,6 +8,7 @@
       win_shell: |
         vssadmin list shadows
       register: shadow_list_output
+      ignore_errors: yes
 
     - name: Parse and display shadow copy details
       debug:
