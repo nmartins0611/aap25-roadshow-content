@@ -42,4 +42,4 @@
 
     - name: Display summarized shadow copies
       debug:
-        msg: "{{ shadow_summary_output.stdout_lines }}"
+        msg: "{{ shadow_list_output }}"
