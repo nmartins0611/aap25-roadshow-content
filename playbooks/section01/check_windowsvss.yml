@@ -11,9 +11,35 @@
       ignore_errors: true
       no_log: true
 
-    - name: Parse and display shadow copy details
+    # - name: Parse and display shadow copy details
+    #   debug:
+    #     msg: >
+    #       {%- for line in shadow_list_output.stdout_lines -%}
+    #       {{ line }}
+    #       {%- endfor -%}
+
+    - name: List all shadow copies (summary)
+      win_shell: |
+        $output = vssadmin list shadows
+        $output -split "`n`n" | ForEach-Object {
+          if ($_ -match "Shadow Copy ID:\s*({[0-9a-fA-F-]+})") {
+            $id = $matches[1]
+          }
+          if ($_ -match "Creation Time:\s*(.+)") {
+            $time = $matches[1]
+          }
+          if ($_ -match "Volume Name:\s*(.+)") {
+            $volume = $matches[1]
+          }
+          if ($id) {
+            Write-Output "Shadow Copy ID: $id"
+            Write-Output "Volume Name: $volume"
+            Write-Output "Creation Time: $time"
+            Write-Output "-----------------------------"
+          }
+        }
+      register: shadow_summary_output
+
+    - name: Display summarized shadow copies
       debug:
-        msg: >
-          {%- for line in shadow_list_output.stdout_lines -%}
-          {{ line }}
-          {%- endfor -%}
+        msg: "{{ shadow_summary_output.stdout_lines }}"
