@@ -6,7 +6,20 @@
 
     - name: Install my.exe silently using PowerShell
       win_shell: |
-        Start-Process -FilePath "C:\ck.exe" -ArgumentList "-s" -Wait -NoNewWindow
+       
+         # Define the path to the installer
+           $installerPath = "C:\ck.exe"
+
+          # Define silent installation arguments (adjust as needed for Check Point's installer)
+          $silentArgs = "/quiet /norestart /log C:\InstallLogs\CheckpointR81_20.log"
+
+          # Create the directory for logs if it doesn't exist
+          if (!(Test-Path -Path "C:\InstallLogs")) {
+              New-Item -ItemType Directory -Path "C:\InstallLogs" | Out-Null
+          }
+
+# Run the installer with silent arguments
+          Start-Process -FilePath $installerPath -ArgumentList $silentArgs -Wait -NoNewWindow   
       args:
         executable: powershell.exe
       register: install_output
@@ -17,24 +30,24 @@
 
 
 
-# # Define the path to the installer
-# $installerPath = "C:\ck.exe"
+# Define the path to the installer
+$installerPath = "C:\ck.exe"
 
-# # Define silent installation arguments (adjust as needed for Check Point's installer)
-# $silentArgs = "/quiet /norestart /log C:\InstallLogs\CheckpointR81_20.log"
+# Define silent installation arguments (adjust as needed for Check Point's installer)
+$silentArgs = "/quiet /norestart /log C:\InstallLogs\CheckpointR81_20.log"
 
-# # Create the directory for logs if it doesn't exist
-# if (!(Test-Path -Path "C:\InstallLogs")) {
-#     New-Item -ItemType Directory -Path "C:\InstallLogs" | Out-Null
-# }
+# Create the directory for logs if it doesn't exist
+if (!(Test-Path -Path "C:\InstallLogs")) {
+    New-Item -ItemType Directory -Path "C:\InstallLogs" | Out-Null
+}
 
-# # Run the installer with silent arguments
-# Start-Process -FilePath $installerPath -ArgumentList $silentArgs -Wait -NoNewWindow
+# Run the installer with silent arguments
+Start-Process -FilePath $installerPath -ArgumentList $silentArgs -Wait -NoNewWindow
 
-# # Check if the installation succeeded (optional)
-# if ($LASTEXITCODE -eq 0) {
-#     Write-Host "Installation completed successfully." -ForegroundColor Green
-# } else {
-#     Write-Host "Installation failed with exit code: $LASTEXITCODE" -ForegroundColor Red
-# }
+# Check if the installation succeeded (optional)
+if ($LASTEXITCODE -eq 0) {
+    Write-Host "Installation completed successfully." -ForegroundColor Green
+} else {
+    Write-Host "Installation failed with exit code: $LASTEXITCODE" -ForegroundColor Red
+}
 
