@@ -1,0 +1,16 @@
+---
+- name: Install software using Chocolatey
+  hosts: windows
+
+  tasks:
+
+    - name: Install my.exe silently using PowerShell
+      win_shell: |
+        Start-Process -FilePath "C:\ck.exe" -ArgumentList "-s" -Wait -NoNewWindow
+      args:
+        executable: powershell.exe
+      register: install_output
+
+    - name: Display installation output
+      debug:
+        var: install_output.stdout
