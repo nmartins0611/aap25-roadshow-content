@@ -28,7 +28,7 @@
     - name: Merge Configurations
       arista.eos.eos_l2_interfaces:
        config: "{{ my_sot }}"
-       state: replace
+       state: replaced
 
     - name: Verify interface configuration
       arista.eos.eos_command:
