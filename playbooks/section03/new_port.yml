@@ -1,6 +1,5 @@
 my_sot:
     - name: Ethernet1
-      description: "Streaming - Production"
       mode: access
       access:
         vlan: 30
