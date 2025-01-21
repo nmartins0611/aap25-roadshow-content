@@ -19,16 +19,22 @@
     - name: Restoring Configuration of Interfaces
       include_vars: /tmp/srv/playbooks/section03/new_port.yml
 
-    - name: Update interface description
-      arista.eos.eos_config:
-        lines:
-          - description "{{ interface_description }}"
-        parents: "interface {{ interface_name }}"
+    # - name: Update interface description
+    #   arista.eos.eos_config:
+    #     lines:
+    #       - description "{{ interface_description }}"
+    #     parents: "interface {{ interface_name }}"
 
     - name: Merge Configurations
       arista.eos.eos_l2_interfaces:
        config: "{{ my_sot }}"
        state: replaced
+       
+    - name: Update interface description
+      arista.eos.eos_config:
+        lines:
+          - description "{{ interface_description }}"
+        parents: "interface {{ interface_name }}"
 
     - name: Verify interface configuration
       arista.eos.eos_command:
