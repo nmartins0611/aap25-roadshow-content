@@ -3,11 +3,11 @@
   hosts: database_servers
   gather_facts: true
 
-  vars:
-    iis_sites:
-      - name: 'Web Streaming'
-        port: '80'
-        path: 'C:\sites\webapp'
+  # vars:
+  #   iis_sites:
+  #     - name: 'Web Streaming'
+  #       port: '80'
+  #       path: 'C:\sites\webapp'
 
   tasks:
 
