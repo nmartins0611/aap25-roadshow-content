@@ -3,11 +3,11 @@
   hosts: database_servers
   gather_facts: true
 
-  # vars:
-  #   iis_sites:
-  #     - name: 'Web Streaming'
-  #       port: '80'
-  #       path: 'C:\sites\webapp'
+  vars:
+    iis_sites:
+      - name: 'Web Streaming'
+        port: '80'
+        path: 'C:\sites\webapp'
 
   tasks:
 
@@ -16,11 +16,11 @@
         name: Web-Server
         state: present
 
-    # - name: Create site directory structure
-    #   ansible.windows.win_file:
-    #     path: "{{ item.path }}"
-    #     state: directory
-    #   with_items: "{{ iis_sites }}"
+    - name: Create site directory structure
+      ansible.windows.win_file:
+        path: "{{ item.path }}"
+        state: directory
+      with_items: "{{ iis_sites }}"
 
     - name: Open port for site on the firewall
       community.windows.win_firewall_rule:
