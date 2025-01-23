@@ -23,8 +23,6 @@
         src: /tmp/repo/lab-resources/
         dest: /var/www/html
         remote_src: true
-      notify: restart_http
-
 
     - name: Start httpd service
       ansible.builtin.service:
