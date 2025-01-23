@@ -37,7 +37,7 @@
       ansible.windows.win_file:
         path: C:\repo
         state: directory
-
+    
     - name: Execute PowerShell script to clone the Git repository
       win_shell: |
         $repositoryUrl = "https://github.com/nmartins0611/aap25-roadshow-content.git"
@@ -61,13 +61,7 @@
        src: C:\repo\lab-resources\
        dest: C:\inetpub\wwwroot
        remote_src: true
-
-    - name: Tag the page
-      ansible.windows.win_shell: |
-        $htmlContent = Get-Content -Path "C:\inetpub\wwwroot\index.html"
-        $htmlContent = $htmlContent -replace '<!-- InsertHere -->', '<p>This is running on a Windows Host</p>'
-        $htmlContent | Set-Content -Path "C:\inetpub\wwwroot\index.html"
-      notify: restart_iis
+      notify: restart_iss
 
   handlers:
     - name: restart_iis
