@@ -67,5 +67,9 @@
         $htmlContent = Get-Content -Path "C:\inetpub\wwwroot\index.html"
         $htmlContent = $htmlContent -replace '<!-- InsertHere -->', '<p>This is running on a Windows Host</p>'
         $htmlContent | Set-Content -Path "C:\inetpub\wwwroot\index.html"
+      notify: restart_iis
+
+handler:
+
 
 
