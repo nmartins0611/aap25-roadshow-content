@@ -61,7 +61,7 @@
        src: C:\repo\lab-resources\
        dest: C:\inetpub\wwwroot
        remote_src: true
-      notify: restart_iss
+      notify: restart_iis
 
   handlers:
     - name: restart_iis
