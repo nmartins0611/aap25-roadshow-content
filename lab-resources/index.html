@@ -3,20 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Video Streaming Website</title>
+  <title>TMM - Where Comedy Lives</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <h1>TMM - Where comedy lives</h1>
-    <p></p>
+  <header class="navbar">
+    <div class="logo">
+      <h1>TMM</h1>
+    </div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#trending">Trending</a></li>
+        <li><a href="#genres">Genres</a></li>
+        <li><a href="#my-list">My List</a></li>
+      </ul>
+    </nav>
   </header>
+
+  <div class="hero-section">
+    <div class="hero-text">
+      <h2>Where Comedy Lives</h2>
+      <p>Stream the funniest movies and series all in one place.</p>
+    </div>
+  </div>
 
   <!-- Main Content Container -->
   <div class="container">
-    <main>
+    <main class="video-section">
       <div class="video-player">
-        <!-- Set a poster image as the still image -->
         <video id="main-video" controls poster="images/still-image.jpg">
           <source src="videos/sample1.mp4" type="video/mp4">
           Your browser does not support the video tag.
@@ -25,20 +40,44 @@
       </div>
     </main>
 
-    <aside>
-      <h3>Top Movies</h3>
-      <ul id="playlist">
-        <li onclick="playVideo('videos/the_office01.mp4', 'The Office')">The NC Office</li>
-        <li onclick="playVideo('videos/andrius_happy.mp4', 'Happy Birthday')">Happy Birthday</li>
-      </ul>
+    <aside class="sidebar">
+      <div class="playlist-section">
+        <h3>Top Picks for You</h3>
+        <ul id="playlist">
+          <li onclick="playVideo('videos/the_office01.mp4', 'The NC Office')">The NC Office</li>
+          <li onclick="playVideo('videos/andrius_happy.mp4', 'Happy Birthday')">Happy Birthday</li>
+        </ul>
+      </div>
+      <div class="ad-block">
+        <h3>Sponsored</h3>
+        <img src="images/ad-placeholder.jpg" alt="Advertisement" class="ad-image">
+      </div>
     </aside>
   </div>
 
+  <!-- Featured Section -->
+  <section class="featured-section">
+    <h2>Trending Now</h2>
+    <div class="featured-videos">
+      <div class="featured-card">
+        <img src="images/featured1.jpg" alt="Featured Video 1">
+        <p>Comedy Classic</p>
+      </div>
+      <div class="featured-card">
+        <img src="images/featured2.jpg" alt="Featured Video 2">
+        <p>Stand-Up Special</p>
+      </div>
+      <div class="featured-card">
+        <img src="images/featured3.jpg" alt="Featured Video 3">
+        <p>Parody Central</p>
+      </div>
+    </div>
+  </section>
+
   <!-- Footer Area -->
   <footer>
-    <p>&copy; 2024 TMM - Where comedy lives. All rights reserved.</p>
+    <p>&copy; 2024 TMM - Where Comedy Lives. All rights reserved.</p>
   </footer>
-  <!-- InsertHere -->
 
   <script src="script.js"></script>
 </body>
