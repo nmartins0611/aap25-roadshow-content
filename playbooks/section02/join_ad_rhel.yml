@@ -69,14 +69,6 @@
    - name: Bind to AD with realm
      block:
      
-       # - name: Realm Discover
-       #   ansible.builtin.command: /bin/bash -c "realm discover {{ domain }}"
-       #   register: discovery
-
-       # - name: Output Realm discovery
-       #   debug:
-       #    msg: "{{ discovery }}"
-     
        - name: Join system
          ansible.builtin.command: /bin/bash -c "echo {{ admin_password }} | realm join --user={{ admin_username }} {{ domain }}"
    #      no_log: True
@@ -92,13 +84,17 @@
           msg: "Join failed or already joined"
          when: join_output.rc != 0
 
-       # - name: Realm Listing
-       #   ansible.builtin.command: /bin/bash -c "realm list"
-       #   register: domain_list
+     rescue:
 
-       # - name: Output Realm list
-       #   debug:
-       #    msg: "{{ domain_list }}"
+       - name: Restore original DNS
+         ansible.builtin.copy:
+           src: /tmp/resolv.conf
+           dest: /etc/resolv.conf
+           remote_src: yes
+           mode: '0644'
 
+       - name: Error
+         debug:
+           msg: "Please re-run the template with the correct provided domain/forest"
          
    
