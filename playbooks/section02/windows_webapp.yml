@@ -20,7 +20,7 @@
       ansible.windows.win_service:
         name: W3Svc
         state: stopped
-        start_mode: auto
+        start_mode: manual
 
     - name: Create site directory structure
       ansible.windows.win_file:
