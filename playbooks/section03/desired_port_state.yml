@@ -9,5 +9,5 @@
     - name: Correct Interfaces
       arista.eos.eos_interfaces:
         config:
-         - name: Ethernet3
+         - name: Ethernet1
            enabled: true
